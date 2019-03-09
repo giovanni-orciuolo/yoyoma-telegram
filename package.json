@@ -1,0 +1,35 @@
+{
+  "name": "yoyo-ma-telegram",
+  "version": "0.0.0",
+  "description": "Telegram integration for YoYo-Ma",
+  "repository": {
+    "url": "Giovanni Orciuolo/yoyo-ma-telegram",
+    "type": "git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "dev": "supervisor -x micro-bot -e .env index.js",
+    "start": "micro-bot -e .env",
+    "now-start": "micro-bot -d ${NOW_URL}",
+    "lint": "eslint .",
+    "test": "npm run lint"
+  },
+  "engines": {
+    "node": ">=8.5.0"
+  },
+  "author": "Giovanni Orciuolo <giovanni.orciuolo1999@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^6.2.0",
+    "micro-bot": "^2.5.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "supervisor": "^0.12.0"
+  }
+}
