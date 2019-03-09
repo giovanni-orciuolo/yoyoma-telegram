@@ -14,8 +14,6 @@ $ yarn
 $ BOT_TOKEN='123:......' yarn dev
 ```
 
-This project also features [dotenv](https://github.com/motdotla/dotenv) to store private environment variables, you should create a .env file in the root directory and store there BOT_TOKEN and other vars.
-
 ## Deployment
 
 This bot can be deployed to [now](https://zeit.co/now) by Zeit.
@@ -26,3 +24,8 @@ $ now -e BOT_TOKEN='123:......' DoubleHub/yoyo-ma-telegram
 ```
 
 Alternative, deploy right now without even leaving the browser by clicking the button above.
+
+## Secrets
+
+This bot needs a token to run. You can provide the token directly in the terminal like above, or you can store the
+secrets in now-secrets.json. Now will use that file when deploying to fill the secrets in the environment.

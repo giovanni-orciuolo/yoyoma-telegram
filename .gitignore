@@ -1,3 +1,5 @@
+.idea/
+
 # Logs
 logs
 *.log
@@ -35,5 +37,6 @@ node_modules
 .nyc_output
 coverage
 
+# Environment ignores
+now-secrets.json
 .env
-.idea
