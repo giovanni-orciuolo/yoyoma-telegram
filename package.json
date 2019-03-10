@@ -1,12 +1,12 @@
 {
   "name": "yoyo-ma-telegram",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Telegram integration for YoYo-Ma",
   "repository": {
     "url": "Giovanni Orciuolo/yoyo-ma-telegram",
     "type": "git"
   },
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "dev": "supervisor -x micro-bot index.js",
     "start": "micro-bot -e .env",
@@ -21,7 +21,9 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^6.2.0",
-    "micro-bot": "^2.5.1"
+    "genius-api": "^0.4.1",
+    "micro-bot": "^2.5.1",
+    "telegraf-command-parts": "^1.0.3"
   },
   "devDependencies": {
     "eslint": "^5.9.0",

@@ -3,6 +3,7 @@
   "env": {
     "BOT_TOKEN": "@bot-token",
     "CR_EMAIL": "@cr-email",
-    "CR_PASS": "@cr-pass"
+    "CR_PASS": "@cr-pass",
+    "GENIUS_TOKEN": "@genius-token"
   }
 }
