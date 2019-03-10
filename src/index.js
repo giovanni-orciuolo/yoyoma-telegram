@@ -20,7 +20,7 @@ bot.hears('drugs', ({ replyWithSticker }) => replyWithSticker('CAADBAADLwADgYLEF
 
 // Real commands
 bot.hears('crunchyroll', async ({ reply, getChat }) => {
-  if ((await getChat()).id === -1001243253477)
+  if ((await getChat()).id === process.env.CR_GROUP_ID)
     reply(`Email: ${process.env.CR_EMAIL} | Password: ${process.env.CR_PASS}`)
 })
 bot.command('lyrics', async (ctx) => {
