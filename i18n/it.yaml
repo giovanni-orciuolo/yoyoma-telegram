@@ -7,4 +7,5 @@ genius__empty_lyrics: Il testo della canzone non può essere vuoto dai
 genius__no_song: Nessuna canzone trovata con questo testo...
 genius__other_songs_found: Ci sarebbero altre ${amount} potenziali canzoni:\n
 
-s2t__fail: Wow non ho proprio capito un cazzo di quello che hai detto
+s2t__download_fail: Non sono riuscito a scaricare questo audio F
+s2t__transcribe_fail: Wow non ho proprio capito un cazzo di quello che hai detto

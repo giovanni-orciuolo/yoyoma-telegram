@@ -7,4 +7,5 @@ genius__empty_lyrics: Lyrics text is empty man
 genius__no_song: No song found with these lyrics...
 genius__other_songs_found: ${amount} other potential songs found:\n
 
-s2t__fail: Wow I didn't understand a single word of that
+s2t__download_fail: Couldn't download the audio file...
+s2t__transcribe_fail: Wow I didn't understand a single word of that
