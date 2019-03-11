@@ -82,6 +82,12 @@ I'm currently using [telegraf-i18n](https://github.com/telegraf/telegraf-i18n) t
 languages will be kindly appreciated! All you have to do is create a new .yaml file in the i18n directory and
 translate all the keys in your language of choice. Thank you in advance!
 
+### Speech To Text (needs ffmpeg!)
+
+This bot also implements a Speech To Text transcriber. In order to work, it needs ffmpeg to be installed on your system
+and defined in your PATH env variable, so ensure that you have it! If you host the bot on Docker you won't have problems,
+the Dockerfile will install it for you! :)
+
 That's all folks!
 
 ---

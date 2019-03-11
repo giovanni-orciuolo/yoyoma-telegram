@@ -9,3 +9,6 @@ genius__other_songs_found: ${amount} other potential songs found:\n
 
 s2t__download_fail: Couldn't download the audio file...
 s2t__transcribe_fail: Wow I didn't understand a single word of that
+s2t__transcribe_fail_auth: Failed to login into the transcriber server, wtf? Check token
+s2t__transcribe_timeout: Failed to transcribe, server timeout
+s2t__transcribe_error: Can't communicate with the transcriber service endpoint, try again later
