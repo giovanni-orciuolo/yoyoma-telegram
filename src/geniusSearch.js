@@ -4,7 +4,7 @@ const genius = new geniusApi(process.env.GENIUS_TOKEN)
 const geniusSearch = async (ctx) => {
   const text = ctx.state.command.args
   if (text === '') {
-    ctx.reply(ctx.i18n.t('genius.empty_lyrics'))
+    ctx.reply(ctx.i18n.t('genius__empty_lyrics'))
     return
   }
 
@@ -12,7 +12,7 @@ const geniusSearch = async (ctx) => {
 
   const hits = res.hits
   if (hits.length === 0) {
-    ctx.reply(ctx.i18n.t('genius.no_song'))
+    ctx.reply(ctx.i18n.t('genius__no_song'))
     return
   }
 
@@ -27,9 +27,9 @@ const geniusSearch = async (ctx) => {
     disable_notification: true
   })
 
-  let other_songs = ctx.i18n.t('genius.other_songs_found', { amount: hits.length - 1 });
+  let other_songs = ctx.i18n.t('genius__other_songs_found', { amount: hits.length - 1 });
   hits.slice(1).forEach(song => {
-    other_songs += `> ${htmlizeSong(song)}\n`
+    other_songs += `> ${htmlizeSong(song.result)}\n`
   });
   if (hits.length > 1)
     ctx.reply(other_songs, {

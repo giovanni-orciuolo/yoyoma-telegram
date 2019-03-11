@@ -1,0 +1,8 @@
+welcome: Ciao, sono YoYo-Ma! Posso eseguire i tuoi comandi! Wow!
+
+locale_set: Ora parlo italiano!
+no_locale: Non supporto questa lingua mi dispiace
+
+genius__empty_lyrics: Il testo della canzone non può essere vuoto dai
+genius__no_song: Nessuna canzone trovata con questo testo...
+genius__other_songs_found: Ci sarebbero altre ${amount} potenziali canzoni:\n

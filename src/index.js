@@ -13,7 +13,7 @@ const bot = new Composer()
 const i18n = new telegrafI18N({
   defaultLanguage: 'en',
   allowMissing: true,
-  directory: path.resolve(__dirname, 'i18n')
+  directory: 'i18n'
 })
 
 // bot.use(log())
@@ -37,6 +37,15 @@ bot.hears('crunchyroll', async ({ reply, getChat }) => {
 })
 bot.command('lyrics', async (ctx) => {
   geniusSearch(ctx)
+})
+bot.command('language', (ctx) => {
+  const locale = ctx.state.command.args
+  if (locale === 'it' || locale === 'en') {
+    ctx.i18n.locale(ctx.state.command.args)
+    ctx.reply(ctx.i18n.t('locale_set'))
+  } else {
+    ctx.reply(ctx.i18n.t('no_locale'))
+  }
 })
 /*bot.on('audio', async (ctx) => {
   speechToText(msg)

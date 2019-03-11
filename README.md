@@ -24,13 +24,15 @@ $ yarn
 $ BOT_TOKEN='123:......' yarn dev
 ```
 
+Or create a .env file with all the variables needed during development (see below for more)
+
 ## Deployment
 
 This bot can be deployed to [now](https://zeit.co/now) by Zeit.
 Assuming you've got `now` installed and set up:
 
 ```sh
-$ now -e BOT_TOKEN='123:......' DoubleHub/yoyo-ma-telegram
+$ now DoubleHub/yoyo-ma-telegram
 ```
 
 Alternative, deploy right now without even leaving the browser by clicking the button above.
@@ -73,6 +75,12 @@ $ process.env.CR_EMAIL - Crunchyroll email. It is needed for the crunchyroll com
 $ process.env.CR_PASS - Crunchyroll password. It is needed for the crunchyroll command to work
 $ process.env.CR_GROUP_ID - Group ID for the crunchyroll command.
 ```
+
+### Internazionalization (i18n)
+    
+I'm currently using [telegraf-i18n](https://github.com/telegraf/telegraf-i18n) to implement i18n in this bot. Any support with the translation of this bot in other
+languages will be kindly appreciated! All you have to do is create a new .yaml file in the i18n directory and
+translate all the keys in your language of choice. Thank you in advance!
 
 That's all folks!
 
