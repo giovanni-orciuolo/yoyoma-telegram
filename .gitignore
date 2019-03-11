@@ -40,3 +40,6 @@ coverage
 # Environment ignores
 now-secrets.json
 .env
+
+# Audio files
+audio/

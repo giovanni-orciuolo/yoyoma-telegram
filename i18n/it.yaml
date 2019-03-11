@@ -6,3 +6,5 @@ no_locale: Non supporto questa lingua mi dispiace
 genius__empty_lyrics: Il testo della canzone non può essere vuoto dai
 genius__no_song: Nessuna canzone trovata con questo testo...
 genius__other_songs_found: Ci sarebbero altre ${amount} potenziali canzoni:\n
+
+s2t__fail: Wow non ho proprio capito un cazzo di quello che hai detto

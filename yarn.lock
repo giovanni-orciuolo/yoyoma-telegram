@@ -1319,7 +1319,7 @@ telegraf-i18n@^6.5.0:
     debug "^4.0.1"
     js-yaml "^3.6.1"
 
-telegraf@^3.1.0, telegraf@^3.25.4:
+telegraf@^3.1.0, telegraf@^3.25.4, telegraf@^3.27.1:
   version "3.27.1"
   resolved "https://registry.yarnpkg.com/telegraf/-/telegraf-3.27.1.tgz#67fbd87a6b4f414a204820f8cb30160e2078b39c"
   integrity sha512-RQUnuNAEEWcLhRap81qwGUUqAy1KcvqANnA0G3pzZqFkhMe6LrTk5lVi9tdOaF0Ud/yOx5fdx0rNPYfiB27Z+w==
