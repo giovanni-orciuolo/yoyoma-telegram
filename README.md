@@ -8,7 +8,7 @@ A basic bot that I made in Javascript ES6 for Telegram.
 
 The name is inspired by JoJo Part 6: Stone Ocean's stand Yo-Yo Ma. Taken from JJBA wiki:
 
-Yo-Yo Ma is indestructible, and will even relish its pain in a masochistic fashion. It seems to have a fixation with 
+>Yo-Yo Ma is indestructible, and will even relish its pain in a masochistic fashion. It seems to have a fixation with 
 eating things and can often be seen drooling excessively. When it is assigned a target by its user, Yo-Yo Ma will 
 follow them and obsequiously assist them in any way possible. This is to make the target drop their guard.
 
@@ -41,16 +41,11 @@ Yeah so you are one of the cool guys and you want to deploy on your own VPS or P
 Using Docker, you can simply run:
 
 ```sh
-$ docker build -t yoyoma-telegram .
-$ docker run -d -it --rm --name yoyoma-telegram-app yoyoma-telegram
+$ docker build -t yoyo-telegram-image .
+$ docker run -d --name yoyoma-telegram-app yoyo-telegram-image
 ```
 
 Boom! YoYo-Ma is running on Docker.
-
-Single command (won't work on Windows tho lol):
-```sh
-$ docker build -t yoyoma-telegram . && docker run -d -it --rm --name yoyoma-telegram-app yoyoma-telegram
-```
 
 ## Secrets
 
