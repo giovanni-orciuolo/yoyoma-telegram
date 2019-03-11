@@ -42,7 +42,7 @@ Using Docker, you can simply run:
 
 ```sh
 $ docker build -t yoyo-telegram-image .
-$ docker run -d --name yoyoma-telegram-app yoyo-telegram-image
+$ docker run -d --name yoyo-telegram-app yoyo-telegram-image
 ```
 
 Boom! YoYo-Ma is running on Docker.

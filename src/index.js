@@ -17,6 +17,7 @@ bot.start(({ reply }) => reply("Welcome, I'm YoYo-Ma! I can execute your command
 bot.hears('yo angelo', ({ replyWithSticker }) => replyWithSticker('CAADBAADXQADgYLEFulxnwk8dDafAg'))
 bot.hears('nyo-ho ho', ({ replyWithSticker }) => replyWithSticker('CAADBAADZQADgYLEFtlofF9toBD-Ag'))
 bot.hears('drugs', ({ replyWithSticker }) => replyWithSticker('CAADBAADLwADgYLEFimHsG12ODxiAg'))
+bot.hears('heaven', ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgYLEFnB82EiqvePzAg'))
 
 // Real commands
 bot.hears('crunchyroll', async ({ reply, getChat }) => {
