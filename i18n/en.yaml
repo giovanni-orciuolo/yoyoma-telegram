@@ -1,0 +1,5 @@
+welcome: Welcome, I'm YoYo-Ma! I can execute your commands! Wow!
+
+genius.empty_lyrics: Lyrics text is empty man
+genius.no_song: No song found with these lyrics...
+genius.other_songs_found: ${amount} other potential songs found:\n

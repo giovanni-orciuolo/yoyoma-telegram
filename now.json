@@ -4,6 +4,7 @@
     "BOT_TOKEN": "@bot-token",
     "CR_EMAIL": "@cr-email",
     "CR_PASS": "@cr-pass",
-    "GENIUS_TOKEN": "@genius-token"
+    "GENIUS_TOKEN": "@genius-token",
+    "WITAI_TOKEN": "@witai-token"
   }
 }

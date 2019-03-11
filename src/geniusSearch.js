@@ -4,7 +4,7 @@ const genius = new geniusApi(process.env.GENIUS_TOKEN)
 const geniusSearch = async (ctx) => {
   const text = ctx.state.command.args
   if (text === '') {
-    ctx.reply("Lyrics text is empty man")
+    ctx.reply(ctx.i18n.t('genius.empty_lyrics'))
     return
   }
 
@@ -12,24 +12,28 @@ const geniusSearch = async (ctx) => {
 
   const hits = res.hits
   if (hits.length === 0) {
-    ctx.reply("No song found with these lyrics...")
+    ctx.reply(ctx.i18n.t('genius.no_song'))
     return
+  }
+
+  const htmlizeSong = (song) => {
+    return `<a href="${song.url || ''}">${song.full_title}</a>`
   }
 
   const song = hits[0].result
   await ctx.replyWithPhoto(song.song_art_image_thumbnail_url, {
-    caption: `[${song.full_title}](${song.url || ''})`,
-    parse_mode: 'Markdown',
+    caption: htmlizeSong(song) + '\n',
+    parse_mode: 'HTML',
     disable_notification: true
   })
 
-  let other_songs = `${hits.length - 1} other potential songs found:\n`;
+  let other_songs = ctx.i18n.t('genius.other_songs_found', { amount: hits.length - 1 });
   hits.slice(1).forEach(song => {
-    other_songs += `> [${song.result.full_title}](${song.result.url})\n`
+    other_songs += `> ${htmlizeSong(song)}\n`
   });
   if (hits.length > 1)
     ctx.reply(other_songs, {
-      parse_mode: 'Markdown',
+      parse_mode: 'HTML',
       disable_notification: true,
       disable_web_page_preview: true
     })

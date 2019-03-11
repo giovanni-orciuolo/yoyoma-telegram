@@ -179,6 +179,11 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
+compile-template@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/compile-template/-/compile-template-0.3.1.tgz#e581a08385c792609408d448187a5eaaf334b6b0"
+  integrity sha512-5aB55cRApvy8zKPe9RrrLVysVpHafgp1IMvfGYQ8QnXrIsafYuj73yyIGYEHsslYoDxIs/XsM5wTIxICcwIKog==
+
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -727,7 +732,7 @@ js-tokens@^4.0.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@^3.12.0:
+js-yaml@^3.12.0, js-yaml@^3.6.1:
   version "3.12.2"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.2.tgz#ef1d067c5a9d9cb65bd72f285b5d8105c77f14fc"
   integrity sha512-QHn/Lh/7HhZ/Twc7vJYQTkjuCa0kaCcDcjK5Zlk2rvnUpy7DxMJ23+Jc2dcyvltwQVg1nygAVlB2oRDFHoRS5Q==
@@ -885,6 +890,11 @@ node-fetch@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.3.0.tgz#1a1d940bbfb916a1d3e0219f037e89e71f8c5fa5"
   integrity sha512-MOd8pV3fxENbryESLgVIeaGKrdl+uaYhCSSVkjeOb/31/njTpcis5aWfdqgNlHIrKOLRbMnfPINPOML2CIFeXA==
+
+node-witai-speech@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/node-witai-speech/-/node-witai-speech-1.0.2.tgz#9a0628f734398adcd9ecdde6d885ccd6ab284a9f"
+  integrity sha1-mgYo9zQ5itzZ7N3m2IXM1qsoSp8=
 
 normalize-package-data@^2.3.2:
   version "2.5.0"
@@ -1299,6 +1309,15 @@ telegraf-command-parts@^1.0.3:
   integrity sha1-0OB40Qzj9oRptSnl6jp25C1XiLM=
   dependencies:
     telegraf "^3.1.0"
+
+telegraf-i18n@^6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/telegraf-i18n/-/telegraf-i18n-6.5.0.tgz#960e10f07d3151c21027b34671c8aed62c407beb"
+  integrity sha512-ipbd/Q41m3RbMu/aIKJtY4KMhhPqrmqgy7BWoYLmirvRuEXRj1qn8/7tx1bpOiOGyQ8RQs5wTqf/2zt7UHiU5A==
+  dependencies:
+    compile-template "^0.3.1"
+    debug "^4.0.1"
+    js-yaml "^3.6.1"
 
 telegraf@^3.1.0, telegraf@^3.25.4:
   version "3.27.1"

@@ -60,6 +60,7 @@ If you want every feature of the bot to work you need to provide these variables
 ```
 $ process.env.BOT_TOKEN - Needed for the bot to work on Telegram
 $ process.env.GENIUS_TOKEN - Genius API token. It is needed for the /lyrics command to work
+$ process.env.WITAI_TOKEN - Wit.ai API app token. It is needed for the speech to text parser to work
 ```
 
 ### Optional Environment Variables
