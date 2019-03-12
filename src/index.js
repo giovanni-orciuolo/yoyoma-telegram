@@ -32,10 +32,14 @@ bot.hears(/drugs/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADLwADgYL
 bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgYLEFnB82EiqvePzAg'))
 
 // Real commands
-bot.command('lyrics', (ctx) => geniusSearch(ctx))
+bot.command('lyrics', (ctx) => geniusSearch(ctx).catch(err => console.error(err)))
 bot.command('language', (ctx) => setLocale(ctx))
-bot.command('scp', (ctx) => (ctx.state.command.args === '') ? randomScp(ctx) : searchScp(ctx))
-bot.on('message', (ctx) => speechToText(ctx))
+bot.command('scp', (ctx) =>
+  (ctx.state.command.args === '') ?
+    randomScp(ctx).catch(err => console.error(err))
+    : searchScp(ctx).catch(err => console.error(err))
+)
+bot.on('message', (ctx) => speechToText(ctx).catch(err => console.error(err)))
 
 bot.hears('crunchyroll', async ({ reply, getChat }) => {
   if ((await getChat()).id === process.env.CR_GROUP_ID) {
