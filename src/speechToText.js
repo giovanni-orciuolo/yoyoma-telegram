@@ -28,7 +28,7 @@ const convertAudio = (input, output) => {
     ffmpeg(input)
       .output(output)
       .on('end', () => resolve())
-      .on('error', e => reject(`Failed to convert audio file, ${e.msg} (${e.code})`))
+      .on('error', e => reject(e))
       .run()
   })
 }
@@ -59,9 +59,17 @@ const speechToText = async (ctx) => {
     })
   }
 
+  const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
   try {
-    const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
     await convertAudio(voicePath, convertedPath)
+  } catch (err) {
+    console.error('[S2T] Error while converting audio to mp3!', err)
+    ctx.reply(ctx.i18n.t('s2t__conversion_fail'), {
+      reply_to_message_id: ctx.message.message_id
+    })
+  }
+
+  try {
     const voiceStreamConverted = fs.createReadStream(convertedPath)
     const parsedSpeech = await extractSpeech(voiceStreamConverted, 'audio/mpeg3')
     ctx.reply(parsedSpeech._text, {
