@@ -8,7 +8,7 @@ const commandParts = require('telegraf-command-parts')
 const geniusSearch = require('./features/geniusSearch')
 const setLocale = require('./features/setLocale')
 const speechToText = require('./features/speechToText')
-const searchScp = require('./features/scpSearch')
+const { searchScp, randomScp } = require('./features/scpCommands')
 
 const bot = new Composer()
 const i18n = new telegrafI18N({
@@ -34,7 +34,7 @@ bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgY
 // Real commands
 bot.command('lyrics', (ctx) => geniusSearch(ctx))
 bot.command('language', (ctx) => setLocale(ctx))
-bot.command('scp', (ctx) => searchScp(ctx))
+bot.command('scp', (ctx) => (ctx.state.command.args === '') ? randomScp(ctx) : searchScp(ctx))
 bot.on('message', (ctx) => speechToText(ctx))
 
 bot.hears('crunchyroll', async ({ reply, getChat }) => {
