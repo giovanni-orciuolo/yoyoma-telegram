@@ -5,9 +5,10 @@ const telegrafI18N = require('telegraf-i18n')
 const { Composer, session } = require('micro-bot')
 const commandParts = require('telegraf-command-parts')
 
-const geniusSearch = require('./geniusSearch')
-const setLocale = require('./setLocale')
-const { speechToText } = require('./speechToText')
+const geniusSearch = require('./features/geniusSearch')
+const setLocale = require('./features/setLocale')
+const speechToText = require('./features/speechToText')
+const searchScp = require('./features/scpSearch')
 
 const bot = new Composer()
 const i18n = new telegrafI18N({
@@ -33,6 +34,7 @@ bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgY
 // Real commands
 bot.command('lyrics', (ctx) => geniusSearch(ctx))
 bot.command('language', (ctx) => setLocale(ctx))
+bot.command('scp', (ctx) => searchScp(ctx))
 bot.on('message', (ctx) => speechToText(ctx))
 
 bot.hears('crunchyroll', async ({ reply, getChat }) => {

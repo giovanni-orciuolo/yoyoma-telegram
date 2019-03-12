@@ -24,7 +24,8 @@ const geniusSearch = async (ctx) => {
   await ctx.replyWithPhoto(song.song_art_image_thumbnail_url, {
     caption: htmlizeSong(song) + '\n',
     parse_mode: 'HTML',
-    disable_notification: true
+    disable_notification: true,
+    reply_to_message_id: ctx.message.message_id
   })
 
   let other_songs = ctx.i18n.t('genius__other_songs_found', { amount: hits.length - 1 });
@@ -35,7 +36,7 @@ const geniusSearch = async (ctx) => {
     ctx.reply(other_songs, {
       parse_mode: 'HTML',
       disable_notification: true,
-      disable_web_page_preview: true
+      disable_web_page_preview: true,
     })
 }
 module.exports = geniusSearch

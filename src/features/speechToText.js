@@ -44,7 +44,7 @@ const extractSpeech = (stream, contentType) => {
 
 const speechToText = async (ctx) => {
   if (!ctx.message.voice) return
-  console.log('[S2T] Trying to parse that audio file...')
+
   await ctx.telegram.sendChatAction(ctx.chat.id, 'typing')
 
   const voiceFile = await ctx.telegram.getFile(ctx.message.voice.file_id)
@@ -94,6 +94,4 @@ const speechToText = async (ctx) => {
     })
   }
 }
-module.exports = {
-  speechToText
-}
+module.exports = speechToText
