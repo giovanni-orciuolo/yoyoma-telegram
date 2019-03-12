@@ -1,6 +1,7 @@
 FROM node:8.15.1-alpine
 
 WORKDIR /home/app
+RUN mkdir audio/
 COPY . /home/app
 
 # Install needed packages
