@@ -43,6 +43,6 @@ bot.hears('crunchyroll', async ({ reply, getChat }) => {
 })
 
 console.log("Starting YoYo-Ma...")
-bot.startPolling()
+bot.launch()
 
 module.exports = bot
