@@ -94,4 +94,6 @@ const speechToText = async (ctx) => {
     })
   }
 }
-module.exports = speechToText
+module.exports = {
+  speechToText
+}

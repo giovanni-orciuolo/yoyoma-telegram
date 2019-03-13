@@ -690,7 +690,7 @@ dot-prop@^4.1.0:
   dependencies:
     is-obj "^1.0.0"
 
-dotenv@^6.0.0, dotenv@^6.2.0:
+dotenv@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.2.0.tgz#941c0410535d942c8becf28d3f357dbd9d476064"
   integrity sha512-HygQCKUBSFl8wKQZBSemMywRWcEDNidvNbjGVyZu3nbZ8qq9ubiPoGLMdRDpfSrpkkm9BXYFkpKxxFX38o/76w==
@@ -1887,15 +1887,6 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-micro-bot@^2.5.1:
-  version "2.5.3"
-  resolved "https://registry.yarnpkg.com/micro-bot/-/micro-bot-2.5.3.tgz#56eac8271f2f8bd9530341aabde36d6253d98d1a"
-  integrity sha512-64sh5hw3AOgWJ4DYgpSGuyhH/TDVm0S3rLxGMB+rFPyPL/urGloMDXr+KM2+TfAUnnXncnD297vBselwLXCXtw==
-  dependencies:
-    dotenv "^6.0.0"
-    minimist "^1.2.0"
-    telegraf "^3.25.4"
-
 micromatch@^3.1.10, micromatch@^3.1.4:
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-3.1.10.tgz#70859bc95c9840952f359a068a3fc49f9ecfac23"
@@ -3024,7 +3015,7 @@ telegraf-i18n@^6.5.0:
     debug "^4.0.1"
     js-yaml "^3.6.1"
 
-telegraf@^3.1.0, telegraf@^3.25.4, telegraf@^3.27.1:
+telegraf@^3.1.0, telegraf@^3.27.1:
   version "3.27.1"
   resolved "https://registry.yarnpkg.com/telegraf/-/telegraf-3.27.1.tgz#67fbd87a6b4f414a204820f8cb30160e2078b39c"
   integrity sha512-RQUnuNAEEWcLhRap81qwGUUqAy1KcvqANnA0G3pzZqFkhMe6LrTk5lVi9tdOaF0Ud/yOx5fdx0rNPYfiB27Z+w==

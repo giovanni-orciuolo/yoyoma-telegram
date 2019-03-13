@@ -7,4 +7,6 @@ const setLocale = (ctx) => {
     ctx.reply(ctx.i18n.t('no_locale'))
   }
 }
-module.exports = setLocale
+module.exports = {
+  setLocale
+}

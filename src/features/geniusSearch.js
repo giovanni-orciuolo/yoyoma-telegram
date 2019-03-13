@@ -39,4 +39,6 @@ const geniusSearch = async (ctx) => {
       disable_web_page_preview: true,
     })
 }
-module.exports = geniusSearch
+module.exports = {
+  geniusSearch
+}

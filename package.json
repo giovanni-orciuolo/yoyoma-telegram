@@ -8,9 +8,8 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon -x \"micro-bot -e .env\" -w src src/index.js",
-    "start": "micro-bot -e .env",
-    "now-start": "micro-bot -d ${NOW_URL}",
+    "dev": "nodemon src/index.js -w src src/index.js",
+    "start": "node src/index.js",
     "lint": "eslint .",
     "test": "npm run lint"
   },
@@ -23,7 +22,6 @@
     "dotenv": "^6.2.0",
     "fluent-ffmpeg": "^2.1.2",
     "genius-api": "^0.4.1",
-    "micro-bot": "^2.5.1",
     "node-witai-speech": "^1.0.2",
     "supercrawler": "^1.5.0",
     "telegraf": "^3.27.1",

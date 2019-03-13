@@ -1,16 +1,16 @@
 require('now-env')
 require('dotenv').config()
 
+const telegraf = require('telegraf')
 const telegrafI18N = require('telegraf-i18n')
-const { Composer, session } = require('micro-bot')
 const commandParts = require('telegraf-command-parts')
 
-const geniusSearch = require('./features/geniusSearch')
-const setLocale = require('./features/setLocale')
-const speechToText = require('./features/speechToText')
+const { geniusSearch } = require('./features/geniusSearch')
+const { setLocale } = require('./features/setLocale')
+const { speechToText } = require('./features/speechToText')
 const { searchScp } = require('./features/scpCommands')
 
-const bot = new Composer()
+const bot = new telegraf(process.env.BOT_TOKEN)
 const i18n = new telegrafI18N({
   defaultLanguage: 'en',
   directory: 'i18n',
@@ -18,8 +18,6 @@ const i18n = new telegrafI18N({
   useSession: true,
 })
 
-// bot.use(log())
-bot.use(session())
 bot.use(commandParts())
 bot.use(i18n.middleware())
 
@@ -43,5 +41,8 @@ bot.hears('crunchyroll', async ({ reply, getChat }) => {
     reply(`Email: ${process.env.CR_EMAIL} | Password: ${process.env.CR_PASS}`)
   }
 })
+
+console.log("Starting YoYo-Ma...")
+bot.startPolling()
 
 module.exports = bot
