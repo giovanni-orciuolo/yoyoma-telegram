@@ -48,6 +48,13 @@ const speechToText = async (ctx) => {
   await ctx.telegram.sendChatAction(ctx.chat.id, 'typing')
 
   const voiceFile = await ctx.telegram.getFile(ctx.message.voice.file_id)
+  if (voiceFile.file_size >= 20000000) {
+    ctx.reply(ctx.i18n.t('s2t__too_big'), {
+      reply_to_message_id: ctx.message.message_id
+    })
+    return
+  }
+
   const voicePath = `audio/download_${voiceFile.file_id}.${mime.extension(ctx.message.voice.mime_type)}`
 
   try {
@@ -57,6 +64,7 @@ const speechToText = async (ctx) => {
     ctx.reply(ctx.i18n.t('s2t__download_fail'), {
       reply_to_message_id: ctx.message.message_id
     })
+    return
   }
 
   const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
@@ -67,6 +75,7 @@ const speechToText = async (ctx) => {
     ctx.reply(ctx.i18n.t('s2t__conversion_fail'), {
       reply_to_message_id: ctx.message.message_id
     })
+    return
   }
 
   try {

@@ -28,13 +28,20 @@ bot.hears(/yo angelo/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXQA
 bot.hears(/nyo-ho ho/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADZQADgYLEFtlofF9toBD-Ag'))
 bot.hears(/drugs/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADLwADgYLEFimHsG12ODxiAg'))
 bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgYLEFnB82EiqvePzAg'))
+bot.hears(/za warudo/gi, ({ replyWithAudio }) => replyWithAudio('CQADBAADygQAAm3vSFCo6n_Ofb39wAI'))
+bot.hears(/the world/gi, ({ replyWithAudio }) => replyWithAudio('CQADBAADygQAAm3vSFCo6n_Ofb39wAI'))
 
 // Real commands
 bot.command('lyrics', (ctx) => geniusSearch(ctx))
 bot.command('language', (ctx) => setLocale(ctx))
 bot.command('scp', (ctx) => searchScp(ctx))
-bot.on('message', (ctx) => speechToText(ctx))
 
+// Message listener
+bot.on('message', (ctx) => {
+  speechToText(ctx) // If needed
+})
+
+// Special Crunchyroll password dump
 bot.hears('crunchyroll', async ({ reply, getChat }) => {
   if ((await getChat()).id === process.env.CR_GROUP_ID) {
     reply(`Email: ${process.env.CR_EMAIL} | Password: ${process.env.CR_PASS}`)

@@ -26,18 +26,9 @@ $ BOT_TOKEN='123:......' yarn dev
 
 Or create a .env file with all the variables needed during development (see below for more)
 
-## Deployment
-
-This bot can be deployed to [now](https://zeit.co/now) by Zeit.
-Assuming you've got `now` installed and set up:
-
-```sh
-$ now DoubleHub/yoyo-ma-telegram
-```
-
 Alternative, deploy right now without even leaving the browser by clicking the button above.
 
-## Using Docker like a boss
+## Deploying with Docker like a boss
 
 Yeah so you are one of the cool guys and you want to deploy on your own VPS or PC? No problem, this bot has got you covered.
 Using Docker, you can simply run:
@@ -48,6 +39,17 @@ $ docker run -d --name yoyo-telegram-app yoyo-telegram-image
 ```
 
 Boom! YoYo-Ma is running on Docker.
+
+### (Optional) Deploy with Now by Zeit
+
+This bot can be deployed to [now](https://zeit.co/now) by Zeit.
+Assuming you've got `now` installed and set up:
+
+```sh
+$ now DoubleHub/yoyo-ma-telegram
+```
+
+But you will need to manually setup secrets and environment variables still.
 
 ## Secrets
 
