@@ -8,7 +8,7 @@ const commandParts = require('telegraf-command-parts')
 const geniusSearch = require('./features/geniusSearch')
 const setLocale = require('./features/setLocale')
 const speechToText = require('./features/speechToText')
-const { searchScp, randomScp } = require('./features/scpCommands')
+const { searchScp } = require('./features/scpCommands')
 
 const bot = new Composer()
 const i18n = new telegrafI18N({
@@ -24,6 +24,7 @@ bot.use(commandParts())
 bot.use(i18n.middleware())
 
 bot.start(({ reply, i18n }) => reply(i18n.t('welcome')))
+bot.catch((err) => console.error('Ops!', err))
 
 // Meme hears lol
 bot.hears(/yo angelo/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXQADgYLEFulxnwk8dDafAg'))
@@ -32,14 +33,10 @@ bot.hears(/drugs/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADLwADgYL
 bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgYLEFnB82EiqvePzAg'))
 
 // Real commands
-bot.command('lyrics', (ctx) => geniusSearch(ctx).catch(err => console.error(err)))
+bot.command('lyrics', (ctx) => geniusSearch(ctx))
 bot.command('language', (ctx) => setLocale(ctx))
-bot.command('scp', (ctx) =>
-  (ctx.state.command.args === '') ?
-    randomScp(ctx).catch(err => console.error(err))
-    : searchScp(ctx).catch(err => console.error(err))
-)
-bot.on('message', (ctx) => speechToText(ctx).catch(err => console.error(err)))
+bot.command('scp', (ctx) => searchScp(ctx))
+bot.on('message', (ctx) => speechToText(ctx))
 
 bot.hears('crunchyroll', async ({ reply, getChat }) => {
   if ((await getChat()).id === process.env.CR_GROUP_ID) {
