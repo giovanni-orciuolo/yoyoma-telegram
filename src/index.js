@@ -1,4 +1,3 @@
-require('now-env')
 require('dotenv').config()
 
 const telegraf = require('telegraf')
