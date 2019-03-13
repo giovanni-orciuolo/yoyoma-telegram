@@ -1,4 +1,4 @@
-FROM node:8.15.1-alpine
+FROM keymetrics/pm2:latest-alpine
 
 WORKDIR /home/app
 COPY . /home/app
@@ -9,6 +9,7 @@ RUN apk update && apk add ffmpeg
 
 # Install dependencies
 RUN npm install
+RUN pm2 install pm2-server-monit
 
-# Run start command
-CMD npm run start
+# Start application inside PM2
+CMD [ "pm2-runtime", "start", "pm2.json"]
