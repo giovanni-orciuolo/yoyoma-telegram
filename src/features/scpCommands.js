@@ -89,7 +89,10 @@ const fetchScpEntry = (link, num, title) => {
     request(link, (error, response, html) => {
       let text = '', image = ''
       if (error || response.statusCode !== 200)
-        return
+        reject({ message: "No SCP found!" })
+
+      if (html.includes("This page doesn't exist yet!"))
+        reject({ message: "No SCP found!" })
 
       const $ = cheerio.load(html);
       $('p', '#page-content').each((i, element) => {
@@ -102,27 +105,21 @@ const fetchScpEntry = (link, num, title) => {
         image = $(element).attr('src') || ''
       })
 
-      if (text.length >= CHAR_TRESHOLD) text = `${text.substr(0, CHAR_TRESHOLD - 3)}...`
-      else if (error === null) text = error
-      else text = ""
+      if (text.length >= CHAR_TRESHOLD)
+        text = `${text.substr(0, CHAR_TRESHOLD - 3)}...`
 
-      if (text == null) {
-        reject({ message: "No SCP found!" })
-      } else {
-        if (!title) title = 'SCP-' + num
-        resolve({
-          title: title,
-          image: image,
-          description: text,
-          url: link
-        })
-      }
+      if (!title) title = 'SCP-' + num
+      resolve({
+        title: title,
+        image: image,
+        description: text,
+        url: link
+      })
     });
   })
 }
 const randomScpEntry = async () => {
   const num = Math.floor(Math.random() * 5000).toString().padStart(3,'0')
-  console.log(num)
   return await fetchScpEntry(
     `http://www.scp-wiki.net/scp-${num}`,
     num, ''
