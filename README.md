@@ -12,21 +12,35 @@ The name is inspired by JoJo Part 6: Stone Ocean's stand Yo-Yo Ma. Taken from JJ
 eating things and can often be seen drooling excessively. When it is assigned a target by its user, Yo-Yo Ma will 
 follow them and obsequiously assist them in any way possible. This is to make the target drop their guard.
 
-## Usage
+## Commands
+
+The bot runs the following commands:
+
+```
+lyrics - Search songs on Genius by lyrics
+language - Set language (pass a valid locale)
+scp - Search a random SCP or pass a number to search exact SCP
+cyanide - Generate and send a random Cyanide and Happiness comic
+```
+
+There are also some random hears just for the sake of it, and the special
+Crunchyroll command to dump my Crunchyroll credentials into a specific server.
+
+Don't even bother searching, you won't find them in this repository...
+
+## Run for development
 
 ```sh
 $ npm install
-$ BOT_TOKEN='123:......' npm run dev
+$ npm run dev
 ```
 
 ```sh
 $ yarn
-$ BOT_TOKEN='123:......' yarn dev
+$ yarn dev
 ```
 
-Or create a .env file with all the variables needed during development (see below for more)
-
-Alternative, deploy right now without even leaving the browser by clicking the button above.
+Create a .env file with all the variables needed during development! (see below for more)
 
 ## Deploying with Docker like a boss
 

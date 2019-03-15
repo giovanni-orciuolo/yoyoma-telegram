@@ -7,7 +7,8 @@ const commandParts = require('telegraf-command-parts')
 const { geniusSearch } = require('./features/geniusSearch')
 const { setLocale } = require('./features/setLocale')
 const { speechToText } = require('./features/speechToText')
-const { searchScp } = require('./features/scpCommands')
+const { searchScp } = require('./features/scpSearcher')
+const { sendRandomComic } = require('./features/cyanideComicGenerator')
 
 const bot = new telegraf(process.env.BOT_TOKEN)
 const i18n = new telegrafI18N({
@@ -35,6 +36,7 @@ bot.hears(/the world/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud
 bot.command('lyrics', (ctx) => geniusSearch(ctx))
 bot.command('language', (ctx) => setLocale(ctx))
 bot.command('scp', (ctx) => searchScp(ctx))
+bot.command('cyanide', (ctx) => sendRandomComic(ctx))
 
 // Message listener
 bot.on('message', (ctx) => {

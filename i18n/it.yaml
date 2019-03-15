@@ -17,3 +17,5 @@ s2t__too_big: Audio troppo lungo, la smetti di mandare sti cazzo di audio lunghi
 
 scp__not_valid: SCP non valido
 scp__not_found: Nessun SCP trovato
+
+rcg__error: Errore durante il recupero dell'immagine casuale

@@ -17,3 +17,5 @@ s2t__too_big: Audio too long, I don't think I can transcribe it whole without dy
 
 scp__not_valid: SCP not valid
 scp__not_found: No SCP found
+
+rcg__error: Error while getting random comic

@@ -50,7 +50,8 @@ const speechToText = async (ctx) => {
   const voiceFile = await ctx.telegram.getFile(ctx.message.voice.file_id)
   if (voiceFile.file_size >= 20000000) {
     ctx.reply(ctx.i18n.t('s2t__too_big'), {
-      reply_to_message_id: ctx.message.message_id
+      reply_to_message_id: ctx.message.message_id,
+      disable_notification: true
     })
     return
   }
@@ -62,44 +63,46 @@ const speechToText = async (ctx) => {
   } catch (err) {
     console.error('[S2T] Failed to download audio file!', err)
     ctx.reply(ctx.i18n.t('s2t__download_fail'), {
-      reply_to_message_id: ctx.message.message_id
+      reply_to_message_id: ctx.message.message_id,
+      disable_notification: true
     })
     return
   }
 
-  const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
-  try {
-    await convertAudio(voicePath, convertedPath)
-  } catch (err) {
-    console.error('[S2T] Error while converting audio to mp3!', err)
-    ctx.reply(ctx.i18n.t('s2t__conversion_fail'), {
-      reply_to_message_id: ctx.message.message_id
-    })
-    return
+  if (ctx.message.voice.mime_type !== 'audio/mpeg3') {
+    const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
+    try {
+      await convertAudio(voicePath, convertedPath)
+    } catch (err) {
+      console.error('[S2T] Error while converting audio to mp3!', err)
+      ctx.reply(ctx.i18n.t('s2t__conversion_fail'), {
+        reply_to_message_id: ctx.message.message_id,
+        disable_notification: true
+      })
+      return
+    }
   }
 
   try {
     const voiceStreamConverted = fs.createReadStream(convertedPath)
     const parsedSpeech = await extractSpeech(voiceStreamConverted, 'audio/mpeg3')
     ctx.reply(parsedSpeech._text, {
-      reply_to_message_id: ctx.message.message_id
+      reply_to_message_id: ctx.message.message_id,
+      disable_notification: true
     })
   } catch (err) {
     console.error('[S2T] Error while parsing speech to text!', err)
     let what; // What went wrong
     switch (err.substring(err.length - 3, err.length)) {
-      case '400': what = 's2t__transcribe_fail'
-        break
-      case '401': what = 's2t__transcribe_fail_auth'
-        break
-      case '408': what = 's2t__transcribe_timeout'
-        break
-      case '500': case '503': what = 's2t__transcribe_error'
-        break
+      case '400': what = 's2t__transcribe_fail'; break
+      case '401': what = 's2t__transcribe_fail_auth'; break
+      case '408': what = 's2t__transcribe_timeout'; break
+      case '500': case '503': what = 's2t__transcribe_error'; break
       default: what = 's2t__transcribe_error'
     }
     ctx.reply(ctx.i18n.t(what), {
-      reply_to_message_id: ctx.message.message_id
+      reply_to_message_id: ctx.message.message_id,
+      disable_notification: true
     })
   }
 }

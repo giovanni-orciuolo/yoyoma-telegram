@@ -4,7 +4,10 @@ const genius = new geniusApi(process.env.GENIUS_TOKEN)
 const geniusSearch = async (ctx) => {
   const text = ctx.state.command.args
   if (text === '') {
-    ctx.reply(ctx.i18n.t('genius__empty_lyrics'))
+    ctx.reply(ctx.i18n.t('genius__empty_lyrics'), {
+      reply_to_message_id: ctx.message.message_id,
+      disable_notification: true
+    })
     return
   }
 
@@ -24,8 +27,8 @@ const geniusSearch = async (ctx) => {
   await ctx.replyWithPhoto(song.song_art_image_thumbnail_url, {
     caption: htmlizeSong(song) + '\n',
     parse_mode: 'HTML',
+    reply_to_message_id: ctx.message.message_id,
     disable_notification: true,
-    reply_to_message_id: ctx.message.message_id
   })
 
   let other_songs = ctx.i18n.t('genius__other_songs_found', { amount: hits.length - 1 });
