@@ -19,3 +19,5 @@ scp__not_valid: SCP not valid
 scp__not_found: No SCP found
 
 rcg__error: Error while getting random comic
+
+rss__error: Error during command execution. Check the console for details

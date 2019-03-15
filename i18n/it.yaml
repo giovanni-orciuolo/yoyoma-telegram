@@ -19,3 +19,5 @@ scp__not_valid: SCP non valido
 scp__not_found: Nessun SCP trovato
 
 rcg__error: Errore durante il recupero dell'immagine casuale
+
+rss__error: Errore durante l'esecuzione del comando, controllare la console del bot
