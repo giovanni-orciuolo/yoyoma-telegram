@@ -21,3 +21,6 @@ scp__not_found: No SCP found
 rcg__error: Error while getting random comic
 
 rss__error: Error during command execution. Check the console for details
+
+ct__heads: Heads!
+ct__tails: Tails!

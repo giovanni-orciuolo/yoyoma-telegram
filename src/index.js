@@ -10,6 +10,7 @@ const { speechToText } = require('./features/speechToText')
 const { searchScp } = require('./features/scpSearcher')
 const { sendRandomComic } = require('./features/cyanideComicGenerator')
 const { manageGroupRSS } = require('./features/rss/rssManager')
+const { coinFlip } = require('./features/coinFlip')
 
 const bot = new telegraf(process.env.BOT_TOKEN)
 const i18n = new telegrafI18N({
@@ -38,7 +39,8 @@ bot.command('lyrics', (ctx) => geniusSearch(ctx))
 bot.command('language', (ctx) => setLocale(ctx))
 bot.command('scp', (ctx) => searchScp(ctx))
 bot.command('cyanide', (ctx) => sendRandomComic(ctx))
-bot.command('rss', (ctx) => manageGroupRSS(ctx))
+// bot.command('rss', (ctx) => manageGroupRSS(ctx))
+bot.command('coin', (ctx) => coinFlip(ctx))
 
 // Message listener
 bot.on('message', (ctx) => {

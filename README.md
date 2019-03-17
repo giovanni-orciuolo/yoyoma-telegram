@@ -21,6 +21,7 @@ lyrics - Search songs on Genius by lyrics
 language - Set language (pass a valid locale)
 scp - Search a random SCP or pass a number to search exact SCP
 cyanide - Generate and send a random Cyanide and Happiness comic
+coin - Just flips a coin
 ```
 
 There are also some random hears just for the sake of it, and the special
