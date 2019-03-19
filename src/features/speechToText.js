@@ -69,8 +69,8 @@ const speechToText = async (ctx) => {
     return
   }
 
+  const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
   if (ctx.message.voice.mime_type !== 'audio/mpeg3') {
-    const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
     try {
       await convertAudio(voicePath, convertedPath)
     } catch (err) {
