@@ -50,7 +50,7 @@ const sendScpMessage = async (ctx, entry) => {
     disable_notification: true,
     disable_web_page_preview: true,
   }
-  const hasImage = entry.image !== ''
+  const hasImage = entry.image !== undefined
 
   await hasImage ? ctx.replyWithPhoto(entry.image, { caption: caption, ...options }) : ctx.reply(caption, options)
 }
