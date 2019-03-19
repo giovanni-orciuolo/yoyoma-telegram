@@ -1,8 +1,19 @@
 const Extra = require('telegraf/extra')
 const Markup = require('telegraf/markup')
+const Stage = require('telegraf/stage')
+const Scene = require('telegraf/scenes/base')
+const { enter, leave } = Stage
 
 const { EmittersManager } = require('./EmittersManager')
 const emittersManager = new EmittersManager()
+
+const sceneListenRss = new Scene('listenRSS')
+sceneListenRss.enter(ctx => ctx.reply(ctx.i18n.t('rss__new_enter')))
+sceneListenRss.leave(ctx => ctx.reply(ctx.i18n.t('rss__new_leave')))
+sceneListenRss.command('back', leave())
+sceneListenRss.on('text', ctx => {
+  ctx.reply(ctx.i18n.t('rss__new_listening'))
+})
 
 const manageGroupRSS = async (ctx) => {
   try {
