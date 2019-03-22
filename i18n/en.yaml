@@ -1,4 +1,6 @@
 welcome: Welcome, I'm YoYo-Ma! I can execute your commands! Wow!
+yes: Yes! Yes! Yes!
+no: No! No! No!
 
 locale_set: Language set to English!
 no_locale: Sorry, I do not support this language yet
@@ -21,6 +23,14 @@ scp__not_found: No SCP found
 rcg__error: Error while getting random comic
 
 rss__error: Error during command execution. Check the console for details
+rss__no_feeds: I'm not listening for any RSS feed in this chat. Would you like to listen for a new feed?
+rss__no_emitter: No event emitter found for this group...
+rss__conflict: Emitter already exists for this group!
+rss__new_enter: Enter the RSS feed link you want to listen for
+rss__new_listening: Now listening ${url}. I will keep you updated on new feeds!
+rss__new_item: New feed from "${title}":\n<a href="${link}">${item_title}</a>
 
 ct__heads: Heads!
 ct__tails: Tails!
+
+scene_end: Command concluded!

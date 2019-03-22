@@ -1,5 +1,6 @@
 const request = require('request');
-const cheerio = require("cheerio")
+const cheerio = require('cheerio')
+const { replyWithOptionalImage } = require('../utils/replyWithOptionalImage')
 
 // Adapted from Marv discord.js bot
 const fetchScpEntry = (num) => {
@@ -44,15 +45,11 @@ const randomScpEntry = async () => {
 
 const sendScpMessage = async (ctx, entry) => {
   const caption = `<a href="${entry.url}">${entry.title}</a>\n\n${entry.description}`
-  const options = {
+  await replyWithOptionalImage(ctx, entry.image, caption, {
     reply_to_message_id: ctx.message.message_id,
-    parse_mode: 'HTML',
     disable_notification: true,
     disable_web_page_preview: true,
-  }
-  const hasImage = entry.image !== undefined
-
-  await hasImage ? ctx.replyWithPhoto(entry.image, { caption: caption, ...options }) : ctx.reply(caption, options)
+  })
 }
 
 const searchScp = async (ctx) => {

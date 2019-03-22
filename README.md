@@ -1,6 +1,6 @@
 # YoYo-Ma bot for Telegram
 
-[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/DoubleHub/yoyo-ma-telegram)
+[![Telegram Chat](https://img.shields.io/badge/chat-t.me%2Fyoyoma__bot-blue.svg)](https://t.me/yoyoma_bot)
 
 A basic bot that I made in Javascript ES6 for Telegram.
 
@@ -57,6 +57,8 @@ Boom! YoYo-Ma is running on Docker.
 
 ### (Optional) Deploy with Now by Zeit
 
+[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/DoubleHub/yoyo-ma-telegram)
+
 This bot can be deployed to [now](https://zeit.co/now) by Zeit.
 Assuming you've got `now` installed and set up:
 
@@ -80,17 +82,6 @@ If you want every feature of the bot to work you need to provide these variables
 $ process.env.BOT_TOKEN - Needed for the bot to work on Telegram
 $ process.env.GENIUS_TOKEN - Genius API token. It is needed for the /lyrics command to work
 $ process.env.WITAI_TOKEN - Wit.ai API app token. It is needed for the speech to text parser to work
-```
-
-### Optional Environment Variables
-
-This bot features a crunchyroll command, which outputs the email and password of a Crunchyroll account in a specific
-group id. You can use the command to store different credentials, if you want.
-
-```
-$ process.env.CR_EMAIL - Crunchyroll email. It is needed for the crunchyroll command to work
-$ process.env.CR_PASS - Crunchyroll password. It is needed for the crunchyroll command to work
-$ process.env.CR_GROUP_ID - Group ID for the crunchyroll command.
 ```
 
 ### Internazionalization (i18n)

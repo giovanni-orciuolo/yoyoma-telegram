@@ -3,13 +3,15 @@ require('dotenv').config()
 const telegraf = require('telegraf')
 const telegrafI18N = require('telegraf-i18n')
 const commandParts = require('telegraf-command-parts')
+const session = require('telegraf/session')
+const Stage = require('telegraf/stage')
 
 const { geniusSearch } = require('./features/geniusSearch')
 const { setLocale } = require('./features/setLocale')
 const { speechToText } = require('./features/speechToText')
 const { searchScp } = require('./features/scpSearcher')
 const { sendRandomComic } = require('./features/cyanideComicGenerator')
-const { manageGroupRSS } = require('./features/rss/rssManager')
+const { manageGroupRSS, sceneListenRss } = require('./features/rss/rssManager')
 const { coinFlip } = require('./features/coinFlip')
 
 const bot = new telegraf(process.env.BOT_TOKEN)
@@ -19,12 +21,15 @@ const i18n = new telegrafI18N({
   allowMissing: true,
   useSession: true,
 })
+const stage = new Stage([ sceneListenRss ], { ttl: 10 })
 
+bot.use(session())
 bot.use(commandParts())
 bot.use(i18n.middleware())
+bot.use(stage.middleware())
 
 bot.start(({ reply, i18n }) => reply(i18n.t('welcome')))
-bot.catch((err) => console.error('Ops!', err))
+bot.catch((err) => console.error('Ops! Questo è imbarazzante (cit)', err))
 
 // Meme hears lol
 bot.hears(/yo angelo/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXQADgYLEFulxnwk8dDafAg'))
@@ -39,20 +44,17 @@ bot.command('lyrics', (ctx) => geniusSearch(ctx))
 bot.command('language', (ctx) => setLocale(ctx))
 bot.command('scp', (ctx) => searchScp(ctx))
 bot.command('cyanide', (ctx) => sendRandomComic(ctx))
-// bot.command('rss', (ctx) => manageGroupRSS(ctx))
+bot.command('rss', (ctx) => manageGroupRSS(ctx))
 bot.command('coin', (ctx) => coinFlip(ctx))
+bot.command('back', (ctx) => ctx.scene.leave())
 
 // Message listener
 bot.on('message', (ctx) => {
   speechToText(ctx) // If needed
 })
 
-// Special Crunchyroll password dump
-bot.hears('crunchyroll', async ({ reply, getChat }) => {
-  if ((await getChat()).id === process.env.CR_GROUP_ID) {
-    reply(`Email: ${process.env.CR_EMAIL} | Password: ${process.env.CR_PASS}`)
-  }
-})
+// Actions
+bot.action('rss_new_feed', (ctx) => ctx.scene.enter('listenRSS'))
 
 console.log("Starting YoYo-Ma...")
 bot.launch()

@@ -1,4 +1,6 @@
 welcome: Ciao, sono YoYo-Ma! Posso eseguire i tuoi comandi! Wow!
+yes: Sì! Sì! Sì!
+no: No! No! No!
 
 locale_set: Ora parlo italiano!
 no_locale: Non supporto questa lingua mi dispiace
@@ -21,6 +23,14 @@ scp__not_found: Nessun SCP trovato
 rcg__error: Errore durante il recupero dell'immagine casuale
 
 rss__error: Errore durante l'esecuzione del comando, controllare la console del bot
+rss__no_feeds: Su questa chat non sto ascoltando alcun RSS feed. Vuoi aggiungere un nuovo feed?
+rss__no_emitter: Nessun event emitter trovato per questo gruppo... strano
+rss__conflict: L'event emitter esiste già per questo gruppo!
+rss__new_enter: Inserisci il link del feed RSS sul quale ti vuoi mettere in ascolto
+rss__new_listening: Ok, ti aggiornerò se ci sono feed nuovi su ${url}!
+rss__new_item: Novità da "${title}":\n<a href="${link}">${item_title}</a>
 
 ct__heads: Testa!
 ct__tails: Croce!
+
+scene_end: Comando concluso!

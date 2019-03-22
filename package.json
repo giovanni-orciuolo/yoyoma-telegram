@@ -1,6 +1,6 @@
 {
   "name": "yoyo-ma-telegram",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Telegram integration for YoYo-Ma",
   "repository": {
     "url": "Giovanni Orciuolo/yoyo-ma-telegram",
@@ -23,6 +23,7 @@
     "dotenv": "^6.2.0",
     "fluent-ffmpeg": "^2.1.2",
     "genius-api": "^0.4.1",
+    "moment": "^2.24.0",
     "node-witai-speech": "^1.0.2",
     "rss-feed-emitter": "^2.0.1",
     "telegraf": "^3.27.1",

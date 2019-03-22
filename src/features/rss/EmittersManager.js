@@ -10,8 +10,8 @@ class EmittersManager {
     this.getEmitter = this.getEmitter.bind(this)
     this.pushEmitter = this.pushEmitter.bind(this)
     this.removeEmitter = this.removeEmitter.bind(this)
+    this.getFeeder = this.getFeeder.bind(this)
     this.getAllFeeds = this.getAllFeeds.bind(this)
-    this.getFeed = this.getFeed.bind(this)
     this.addFeed = this.addFeed.bind(this)
     this.removeFeed = this.removeFeed.bind(this)
   }
@@ -22,7 +22,10 @@ class EmittersManager {
 
   pushEmitter(group_id) {
     const emitter = this.getEmitter(group_id)
-    if (emitter) throw `Can't push new emitter for group ${group_id}. Emitter already exists.`
+    if (emitter) throw {
+      message: `Can't push new emitter for group ${group_id}. Emitter already exists.`,
+      status: 409
+    }
 
     const feeder = new RssFeedEmitter({ userAgent: 'YoYo-Ma (for Telegram)' })
     this.emitters.push({
@@ -34,44 +37,60 @@ class EmittersManager {
 
   removeEmitter(group_id) {
     const emitter = this.getEmitter(group_id)
-    if (!emitter) throw `No emitter found for ${group_id}`
+    if (!emitter) throw {
+      message: `No emitter found for ${group_id}`,
+      status: 404
+    }
 
     emitter.feeder.destroy()
     this.emitters = this.emitters.splice(this.emitters.findIndex(e => e === emitter), 1)
   }
 
-  getAllFeeds(group_id) {
+  getFeeder(group_id) {
     const emitter = this.getEmitter(group_id)
-    if (!emitter) throw `No emitter found for ${group_id}`
+    if (!emitter) throw {
+      message: `No emitter found for ${group_id}`,
+      status: 404
+    }
 
-    return emitter.feeder.list()
+    return emitter.feeder
   }
 
-  getFeed(group_id, url) {
-    const emitter = this.getEmitter(group_id)
-    if (!emitter) throw `No emitter found for ${group_id}`
-
-    return this.getAllFeeds(group_id).find(feed => feed.url === url)
+  getAllFeeds(group_id) {
+    return this.getFeeder(group_id).list()
   }
 
   addFeed(group_id, url, refresh = 60000) {
     const emitter = this.getEmitter(group_id)
-    if (!emitter) throw `No emitter found for ${group_id}`
+    if (!emitter) throw {
+      message: `No emitter found for ${group_id}`,
+      status: 404
+    }
 
-    const feed = this.getFeed(group_id, url)
-    if (feed) throw `Feed with this url already exists in group ${group_id}`
+    const feed = this.getAllFeeds(group_id).find(feed => feed.url === url)
+    if (feed) throw {
+      message: `Feed with this url already exists in group ${group_id}`,
+      status: 409
+    }
 
     emitter.feeder.add({
       url: url, refresh: refresh
     })
+    return emitter.feeder
   }
 
   removeFeed(group_id, url) {
     const emitter = this.getEmitter(group_id)
-    if (!emitter) throw `No emitter found for ${group_id}`
+    if (!emitter) throw {
+      message: `No emitter found for ${group_id}`,
+      status: 404
+    }
 
-    const feed = this.getFeed(group_id, url)
-    if (!feed) throw `No feed for this url found for ${group_id}`
+    const feed = this.getFeeder(group_id)
+    if (!feed) throw {
+      message: `No feeder found for ${group_id}`,
+      status: 404
+    }
 
     emitter.feeder.remove(url)
   }
