@@ -33,4 +33,7 @@ rss__new_item: Novità da "${title}":\n<a href="${link}">${item_title}</a>
 ct__heads: Testa!
 ct__tails: Croce!
 
+ytaudio__not_found: Non ho trovato proprio un cazzo su Youtube per questa ricerca...
+ytaudio__error: Non sono riuscito a recuperare l'audio dal video di Youtube. Controlla la console per dettagli
+
 scene_end: Comando concluso!

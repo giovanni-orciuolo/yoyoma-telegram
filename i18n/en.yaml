@@ -33,4 +33,7 @@ rss__new_item: New feed from "${title}":\n<a href="${link}">${item_title}</a>
 ct__heads: Heads!
 ct__tails: Tails!
 
+ytaudio__not_found: Video not found on Youtube...
+ytaudio__error: Couldn't get audio from Youtube video. Check the console for details
+
 scene_end: Command concluded!

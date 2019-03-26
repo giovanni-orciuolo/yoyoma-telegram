@@ -1,6 +1,6 @@
 {
   "name": "yoyo-ma-telegram",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Telegram integration for YoYo-Ma",
   "repository": {
     "url": "Giovanni Orciuolo/yoyo-ma-telegram",
@@ -26,10 +26,13 @@
     "moment": "^2.24.0",
     "node-witai-speech": "^1.0.2",
     "rss-feed-emitter": "^2.0.1",
+    "shortid": "^2.2.14",
     "telegraf": "^3.27.1",
     "telegraf-command-parts": "^1.0.3",
     "telegraf-i18n": "^6.5.0",
-    "underscore": "^1.9.1"
+    "underscore": "^1.9.1",
+    "youtube-audio-stream": "^0.3.0",
+    "youtube-search": "^1.1.4"
   },
   "devDependencies": {
     "eslint": "^5.9.0",

@@ -22,6 +22,7 @@ language - Set language (pass a valid locale)
 scp - Search a random SCP or pass a number to search exact SCP
 cyanide - Generate and send a random Cyanide and Happiness comic
 coin - Just flips a coin
+ytaudio - Search a video on Youtube and download audio from it
 ```
 
 There are also some random hears just for the sake of it, and the special
@@ -82,6 +83,7 @@ If you want every feature of the bot to work you need to provide these variables
 $ process.env.BOT_TOKEN - Needed for the bot to work on Telegram
 $ process.env.GENIUS_TOKEN - Genius API token. It is needed for the /lyrics command to work
 $ process.env.WITAI_TOKEN - Wit.ai API app token. It is needed for the speech to text parser to work
+$ process.env.GOOGLE_API_TOKEN - Google API app token. It is needed for the Youtube Search to work
 ```
 
 ### Internazionalization (i18n)
