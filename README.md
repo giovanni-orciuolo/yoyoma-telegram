@@ -102,4 +102,4 @@ That's all folks!
 
 ---
 
-Made with :green_heart: using [micro-bot](https://github.com/telegraf/micro-bot)
+Made with :green_heart: using [telegraf](https://github.com/telegraf/telegraf)
