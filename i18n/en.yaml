@@ -35,5 +35,6 @@ ct__tails: Tails!
 
 ytaudio__not_found: Video not found on Youtube...
 ytaudio__error: Couldn't get audio from Youtube video. Check the console for details
+ytaudio__too_long: This video is too long man. Do you want to kill me? Host this shit yourself, dumbass
 
 scene_end: Command concluded!

@@ -35,5 +35,6 @@ ct__tails: Croce!
 
 ytaudio__not_found: Non ho trovato proprio un cazzo su Youtube per questa ricerca...
 ytaudio__error: Non sono riuscito a recuperare l'audio dal video di Youtube. Controlla la console per dettagli
+ytaudio__too_long: Questo video è troppo lungo, vuoi per caso uccidermi? Eh? Hostati da solo coglione
 
 scene_end: Comando concluso!
