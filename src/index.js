@@ -5,6 +5,7 @@ const telegrafI18N = require('telegraf-i18n')
 const commandParts = require('telegraf-command-parts')
 const session = require('telegraf/session')
 const Stage = require('telegraf/stage')
+const fs = require('fs')
 
 const { geniusSearch } = require('./features/geniusSearch')
 const { setLocale } = require('./features/setLocale')
@@ -30,7 +31,7 @@ bot.use(i18n.middleware())
 bot.use(stage.middleware())
 
 bot.start(({ reply, i18n }) => reply(i18n.t('welcome')))
-bot.catch((err) => console.error('Ops! Questo è imbarazzante (cit)', err))
+bot.catch((err) => console.error('Ops! Questo è imbarazzante:', err))
 
 // Meme hears lol
 bot.hears(/yo angelo/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXQADgYLEFulxnwk8dDafAg'))
@@ -39,6 +40,9 @@ bot.hears(/drugs/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADLwADgYL
 bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgYLEFnB82EiqvePzAg'))
 bot.hears(/za warudo/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
 bot.hears(/the world/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
+bot.hears(/merda/gi, ({ replyWithVoice }) => replyWithVoice({
+  source: fs.createReadStream('./assets/merda.ogg')
+}))
 
 // Real commands
 bot.command('lyrics', (ctx) => geniusSearch(ctx))
