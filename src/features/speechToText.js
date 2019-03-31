@@ -3,9 +3,14 @@ const fs = require('fs')
 const https = require('https')
 const mime = require('mime-types')
 const ffmpeg = require('fluent-ffmpeg')
+const { getAudioDurationInSeconds } = require('get-audio-duration')
 
 const WITAI_TOKEN = process.env.WITAI_TOKEN
 const TELEGRAM_FILE_URL = "https://api.telegram.org/file"
+
+const deleteAudioFile = (path) => {
+  fs.unlink(path, () => {})
+}
 
 const downloadTelegramAudio = (audio, dest) => {
   return new Promise((resolve, reject) => {
@@ -60,17 +65,29 @@ const speechToText = async (ctx) => {
 
   try {
     await downloadTelegramAudio(voiceFile, voicePath)
+    const voiceDuration = await getAudioDurationInSeconds(voicePath)
+    if (voiceDuration >= 45) {
+      ctx.reply(ctx.i18n.t('s2t__too_big'), {
+        reply_to_message_id: ctx.message.message_id,
+        disable_notification: true
+      })
+      deleteAudioFile(voicePath)
+      return
+    }
   } catch (err) {
     console.error('[S2T] Failed to download audio file!', err)
     ctx.reply(ctx.i18n.t('s2t__download_fail'), {
       reply_to_message_id: ctx.message.message_id,
       disable_notification: true
     })
+    deleteAudioFile(voicePath)
     return
   }
 
   const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
-  if (ctx.message.voice.mime_type !== 'audio/mpeg3') {
+  const needsConv = ctx.message.voice.mime_type !== 'audio/mpeg3'
+
+  if (needsConv) {
     try {
       await convertAudio(voicePath, convertedPath)
     } catch (err) {
@@ -79,6 +96,7 @@ const speechToText = async (ctx) => {
         reply_to_message_id: ctx.message.message_id,
         disable_notification: true
       })
+      deleteAudioFile(voicePath)
       return
     }
   }
@@ -104,6 +122,9 @@ const speechToText = async (ctx) => {
       reply_to_message_id: ctx.message.message_id,
       disable_notification: true
     })
+  } finally {
+    deleteAudioFile(voicePath)
+    if (needsConv) deleteAudioFile(convertedPath)
   }
 }
 module.exports = {

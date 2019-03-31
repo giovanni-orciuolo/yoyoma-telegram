@@ -5,7 +5,7 @@ COPY . /home/app
 RUN mkdir audio/
 
 # Install needed packages
-RUN apk update && apk add ffmpeg
+RUN apk update && apk add ffmpeg ffprobe
 
 # Install dependencies
 RUN npm install
