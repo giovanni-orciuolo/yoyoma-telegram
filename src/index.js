@@ -40,7 +40,7 @@ bot.hears(/drugs/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADLwADgYL
 bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgYLEFnB82EiqvePzAg'))
 bot.hears(/za warudo/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
 bot.hears(/the world/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
-bot.hears(/merda/gi, ({ replyWithVoice }) => replyWithVoice({
+bot.hears("merda", ({ replyWithVoice }) => replyWithVoice({
   source: fs.createReadStream('./assets/merda.ogg')
 }))
 
