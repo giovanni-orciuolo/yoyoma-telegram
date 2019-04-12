@@ -38,6 +38,7 @@ bot.hears(/yo angelo/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXQA
 bot.hears(/nyo-ho ho/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADZQADgYLEFtlofF9toBD-Ag'))
 bot.hears(/drugs/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADLwADgYLEFimHsG12ODxiAg'))
 bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgYLEFnB82EiqvePzAg'))
+bot.hears(/ruru/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADggADgYLEFmcYqG7UNZ4KAg'))
 bot.hears(/za warudo/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
 bot.hears(/the world/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
 bot.hears("merda", ({ replyWithVoice }) => replyWithVoice({
