@@ -37,4 +37,9 @@ ytaudio__not_found: Video not found on Youtube...
 ytaudio__error: Couldn't get audio from Youtube video. Check the console for details
 ytaudio__too_long: This video is too long man. Do you want to kill me? Host this shit yourself, dumbass
 
+config__manage: Settings for group "${group_name}"
+config__transcriber_enabled: Transcriber ${enabled}
+config__i18n_locale: "Language: ${locale}"
+config__error: Error during config retrieval for this chat!
+
 scene_end: Command concluded!

@@ -37,4 +37,9 @@ ytaudio__not_found: Non ho trovato proprio un cazzo su Youtube per questa ricerc
 ytaudio__error: Non sono riuscito a recuperare l'audio dal video di Youtube. Controlla la console per dettagli
 ytaudio__too_long: Questo video è troppo lungo, vuoi per caso uccidermi? Eh? Hostati da solo coglione
 
+config__manage: Settings per la chat "${group_name}"
+config__transcriber_enabled: Transcriber ${enabled}
+config__i18n_locale: "Lingua: ${locale}"
+config__error: Errore durante il recupero della configurazione per questa chat!
+
 scene_end: Comando concluso!

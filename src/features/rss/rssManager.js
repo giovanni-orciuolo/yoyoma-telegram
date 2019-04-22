@@ -1,5 +1,4 @@
 const Extra = require('telegraf/extra')
-const Markup = require('telegraf/markup')
 const Scene = require('telegraf/scenes/base')
 const moment = require('moment')
 const { replyWithOptionalImage } = require('../../utils/replyWithOptionalImage')

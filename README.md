@@ -17,18 +17,15 @@ follow them and obsequiously assist them in any way possible. This is to make th
 The bot runs the following commands:
 
 ```
+config - Open config manager for this chat. Requires admin rights if issued in a group
 lyrics - Search songs on Genius by lyrics
-language - Set language (pass a valid locale)
 scp - Search a random SCP or pass a number to search exact SCP
 cyanide - Generate and send a random Cyanide and Happiness comic
 coin - Just flips a coin
 ytaudio - Search a video on Youtube and download audio from it
 ```
 
-There are also some random hears just for the sake of it, and the special
-Crunchyroll command to dump my Crunchyroll credentials into a specific server.
-
-Don't even bother searching, you won't find them in this repository...
+There are also some random hears just for the sake of it
 
 ## Run for development
 

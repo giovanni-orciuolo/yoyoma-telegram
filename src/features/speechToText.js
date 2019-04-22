@@ -50,6 +50,10 @@ const extractSpeech = (stream, contentType) => {
 const speechToText = async (ctx) => {
   if (!ctx.message.voice) return
 
+  const groupId = (await ctx.getChat()).id.toString()
+  const groupConfig = ctx.session.chatConfigs[groupId]
+  if (!groupConfig.transcriber_enabled) return
+
   await ctx.telegram.sendChatAction(ctx.chat.id, 'typing')
 
   const voiceFile = await ctx.telegram.getFile(ctx.message.voice.file_id)

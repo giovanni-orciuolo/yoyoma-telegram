@@ -8,13 +8,13 @@ const Stage = require('telegraf/stage')
 const fs = require('fs')
 
 const { geniusSearch } = require('./features/geniusSearch')
-const { setLocale } = require('./features/setLocale')
 const { speechToText } = require('./features/speechToText')
 const { searchScp } = require('./features/scpSearcher')
 const { sendRandomComic } = require('./features/cyanideComicGenerator')
 const { manageGroupRSS, sceneListenRss } = require('./features/rss/rssManager')
 const { coinFlip } = require('./features/coinFlip')
 const { sendYoutubeAudio } = require('./features/youtubeAudio')
+const { manageGroupConfig } = require('./features/configManager')
 
 const bot = new telegraf(process.env.BOT_TOKEN)
 const i18n = new telegrafI18N({
@@ -26,11 +26,13 @@ const i18n = new telegrafI18N({
 const stage = new Stage([ sceneListenRss ], { ttl: 10 })
 
 bot.use(session())
-bot.use(commandParts())
 bot.use(i18n.middleware())
 bot.use(stage.middleware())
+bot.use(commandParts())
 
-bot.start(({ reply, i18n }) => reply(i18n.t('welcome')))
+bot.start((ctx) => {
+  return ctx.reply(ctx.i18n.t('welcome'))
+})
 bot.catch((err) => console.error('Ops! Questo è imbarazzante:', err))
 
 // Meme hears lol
@@ -41,31 +43,51 @@ bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgY
 bot.hears(/ruru/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADggADgYLEFmcYqG7UNZ4KAg'))
 bot.hears(/za warudo/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
 bot.hears(/the world/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
-bot.hears("merda", ({ replyWithVoice }) => replyWithVoice({
-  source: fs.createReadStream('./assets/merda.ogg')
-}))
+bot.hears('merda', (ctx) => ctx.replyWithVoice({ source: fs.createReadStream('./assets/merda.ogg') }))
 
 // Real commands
 bot.command('lyrics', (ctx) => geniusSearch(ctx))
-bot.command('language', (ctx) => setLocale(ctx))
 bot.command('scp', (ctx) => searchScp(ctx))
 bot.command('cyanide', (ctx) => sendRandomComic(ctx))
 bot.command('rss', (ctx) => manageGroupRSS(ctx))
 bot.command('coin', (ctx) => coinFlip(ctx))
-bot.command('ytaudio', (ctx) => sendYoutubeAudio(ctx));
+bot.command('ytaudio', (ctx) => sendYoutubeAudio(ctx))
+bot.command('config', (ctx) => manageGroupConfig(ctx))
 
 // Scene commands
 bot.command('back', (ctx) => ctx.scene.leave())
 
 // Message listener
-bot.on('message', (ctx) => {
-  speechToText(ctx) // If needed
-})
+bot.on('message', (ctx) => speechToText(ctx))
 
 // Actions
 bot.action('rss_new_feed', (ctx) => ctx.scene.enter('listenRSS'))
 
+// Config actions
+bot.action('config__enable_transcriber', async (ctx) => {
+  try {
+    ctx.session.chatConfigs[ctx.chat.id.toString()].transcriber_enabled = true
+    manageGroupConfig(ctx)
+  } catch (err) {
+    console.error(err)
+  }
+})
+bot.action('config__disable_transcriber', async (ctx) => {
+  try {
+    ctx.session.chatConfigs[ctx.chat.id.toString()].transcriber_enabled = false
+    manageGroupConfig(ctx)
+  } catch (err) {
+    console.error(err)
+  }
+})
+bot.action('config__switch_locale', async (ctx) => {
+  try {
+    ctx.i18n.locale(ctx.i18n.locale() === 'it' ? 'en' : 'it')
+    manageGroupConfig(ctx)
+  } catch (err) {
+    console.error(err)
+  }
+})
+
 console.log("Starting YoYo-Ma...")
 bot.launch()
-
-module.exports = bot
