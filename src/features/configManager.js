@@ -1,5 +1,6 @@
 const Extra = require('telegraf/extra')
 const Markup = require('telegraf/markup')
+const isAdmin = require('../utils/isAdmin')
 
 // Default config
 const DEFAULT_CONFIG = {
@@ -25,7 +26,9 @@ const manageGroupConfig = async (ctx) => {
     }
 
     const chatId = ctx.chat.id.toString()
-    if (ctx.chat.type !== 'private' && !(await ctx.getChatAdministrators(chatId)).includes(ctx.from)) {
+    if (ctx.chat.type !== 'private' && !(await isAdmin(ctx))) {
+      console.log(await ctx.getChatAdministrators(chatId))
+      await ctx.deleteMessage(ctx.message.message_id)
       return
     }
 
@@ -56,6 +59,10 @@ const manageGroupConfig = async (ctx) => {
 
     chatConfig.current_config_message = config_keyboard.message_id
   } catch (err) {
+    if (err.description && err.description.includes("message can't be deleted")) {
+      // don't need to log this, bot is not admin
+      return
+    }
     console.error(err)
     return ctx.reply(ctx.i18n.t('config__error'), {
       reply_to_message_id: ctx.message ? ctx.message.message_id : null,
