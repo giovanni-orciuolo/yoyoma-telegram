@@ -14,7 +14,7 @@ const { sendRandomComic } = require('./features/cyanideComicGenerator')
 const { manageGroupRSS, sceneListenRss } = require('./features/rss/rssManager')
 const { coinFlip } = require('./features/coinFlip')
 const { sendYoutubeAudio } = require('./features/youtubeAudio')
-const { manageGroupConfig } = require('./features/configManager')
+const { manageGroupConfig, setChatConfig } = require('./features/configManager')
 
 const bot = new telegraf(process.env.BOT_TOKEN)
 const i18n = new telegrafI18N({
@@ -66,7 +66,7 @@ bot.action('rss_new_feed', (ctx) => ctx.scene.enter('listenRSS'))
 // Config actions
 bot.action('config__enable_transcriber', async (ctx) => {
   try {
-    ctx.session.chatConfigs[ctx.chat.id.toString()].transcriber_enabled = true
+    setChatConfig(ctx, { transcriber_enabled: true })
     manageGroupConfig(ctx)
   } catch (err) {
     console.error(err)
@@ -74,7 +74,7 @@ bot.action('config__enable_transcriber', async (ctx) => {
 })
 bot.action('config__disable_transcriber', async (ctx) => {
   try {
-    ctx.session.chatConfigs[ctx.chat.id.toString()].transcriber_enabled = false
+    setChatConfig(ctx, { transcriber_enabled: false })
     manageGroupConfig(ctx)
   } catch (err) {
     console.error(err)

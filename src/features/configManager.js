@@ -2,10 +2,21 @@ const Extra = require('telegraf/extra')
 const Markup = require('telegraf/markup')
 const isAdmin = require('../utils/isAdmin')
 
-// Default config
-const DEFAULT_CONFIG = {
-  current_config_message: 0,
-  transcriber_enabled: true
+// Global chat configs holder
+let ChatConfigs = {}
+
+const getChatConfig = (ctx) => {
+  return ChatConfigs[ctx.chat.id]
+}
+
+const setChatConfig = (ctx, val) => {
+  const chatConfig = getChatConfig(ctx)
+  if (!chatConfig) return
+  ChatConfigs[ctx.chat.id] = { ...ChatConfigs[ctx.chat.id], ...val }
+}
+
+const pushNewChatConfig = (ctx, config) => {
+  ChatConfigs[ctx.chat.id] = config
 }
 
 const manageGroupConfig = async (ctx) => {
@@ -20,28 +31,27 @@ const manageGroupConfig = async (ctx) => {
     )
   }
 
-  try {
-    if (!ctx.session.chatConfigs) {
-      ctx.session.chatConfigs = {}
-    }
+  // Default config
+  const DEFAULT_CONFIG = {
+    current_config_message: 0,
+    transcriber_enabled: true
+  }
 
-    const chatId = ctx.chat.id.toString()
+  try {
     if (ctx.chat.type !== 'private' && !(await isAdmin(ctx))) {
-      console.log(await ctx.getChatAdministrators(chatId))
       await ctx.deleteMessage(ctx.message.message_id)
       return
     }
 
-    let chatConfig = ctx.session.chatConfigs[chatId]
+    let chatConfig = getChatConfig(ctx)
+    if (!chatConfig) {
+      // First time setting up config for this chat
+      pushNewChatConfig(ctx, DEFAULT_CONFIG)
+      chatConfig = DEFAULT_CONFIG
+    }
 
     if (chatConfig && chatConfig.current_config_message !== 0) {
       await ctx.deleteMessage(chatConfig.current_config_message)
-    }
-
-    if (!chatConfig) {
-      // First time setting up config for this chat
-      chatConfig = DEFAULT_CONFIG
-      ctx.session.chatConfigs[chatId] = chatConfig
     }
 
     const config_keyboard = await ctx.reply(ctx.i18n.t('config__manage',
@@ -71,6 +81,7 @@ const manageGroupConfig = async (ctx) => {
   }
 }
 module.exports = {
-  DEFAULT_CONFIG,
+  getChatConfig,
+  setChatConfig,
   manageGroupConfig
 }

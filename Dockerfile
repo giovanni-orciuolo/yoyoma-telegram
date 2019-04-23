@@ -3,7 +3,6 @@ MAINTAINER Giovanni Orciuolo <giovanni.orciuolo1999@gmail.com>
 
 WORKDIR /home/app
 COPY . /home/app
-RUN mkdir audio/
 
 # Install needed packages
 RUN apk update && apk add ffmpeg
