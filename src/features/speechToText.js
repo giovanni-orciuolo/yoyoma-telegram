@@ -4,6 +4,7 @@ const https = require('https')
 const mime = require('mime-types')
 const ffmpeg = require('fluent-ffmpeg')
 const { getAudioDurationInSeconds } = require('get-audio-duration')
+const { getChatConfig } = require('./configManager')
 
 const WITAI_TOKEN = process.env.WITAI_TOKEN
 const TELEGRAM_FILE_URL = "https://api.telegram.org/file"
@@ -50,9 +51,7 @@ const extractSpeech = (stream, contentType) => {
 const speechToText = async (ctx) => {
   if (!ctx.message.voice) return
 
-  const groupId = (await ctx.getChat()).id.toString()
-  const groupConfig = ctx.session.chatConfigs[groupId]
-  if (!groupConfig.transcriber_enabled) return
+  if (!getChatConfig(ctx).transcriber_enabled) return
 
   await ctx.telegram.sendChatAction(ctx.chat.id, 'typing')
 
