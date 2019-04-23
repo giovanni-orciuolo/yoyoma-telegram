@@ -16,6 +16,8 @@ const { coinFlip } = require('./features/coinFlip')
 const { sendYoutubeAudio } = require('./features/youtubeAudio')
 const { manageGroupConfig, setChatConfig } = require('./features/configManager')
 
+const isAdmin = require('./utils/isAdmin')
+
 const bot = new telegraf(process.env.BOT_TOKEN)
 const i18n = new telegrafI18N({
   defaultLanguage: 'en',
@@ -66,6 +68,7 @@ bot.action('rss_new_feed', (ctx) => ctx.scene.enter('listenRSS'))
 // Config actions
 bot.action('config__enable_transcriber', async (ctx) => {
   try {
+    if (!await isAdmin(ctx)) return
     setChatConfig(ctx, { transcriber_enabled: true })
     manageGroupConfig(ctx)
   } catch (err) {
@@ -74,6 +77,7 @@ bot.action('config__enable_transcriber', async (ctx) => {
 })
 bot.action('config__disable_transcriber', async (ctx) => {
   try {
+    if (!await isAdmin(ctx)) return
     setChatConfig(ctx, { transcriber_enabled: false })
     manageGroupConfig(ctx)
   } catch (err) {
@@ -82,6 +86,7 @@ bot.action('config__disable_transcriber', async (ctx) => {
 })
 bot.action('config__switch_locale', async (ctx) => {
   try {
+    if (!await isAdmin(ctx)) return
     ctx.i18n.locale(ctx.i18n.locale() === 'it' ? 'en' : 'it')
     manageGroupConfig(ctx)
   } catch (err) {
