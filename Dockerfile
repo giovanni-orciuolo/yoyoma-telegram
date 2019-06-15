@@ -1,10 +1,20 @@
 FROM keymetrics/pm2:latest-alpine
 MAINTAINER Giovanni Orciuolo <giovanni.orciuolo1999@gmail.com>
 
-# Install Google Chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
-ENV CHROME_BIN=/usr/bin/google-chrome
+# Installs latest Chromium package.
+RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
+    && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
+    && apk add --no-cache \
+    chromium@edge \
+    harfbuzz@edge \
+    nss@edge \
+    freetype@edge \
+    ttf-freefont@edge \
+    && rm -rf /var/cache/* \
+    && mkdir /var/cache/apk
+
+ENV CHROME_BIN=/usr/bin/chromium-browser \
+    CHROME_PATH=/usr/lib/chromium/
 
 WORKDIR /home/app
 COPY . /home/app
