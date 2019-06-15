@@ -20,7 +20,7 @@ WORKDIR /home/app
 COPY . /home/app
 
 # Install needed packages
-RUN apk update && apk add ffmpeg
+# RUN apk update && apk add ffmpeg already covered by Chromium?
 
 # Install dependencies
 RUN npm install
