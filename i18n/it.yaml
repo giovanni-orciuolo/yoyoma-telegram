@@ -42,4 +42,7 @@ config__transcriber_enabled: Transcriber ${enabled}
 config__i18n_locale: "Lingua: ${locale}"
 config__error: Errore durante il recupero della configurazione per questa chat!
 
+fusion__generating: Sto generando un nuovo Pokémon fuso solo per te...
+fusion__generated: Ecco il tuo Pokémon fuso! Un esemplare di ${fusion_name} davvero interessante...
+
 scene_end: Comando concluso!

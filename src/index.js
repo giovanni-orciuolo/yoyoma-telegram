@@ -15,6 +15,7 @@ const { manageGroupRSS, sceneListenRss } = require('./features/rss/rssManager')
 const { coinFlip } = require('./features/coinFlip')
 const { sendYoutubeAudio } = require('./features/youtubeAudio')
 const { manageGroupConfig, setChatConfig } = require('./features/configManager')
+const { sendRandomPokeFusion } = require('./features/pokefusion')
 
 const isAdmin = require('./utils/isAdmin')
 
@@ -55,6 +56,7 @@ bot.command('rss', (ctx) => manageGroupRSS(ctx))
 bot.command('coin', (ctx) => coinFlip(ctx))
 bot.command('ytaudio', (ctx) => sendYoutubeAudio(ctx))
 bot.command('config', (ctx) => manageGroupConfig(ctx))
+bot.command('pokefusion', sendRandomPokeFusion)
 
 // Scene commands
 bot.command('back', (ctx) => ctx.scene.leave())

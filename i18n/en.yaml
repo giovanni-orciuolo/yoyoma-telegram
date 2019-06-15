@@ -42,4 +42,7 @@ config__transcriber_enabled: Transcriber ${enabled}
 config__i18n_locale: "Language: ${locale}"
 config__error: Error during config retrieval for this chat!
 
+fusion__generating: Generating a new Pokémon fusion just for you...
+fusion__generated: Here it is, its name is ${fusion_name}. Pretty interesting, indeed...
+
 scene_end: Command concluded!

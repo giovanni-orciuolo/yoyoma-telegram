@@ -1,6 +1,6 @@
 {
   "name": "yoyo-ma-telegram",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "Telegram integration for YoYo-Ma",
   "repository": {
     "url": "Giovanni Orciuolo/yoyo-ma-telegram",
@@ -26,6 +26,7 @@
     "get-audio-duration": "^1.0.0",
     "moment": "^2.24.0",
     "node-witai-speech": "^1.0.2",
+    "pokefusion-api": "^1.0.3",
     "rss-feed-emitter": "^2.0.1",
     "shortid": "^2.2.14",
     "telegraf": "^3.27.1",
