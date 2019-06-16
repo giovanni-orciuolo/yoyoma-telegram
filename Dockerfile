@@ -1,7 +1,7 @@
 FROM keymetrics/pm2:latest-alpine
 MAINTAINER Giovanni Orciuolo <giovanni.orciuolo1999@gmail.com>
 
-# Installs latest Chromium package.
+# Installs latest Chromium package and ffmpeg
 RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
     && apk add --no-cache \
@@ -10,11 +10,19 @@ RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repos
     && rm -rf /var/cache/* \
     && mkdir /var/cache/apk
 
+# Add chromium user
+RUN mkdir -p /usr/src/app \
+    && adduser -D chromium \
+    && chown -R chromium:chromium /usr/src/app
+
+# Run Chrome as non-privileged
+USER chromium
+WORKDIR /usr/src/app
+
 ENV CHROME_BIN=/usr/bin/chromium-browser \
     CHROME_PATH=/usr/lib/chromium/
 
-WORKDIR /home/app
-COPY . /home/app
+COPY . /usr/src/app
 
 # Install dependencies
 RUN npm install

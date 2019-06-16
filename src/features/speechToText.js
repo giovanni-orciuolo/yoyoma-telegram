@@ -51,7 +51,8 @@ const extractSpeech = (stream, contentType) => {
 const speechToText = async (ctx) => {
   if (!ctx.message.voice) return
 
-  if (!getChatConfig(ctx).transcriber_enabled) return
+  const cfg = getChatConfig(ctx)
+  if (cfg && !cfg.transcriber_enabled) return
 
   await ctx.telegram.sendChatAction(ctx.chat.id, 'typing')
 
