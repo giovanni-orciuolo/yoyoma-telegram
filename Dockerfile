@@ -2,7 +2,7 @@ FROM keymetrics/pm2:latest-alpine
 MAINTAINER Giovanni Orciuolo <giovanni.orciuolo1999@gmail.com>
 
 # Install needed packages
-RUN apk update && apk add ffmpeg already covered by Chromium?
+RUN apk update && apk add ffmpeg
 
 # Installs latest Chromium package.
 RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
