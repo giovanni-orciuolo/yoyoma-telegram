@@ -10,19 +10,11 @@ RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repos
     && rm -rf /var/cache/* \
     && mkdir /var/cache/apk
 
-# Add chromium user
-RUN mkdir -p /usr/src/app \
-    && adduser -D chromium \
-    && chown -R chromium:chromium /usr/src/app
-
-# Run Chrome as non-privileged
-USER chromium
-WORKDIR /usr/src/app
-
 ENV CHROME_BIN=/usr/bin/chromium-browser \
     CHROME_PATH=/usr/lib/chromium/
 
-COPY . /usr/src/app
+WORKDIR /home/app
+COPY . /home/app
 
 # Install dependencies
 RUN npm install
