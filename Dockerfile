@@ -1,6 +1,9 @@
 FROM keymetrics/pm2:latest-alpine
 MAINTAINER Giovanni Orciuolo <giovanni.orciuolo1999@gmail.com>
 
+# Install needed packages
+RUN apk update && apk add ffmpeg already covered by Chromium?
+
 # Installs latest Chromium package.
 RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
@@ -18,9 +21,6 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
 
 WORKDIR /home/app
 COPY . /home/app
-
-# Install needed packages
-# RUN apk update && apk add ffmpeg already covered by Chromium?
 
 # Install dependencies
 RUN npm install
