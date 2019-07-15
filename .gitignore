@@ -33,3 +33,7 @@ node_modules
 # Environment ignores
 now-secrets.json
 .env
+
+# Audio files, but keep directory
+!audio/.gitkeep
+audio/*

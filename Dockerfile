@@ -10,14 +10,20 @@ RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repos
     && rm -rf /var/cache/* \
     && mkdir /var/cache/apk
 
+# Setup Chrome environment variables to point to Chromium bin
 ENV CHROME_BIN=/usr/bin/chromium-browser \
     CHROME_PATH=/usr/lib/chromium/
 
 WORKDIR /home/app
-COPY . /home/app
+
+# Copy package.json
+COPY package.json /home/app/package.json
 
 # Install dependencies
 RUN npm install
+
+# Copy project source files
+COPY . /home/app
 
 # Start application inside PM2
 CMD [ "pm2-runtime", "start", "pm2.json" ]

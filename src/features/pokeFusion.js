@@ -2,7 +2,7 @@ const { fork } = require('child_process')
 
 const sendRandomPokeFusion = async (ctx) => {
   try {
-    const process = fork(__dirname + '/forks/pokefusion.js')
+    const process = fork(__dirname + '/forks/pokeFusion.js')
     process.send('POKEFUSION')
 
     process.on('message', async (message) => {

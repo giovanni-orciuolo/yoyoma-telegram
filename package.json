@@ -1,9 +1,9 @@
 {
   "name": "yoyo-ma-telegram",
-  "version": "0.7.0",
-  "description": "Telegram integration for YoYo-Ma",
+  "version": "1.0.0",
+  "description": "YoYo-Ma for Telegram",
   "repository": {
-    "url": "Giovanni Orciuolo/yoyo-ma-telegram",
+    "url": "DoubleHub/yoyo-ma-telegram",
     "type": "git"
   },
   "main": "src/index.js",

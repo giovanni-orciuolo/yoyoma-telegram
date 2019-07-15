@@ -6,7 +6,7 @@ const isAdmin = require('../utils/isAdmin')
 let ChatConfigs = {}
 
 const getChatConfig = (ctx) => {
-  return ChatConfigs ? ChatConfigs[ctx.chat.id] : {};
+  return ChatConfigs ? ChatConfigs[ctx.chat.id] : {}
 }
 
 const setChatConfig = (ctx, val) => {
@@ -44,9 +44,9 @@ const manageGroupConfig = async (ctx) => {
       await ctx.deleteMessage(ctx.message.message_id)
       return
     }
-    
+
     if (!ChatConfigs) {
-      ChatConfigs = {};
+      ChatConfigs = {}
     }
 
     let chatConfig = getChatConfig(ctx)

@@ -16,6 +16,7 @@ s2t__transcribe_fail_auth: Non riesco ad autenticarmi nel server di trascrizione
 s2t__transcribe_timeout: Non riesco a trascrivere il messaggio, il server ha impiegato troppo tempo a rispondere...
 s2t__transcribe_error: Non riesco a comunicare con il server di trascrizione... riprova più tardi pliz
 s2t__too_big: Audio troppo lungo, la smetti di mandare sti cazzo di audio lunghissimi? Mah
+s2t__split_fail: Non sono riuscito a tagliare il file, ...damn... fuck... damn...
 
 scp__not_valid: SCP non valido
 scp__not_found: Nessun SCP trovato

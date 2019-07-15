@@ -8,6 +8,9 @@ const { getChatConfig } = require('./configManager')
 
 const WITAI_TOKEN = process.env.WITAI_TOKEN
 const TELEGRAM_FILE_URL = "https://api.telegram.org/file"
+const AUDIO_SIZE_LIMIT = 500000000 // 500 mb
+const AUDIO_DURATION_LIMIT = 120 // secs
+const SEGMENT_TIME = 15 // secs
 
 const deleteAudioFile = (path) => {
   fs.unlink(path, () => {})
@@ -33,10 +36,24 @@ const convertAudio = (input, output) => {
   return new Promise((resolve, reject) => {
     ffmpeg(input)
       .output(output)
-      .on('end', () => resolve())
-      .on('error', e => reject(e))
+      .on('end', resolve)
+      .on('error', reject)
       .run()
   })
+}
+
+const splitAudio = (audioPath, audioFileName, segmentTime = SEGMENT_TIME) => {
+  return new Promise((resolve, reject) => {
+    ffmpeg(audioPath)
+      .addOptions([
+        `-f segment`,
+        `-segment_time ${segmentTime}`,
+      ])
+      .output(`audio/split_${audioFileName}_%03d.mp3`)
+      .on('end', resolve)
+      .on('error', reject)
+      .run()
+  });
 }
 
 const extractSpeech = (stream, contentType) => {
@@ -54,10 +71,8 @@ const speechToText = async (ctx) => {
   const cfg = getChatConfig(ctx)
   if (cfg && !cfg.transcriber_enabled) return
 
-  await ctx.telegram.sendChatAction(ctx.chat.id, 'typing')
-
   const voiceFile = await ctx.telegram.getFile(ctx.message.voice.file_id)
-  if (voiceFile.file_size >= 20000000) {
+  if (voiceFile.file_size >= AUDIO_SIZE_LIMIT) {
     ctx.reply(ctx.i18n.t('s2t__too_big'), {
       reply_to_message_id: ctx.message.message_id,
       disable_notification: true
@@ -65,18 +80,21 @@ const speechToText = async (ctx) => {
     return
   }
 
+  await ctx.telegram.sendChatAction(ctx.chat.id, 'typing')
   const voicePath = `audio/download_${voiceFile.file_id}.${mime.extension(ctx.message.voice.mime_type)}`
 
   try {
     await downloadTelegramAudio(voiceFile, voicePath)
+
+    // Check if audio file isn't too long
     const voiceDuration = await getAudioDurationInSeconds(voicePath)
-    if (voiceDuration >= 45) {
+    if (voiceDuration >= AUDIO_DURATION_LIMIT) {
       ctx.reply(ctx.i18n.t('s2t__too_big'), {
         reply_to_message_id: ctx.message.message_id,
         disable_notification: true
       })
       deleteAudioFile(voicePath)
-      return
+      return;
     }
   } catch (err) {
     console.error('[S2T] Failed to download audio file!', err)
@@ -85,13 +103,13 @@ const speechToText = async (ctx) => {
       disable_notification: true
     })
     deleteAudioFile(voicePath)
-    return
+    return;
   }
 
   const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
-  const needsConv = ctx.message.voice.mime_type !== 'audio/mpeg3'
+  const needsConversion = ctx.message.voice.mime_type !== 'audio/mpeg3'
 
-  if (needsConv) {
+  if (needsConversion) {
     try {
       await convertAudio(voicePath, convertedPath)
     } catch (err) {
@@ -101,35 +119,86 @@ const speechToText = async (ctx) => {
         disable_notification: true
       })
       deleteAudioFile(voicePath)
-      return
+      return;
     }
   }
 
+  // At this point convertedPath will be our mp3 file
   try {
-    const voiceStreamConverted = fs.createReadStream(convertedPath)
-    const parsedSpeech = await extractSpeech(voiceStreamConverted, 'audio/mpeg3')
-    ctx.reply(parsedSpeech._text, {
-      reply_to_message_id: ctx.message.message_id,
-      disable_notification: true
-    })
+    // Split audio into little chunks based on silence (won't split if audio is short)
+    await splitAudio(convertedPath, voiceFile.file_id);
   } catch (err) {
-    console.error('[S2T] Error while parsing speech to text!', err)
-    let what; // What went wrong
-    switch (err.substring(err.length - 3, err.length)) {
-      case '400': what = 's2t__transcribe_fail'; break
-      case '401': what = 's2t__transcribe_fail_auth'; break
-      case '408': what = 's2t__transcribe_timeout'; break
-      case '500': case '503': what = 's2t__transcribe_error'; break
-      default: what = 's2t__transcribe_error'
-    }
-    ctx.reply(ctx.i18n.t(what), {
+    console.error('[S2T] Error while splitting audio file!', err)
+    ctx.reply(ctx.i18n.t('s2t__split_fail'), {
       reply_to_message_id: ctx.message.message_id,
       disable_notification: true
     })
-  } finally {
     deleteAudioFile(voicePath)
-    if (needsConv) deleteAudioFile(convertedPath)
+    if (needsConversion) {
+      deleteAudioFile(convertedPath)
+    }
+    return
   }
+
+  // Now that the audio has been split, for each audio file which names contains "split_${file_id}" call extractSpeech
+  const splitFiles = fs.readdirSync('audio/').filter(file => file.startsWith(`split_${voiceFile.file_id}`))
+  let firstTime = true, chatId = -1, messageId = -1, messageText = '', extractionAttempts = 0
+
+  for (const file of splitFiles) {
+    const voiceStreamConverted = fs.createReadStream(`audio/${file}`)
+    let success = false
+
+    let extractedText = ''
+    while (!success) {
+      try {
+        const { _text } = await extractSpeech(voiceStreamConverted, 'audio/mpeg3')
+        extractedText = _text
+        success = true
+      } catch (err) {
+        console.error('[S2T] Error while parsing speech to text!', err)
+        if (extractionAttempts < 3) {
+          ++extractionAttempts
+        } else {
+          console.error('[S2T] Max attempts reached, quitting extraction', err)
+          deleteAudioFile(voicePath)
+          if (needsConversion) {
+            deleteAudioFile(convertedPath)
+          }
+          splitFiles.forEach(file => deleteAudioFile(`audio/${file}`))
+          return
+        }
+      }
+    }
+
+    if (firstTime) {
+      try {
+        const { message_id, chat } = await ctx.reply(extractedText, {
+          reply_to_message_id: ctx.message.message_id,
+          disable_notification: true
+        })
+        messageId = message_id
+        chatId = chat.id
+        messageText = extractedText
+      } catch (err) {
+        continue
+      }
+    } else {
+      messageText += ` ${extractedText}`
+      try {
+        await ctx.telegram.editMessageText(chatId, messageId, null, messageText)
+      } catch (err) {
+        continue
+      }
+    }
+
+    firstTime = false
+  }
+
+  deleteAudioFile(voicePath)
+  if (needsConversion) {
+    deleteAudioFile(convertedPath)
+  }
+  splitFiles.forEach(file => deleteAudioFile(`audio/${file}`))
 }
 module.exports = {
   speechToText
