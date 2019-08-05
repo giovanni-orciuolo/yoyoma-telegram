@@ -33,9 +33,7 @@ bot.use(i18n.middleware())
 bot.use(stage.middleware())
 bot.use(commandParts())
 
-bot.start((ctx) => {
-  return ctx.reply(ctx.i18n.t('welcome'))
-})
+bot.start((ctx) => ctx.reply(ctx.i18n.t('welcome')))
 bot.catch((err) => console.error('Ops! Questo è imbarazzante:', err))
 
 // Meme hears lol
@@ -46,6 +44,7 @@ bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgY
 bot.hears(/ruru/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADggADgYLEFmcYqG7UNZ4KAg'))
 bot.hears(/za warudo/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
 bot.hears(/the world/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
+bot.hears(/kuyashi/gi, ({ replyWithSticker }) => replyWithSticker(''))
 bot.hears('merda', (ctx) => ctx.replyWithVoice({ source: fs.createReadStream('./assets/merda.ogg') }))
 
 // Real commands
@@ -56,6 +55,7 @@ bot.command('rss', (ctx) => manageGroupRSS(ctx))
 bot.command('coin', (ctx) => coinFlip(ctx))
 bot.command('ytaudio', (ctx) => sendYoutubeAudio(ctx))
 bot.command('config', (ctx) => manageGroupConfig(ctx))
+bot.command('stickerid', (ctx) => sendStickerId(ctx))
 // bot.command('pokefusion', sendRandomPokeFusion)
 
 // Scene commands
