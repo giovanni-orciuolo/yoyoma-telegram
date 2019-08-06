@@ -15,7 +15,7 @@ const { manageGroupRSS, sceneListenRss } = require('./features/rss/rssManager')
 const { coinFlip } = require('./features/coinFlip')
 const { sendYoutubeAudio } = require('./features/youtubeAudio')
 const { manageGroupConfig, setChatConfig } = require('./features/configManager')
-const { sendRandomPokeFusion } = require('./features/pokeFusion')
+const { sceneSticker, enterStickerIdScene } = require('./features/stickerId')
 
 const isAdmin = require('./utils/isAdmin')
 
@@ -26,7 +26,7 @@ const i18n = new telegrafI18N({
   allowMissing: true,
   useSession: true,
 })
-const stage = new Stage([ sceneListenRss ], { ttl: 10 })
+const stage = new Stage([ sceneListenRss, sceneSticker ], { ttl: 10 })
 
 bot.use(session())
 bot.use(i18n.middleware())
@@ -42,9 +42,9 @@ bot.hears(/nyo-ho ho/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADZQA
 bot.hears(/drugs/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADLwADgYLEFimHsG12ODxiAg'))
 bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgYLEFnB82EiqvePzAg'))
 bot.hears(/ruru/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADggADgYLEFmcYqG7UNZ4KAg'))
+bot.hears(/kuyashi/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADmwADgYLEFpNmMrKg7JTJFgQ'))
 bot.hears(/za warudo/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
 bot.hears(/the world/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
-bot.hears(/kuyashi/gi, ({ replyWithSticker }) => replyWithSticker(''))
 bot.hears('merda', (ctx) => ctx.replyWithVoice({ source: fs.createReadStream('./assets/merda.ogg') }))
 
 // Real commands
@@ -55,7 +55,7 @@ bot.command('rss', (ctx) => manageGroupRSS(ctx))
 bot.command('coin', (ctx) => coinFlip(ctx))
 bot.command('ytaudio', (ctx) => sendYoutubeAudio(ctx))
 bot.command('config', (ctx) => manageGroupConfig(ctx))
-bot.command('stickerid', (ctx) => sendStickerId(ctx))
+bot.command('stickerid', (ctx) => enterStickerIdScene(ctx))
 // bot.command('pokefusion', sendRandomPokeFusion)
 
 // Scene commands
