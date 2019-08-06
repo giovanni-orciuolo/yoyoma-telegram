@@ -23,7 +23,8 @@ scp - Search a random SCP or pass a number to search exact SCP
 cyanide - Generate and send a random Cyanide and Happiness comic
 coin - Just flips a coin
 ytaudio - Search a video on Youtube and download audio from it
-pokefusion - Generate a random Pokémon fusion and prints its Pokédex entry
+pokefusion - Generate a random Pokémon fusion and prints its Pokédex entry [Not working yet on Docker]
+stickerid - Get a sticker id
 ```
 
 There are also some random hears just for the sake of it
