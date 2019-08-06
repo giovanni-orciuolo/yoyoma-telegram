@@ -50,7 +50,7 @@ bot.hears('merda', (ctx) => ctx.replyWithVoice({ source: fs.createReadStream('./
 // Real commands
 bot.command('lyrics', (ctx) => geniusSearch(ctx))
 bot.command('scp', (ctx) => searchScp(ctx))
-bot.command('cyanide', (ctx) => sendRandomComic(ctx))
+//bot.command('cyanide', (ctx) => sendRandomComic(ctx))
 bot.command('rss', (ctx) => manageGroupRSS(ctx))
 bot.command('coin', (ctx) => coinFlip(ctx))
 bot.command('ytaudio', (ctx) => sendYoutubeAudio(ctx))
