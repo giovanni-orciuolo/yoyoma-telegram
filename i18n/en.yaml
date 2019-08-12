@@ -51,4 +51,8 @@ sid__start: Send me a sticker and I will tell you its id
 sid__no_sticker: Please send a sticker so I can get its id!
 sid__sticker: Sticker id is ${sticker_id}
 
+tesseract__start: Send me a picture and I will try to transcribe the text on it, if present
+tesseract__not_photo: This message does not contain a picture. Are you dense? I told you to give me a fucking picture
+tesseract__progress: I'm transcribing this image... ${progress}%
+
 scene_end: Command concluded!

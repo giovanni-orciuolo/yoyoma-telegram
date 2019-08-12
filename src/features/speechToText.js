@@ -5,9 +5,9 @@ const mime = require('mime-types')
 const ffmpeg = require('fluent-ffmpeg')
 const { getAudioDurationInSeconds } = require('get-audio-duration')
 const { getChatConfig } = require('./configManager')
+const { TELEGRAM_FILE_URL } = require('../utils/constants')
 
 const WITAI_TOKEN = process.env.WITAI_TOKEN
-const TELEGRAM_FILE_URL = "https://api.telegram.org/file"
 const AUDIO_SIZE_LIMIT = 500000000 // 500 mb
 const AUDIO_DURATION_LIMIT = 120 // secs
 const SEGMENT_TIME = 15 // secs

@@ -16,6 +16,7 @@ const { coinFlip } = require('./features/coinFlip')
 const { sendYoutubeAudio } = require('./features/youtubeAudio')
 const { manageGroupConfig, setChatConfig } = require('./features/configManager')
 const { sceneSticker, enterStickerIdScene } = require('./features/stickerId')
+const { sceneTesseract, enterTesseractScene } = require('./features/imageToText')
 
 const isAdmin = require('./utils/isAdmin')
 
@@ -26,7 +27,7 @@ const i18n = new telegrafI18N({
   allowMissing: true,
   useSession: true,
 })
-const stage = new Stage([ sceneListenRss, sceneSticker ], { ttl: 10 })
+const stage = new Stage([ sceneListenRss, sceneSticker, sceneTesseract ], { ttl: 10 })
 
 bot.use(session())
 bot.use(i18n.middleware())
@@ -56,6 +57,7 @@ bot.command('coin', (ctx) => coinFlip(ctx))
 bot.command('ytaudio', (ctx) => sendYoutubeAudio(ctx))
 bot.command('config', (ctx) => manageGroupConfig(ctx))
 bot.command('stickerid', (ctx) => enterStickerIdScene(ctx))
+bot.command('tesseract', (ctx) => enterTesseractScene(ctx))
 // bot.command('pokefusion', sendRandomPokeFusion)
 
 // Scene commands
