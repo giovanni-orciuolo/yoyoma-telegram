@@ -17,6 +17,7 @@ const { sendYoutubeAudio } = require('./features/youtubeAudio')
 const { manageGroupConfig, setChatConfig } = require('./features/configManager')
 const { sceneSticker, enterStickerIdScene } = require('./features/stickerId')
 const { sceneTesseract, enterTesseractScene } = require('./features/imageToText')
+const { sendRandomCAH } = require('./features/cahGenerator')
 
 const isAdmin = require('./utils/isAdmin')
 
@@ -58,6 +59,7 @@ bot.command('ytaudio', (ctx) => sendYoutubeAudio(ctx))
 bot.command('config', (ctx) => manageGroupConfig(ctx))
 bot.command('stickerid', (ctx) => enterStickerIdScene(ctx))
 bot.command('tesseract', (ctx) => enterTesseractScene(ctx))
+bot.command('cah', sendRandomCAH)
 // bot.command('pokefusion', sendRandomPokeFusion)
 
 // Scene commands
