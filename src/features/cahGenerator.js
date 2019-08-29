@@ -8,7 +8,7 @@ const getRandomCardCombo = () => {
     const whiteCard = cards.whiteCards[_.random(cards.blackCards.length - 1)]
     combo = combo.includes("_") ? combo.replace("_", whiteCard) : whiteCard
   }
-  return combo
+  return combo.replace("&trade;", "")
 }
 
 const sendRandomCAH = (ctx) => {
