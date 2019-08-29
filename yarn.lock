@@ -2789,6 +2789,12 @@ telegraf-i18n@^6.5.0:
     debug "^4.0.1"
     js-yaml "^3.6.1"
 
+telegraf-ratelimit@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/telegraf-ratelimit/-/telegraf-ratelimit-2.0.0.tgz#64c72d77913901f92c690cd9078b1f724ef4268a"
+  dependencies:
+    debug "^3.1.0"
+
 telegraf@^3.1.0, telegraf@^3.27.1:
   version "3.27.1"
   resolved "https://registry.yarnpkg.com/telegraf/-/telegraf-3.27.1.tgz#67fbd87a6b4f414a204820f8cb30160e2078b39c"

@@ -5,6 +5,7 @@ const telegrafI18N = require('telegraf-i18n')
 const commandParts = require('telegraf-command-parts')
 const session = require('telegraf/session')
 const Stage = require('telegraf/stage')
+const rateLimit = require('telegraf-ratelimit')
 const fs = require('fs')
 
 const { geniusSearch } = require('./features/geniusSearch')
@@ -35,6 +36,11 @@ bot.use(session())
 bot.use(i18n.middleware())
 bot.use(stage.middleware())
 bot.use(commandParts())
+bot.use(rateLimit({
+  window: 1000,
+  limit: 1,
+  onLimitExceeded: ctx => ctx.reply(ctx.i18n.t('rl__exceeded'))
+}))
 
 bot.start((ctx) => ctx.reply(ctx.i18n.t('welcome')))
 bot.catch((err) => console.error('Ops! Questo è imbarazzante:', err))

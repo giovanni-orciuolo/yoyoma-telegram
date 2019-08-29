@@ -1,6 +1,6 @@
 {
   "name": "yoyo-ma-telegram",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "YoYo-Ma for Telegram",
   "repository": {
     "url": "DoubleHub/yoyo-ma-telegram",
@@ -35,6 +35,7 @@
     "telegraf": "^3.27.1",
     "telegraf-command-parts": "^1.0.3",
     "telegraf-i18n": "^6.5.0",
+    "telegraf-ratelimit": "^2.0.0",
     "tesseract.js": "^2.0.0-alpha.13",
     "underscore": "^1.9.1",
     "youtube-audio-stream": "^0.3.0",

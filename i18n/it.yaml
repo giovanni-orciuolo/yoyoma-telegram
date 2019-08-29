@@ -55,4 +55,6 @@ tesseract__start: Mandami una foto e cercherò di trascrivere il testo che conti
 tesseract__not_photo: Ma questo messaggio non contiene una foto imbecille
 tesseract__progress: Sto cercando di trascrivere questa immagine... ${progress}%
 
+rl__exceeded: Ma la vuoi smettere di floodarmi fottuto mongoloide speriamo crepi presto
+
 scene_end: Comando concluso!
