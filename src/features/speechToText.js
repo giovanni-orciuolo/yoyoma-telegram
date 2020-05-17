@@ -151,8 +151,8 @@ const speechToText = async (ctx) => {
     let extractedText = ''
     while (!success) {
       try {
-        const { _text } = await extractSpeech(voiceStreamConverted, 'audio/mpeg3')
-        extractedText = _text
+        const { text } = await extractSpeech(voiceStreamConverted, 'audio/mpeg3')
+        extractedText = text
         success = true
       } catch (err) {
         console.error('[S2T] Error while parsing speech to text!', err)
