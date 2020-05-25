@@ -40,6 +40,7 @@ ytaudio__too_long: This video is too long man. Do you want to kill me? Host this
 
 config__manage: Settings for group "${group_name}"
 config__transcriber_enabled: Transcriber ${enabled}
+config__react_enabled: Reaction to text ${enabled}
 config__i18n_locale: "Language: ${locale}"
 config__error: Error during config retrieval for this chat!
 
@@ -55,6 +56,6 @@ tesseract__start: Send me a picture and I will try to transcribe the text on it,
 tesseract__not_photo: This message does not contain a picture. Are you dense? I told you to give me a fucking picture
 tesseract__progress: I'm transcribing this image... ${progress}%
 
-rl__exceeded: Rate limit exceeded! Can you slow down you fucking moron...
+rl__exceeded: Can you guys fucking stop spamming? Thanks
 
 scene_end: Command concluded!

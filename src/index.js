@@ -15,11 +15,10 @@ const { sendRandomComic } = require('./features/cyanideComicGenerator')
 const { manageGroupRSS, sceneListenRss } = require('./features/rss/rssManager')
 const { coinFlip } = require('./features/coinFlip')
 const { sendYoutubeAudio } = require('./features/youtubeAudio')
-const { manageGroupConfig, setChatConfig } = require('./features/configManager')
+const { manageGroupConfig, setChatConfig, getChatConfig } = require('./features/configManager')
 const { sceneSticker, enterStickerIdScene } = require('./features/stickerId')
 const { sceneTesseract, enterTesseractScene } = require('./features/imageToText')
 const { sendRandomCAH } = require('./features/cahGenerator')
-const { sendMinecraftServerStatus } = require('./features/minecraftServerStatus')
 
 const isAdmin = require('./utils/isAdmin')
 
@@ -38,23 +37,34 @@ bot.use(stage.middleware())
 bot.use(commandParts())
 bot.use(rateLimit({
   window: 1000,
-  limit: 1,
+  limit: 10,
   onLimitExceeded: ctx => ctx.reply(ctx.i18n.t('rl__exceeded'))
 }))
 
 bot.start((ctx) => ctx.reply(ctx.i18n.t('welcome')))
 bot.catch((err) => console.error('Ops! Questo è imbarazzante:', err))
 
+function replyWithSticker(ctx, stickerId) {
+  if (getChatConfig().react_to_text_enabled) {
+    ctx.replyWithSticker(stickerId)
+  }
+}
+function replyWithVoice(ctx, voicePath) {
+  if (getChatConfig().react_to_text_enabled) {
+    ctx.replyWithVoice({ source: fs.createReadStream(voicePath) })
+  }
+}
+
 // Meme hears lol
-bot.hears(/yo angelo/gi, ctx => ctx.replyWithSticker('CAADBAADXQADgYLEFulxnwk8dDafAg'))
-bot.hears(/nyo-ho ho/gi, ctx => ctx.replyWithSticker('CAADBAADZQADgYLEFtlofF9toBD-Ag'))
-bot.hears(/drugs/gi, ctx => ctx.replyWithSticker('CAADBAADLwADgYLEFimHsG12ODxiAg'))
-bot.hears(/heaven/gi, ctx => ctx.replyWithSticker('CAADBAADXgADgYLEFnB82EiqvePzAg'))
-bot.hears(/ruru/gi, ctx => ctx.replyWithSticker('CAADBAADggADgYLEFmcYqG7UNZ4KAg'))
-bot.hears(/kuyashi/gi, ctx => ctx.replyWithSticker('CAADBAADmwADgYLEFpNmMrKg7JTJFgQ'))
-bot.hears(/za warudo/gi, ctx => ctx.replyWithAudio('https://instaud.io/_/3q1A.mp3'))
-bot.hears(/the world/gi, ctx => ctx.replyWithAudio('https://instaud.io/_/3q1A.mp3'))
-bot.hears('merda', ctx => ctx.replyWithVoice({ source: fs.createReadStream('./assets/merda.ogg') }))
+bot.hears(/yo angelo/gi, ctx => replyWithSticker(ctx, 'CAADBAADXQADgYLEFulxnwk8dDafAg'))
+bot.hears(/nyo-ho ho/gi, ctx => replyWithSticker(ctx, 'CAADBAADZQADgYLEFtlofF9toBD-Ag'))
+bot.hears(/drugs/gi, ctx => replyWithSticker(ctx, 'CAADBAADLwADgYLEFimHsG12ODxiAg'))
+bot.hears(/heaven/gi, ctx => replyWithSticker(ctx, 'CAADBAADXgADgYLEFnB82EiqvePzAg'))
+bot.hears(/ruru/gi, ctx => replyWithSticker(ctx, 'CAADBAADggADgYLEFmcYqG7UNZ4KAg'))
+bot.hears(/kuyashi/gi, ctx => replyWithSticker(ctx, 'CAADBAADmwADgYLEFpNmMrKg7JTJFgQ'))
+bot.hears(/za warudo/gi, ctx => replyWithVoice(ctx, './assets/zawarudo.ogg'))
+bot.hears(/the world/gi, ctx => replyWithVoice(ctx, './assets/zawarudo.ogg'))
+bot.hears('merda', ctx => replyWithVoice(ctx, './assets/merda.ogg'))
 
 // Real commands
 bot.command('lyrics', geniusSearch)
@@ -66,8 +76,8 @@ bot.command('config', manageGroupConfig)
 bot.command('stickerid', enterStickerIdScene)
 bot.command('tesseract', enterTesseractScene)
 bot.command('cah', sendRandomCAH)
-bot.command('mcstatus', sendMinecraftServerStatus)
-// bot.command('cyanide', sendRandomComic) NOT WORKING
+bot.command('rcg', sendRandomComic)
+// bot.command('mcstatus', sendMinecraftServerStatus) NOT WORKING - The server is not active anymore
 // bot.command('pokefusion', sendRandomPokeFusion) NOT WORKING - Needs Puppeteer on Docker
 
 // Scene commands
