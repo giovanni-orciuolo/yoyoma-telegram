@@ -26,7 +26,8 @@ coin - Just flips a coin
 // pokefusion - Generate a random Pokémon fusion and prints its Pokédex entry [Disabled because it's not working yet in production mode]
 stickerid - Get a sticker id
 tesseract - Tries to transcribe text from an image (it isn't really good at it)
-fbvideo - Tries to download a Facebook video from URL and send it to you
+cah - Sends a random Cards Against Humanity combination. It's fun sometimes... I swear!
+ratecock - Rates the cock of whoever you mention
 ```
 
 There are also some random hears just for the sake of it

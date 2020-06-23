@@ -14,11 +14,12 @@ const { searchScp } = require('./features/scpSearcher')
 const { sendRandomComic } = require('./features/cyanideComicGenerator')
 const { manageGroupRSS, sceneListenRss } = require('./features/rss/rssManager')
 const { coinFlip } = require('./features/coinFlip')
-const { sendYoutubeAudio } = require('./features/youtubeAudio')
+// const { sendYoutubeAudio } = require('./features/youtubeAudio')
 const { manageGroupConfig, setChatConfig, getChatConfig } = require('./features/configManager')
 const { sceneSticker, enterStickerIdScene } = require('./features/stickerId')
 const { sceneTesseract, enterTesseractScene } = require('./features/imageToText')
 const { sendRandomCAH } = require('./features/cahGenerator')
+const { sendCockRate } = require('./features/rateCock')
 
 const isAdmin = require('./utils/isAdmin')
 
@@ -67,16 +68,17 @@ bot.hears(/the world/gi, ctx => replyWithVoice(ctx, './assets/zawarudo.ogg'))
 bot.hears('merda', ctx => replyWithVoice(ctx, './assets/merda.ogg'))
 
 // Real commands
+bot.command('config', manageGroupConfig)
 bot.command('lyrics', geniusSearch)
 bot.command('scp', searchScp)
-bot.command('rss', manageGroupRSS)
+bot.command('rcg', sendRandomComic)
 bot.command('coin', coinFlip)
-bot.command('ytaudio', sendYoutubeAudio)
-bot.command('config', manageGroupConfig)
 bot.command('stickerid', enterStickerIdScene)
 bot.command('tesseract', enterTesseractScene)
 bot.command('cah', sendRandomCAH)
-bot.command('rcg', sendRandomComic)
+bot.command('ratecock', sendCockRate)
+bot.command('rss', manageGroupRSS) // STILL IN DEVELOPMENT
+// bot.command('ytaudio', sendYoutubeAudio) DISABLED because it causes too much CPU usage on my little VPS
 // bot.command('mcstatus', sendMinecraftServerStatus) NOT WORKING - The server is not active anymore
 // bot.command('pokefusion', sendRandomPokeFusion) NOT WORKING - Needs Puppeteer on Docker
 
