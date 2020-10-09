@@ -36,7 +36,8 @@ const manageGroupConfig = async (ctx) => {
   // Default config
   const DEFAULT_CONFIG = {
     current_config_message: 0,
-    transcriber_enabled: true
+    transcriber_enabled: true,
+    react_to_text_enabled: true,
   }
 
   try {
@@ -68,7 +69,8 @@ const manageGroupConfig = async (ctx) => {
       ...Extra.markup(m =>
         m.inlineKeyboard([
           buildBooleanTrigger('config__transcriber_enabled', 'transcriber', chatConfig.transcriber_enabled),
-          m.callbackButton(ctx.i18n.t('config__i18n_locale', { locale: ctx.i18n.locale().toUpperCase() }), 'config__switch_locale')
+          m.callbackButton(ctx.i18n.t('config__i18n_locale', { locale: ctx.i18n.locale().toUpperCase() }), 'config__switch_locale'),
+          buildBooleanTrigger('config__react_enabled', 'react_to_text', chatConfig.react_to_text_enabled),
         ])
       )
     })

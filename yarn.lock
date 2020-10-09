@@ -231,6 +231,10 @@ bluebird@^3.5.0:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.3.tgz#7d01c6f9616c9a51ab0f8c549a79dfe6ec33efa7"
 
+bmp-js@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/bmp-js/-/bmp-js-0.1.0.tgz#e05a63f796a6c1ff25f4771ec7adadc148c07233"
+
 boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
@@ -320,6 +324,10 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.4.2:
 chardet@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
+
+check-types@^7.4.0:
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/check-types/-/check-types-7.4.0.tgz#0378ec1b9616ec71f774931a3c6516fad8c152f4"
 
 cheerio@^0.19.0:
   version "0.19.0"
@@ -993,6 +1001,10 @@ file-entry-cache@^5.0.1:
   dependencies:
     flat-cache "^2.0.1"
 
+file-type@^10.5.0:
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/file-type/-/file-type-10.11.0.tgz#2961d09e4675b9fb9a3ee6b69e9cd23f43fd1890"
+
 fill-range@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-4.0.0.tgz#d544811d428f98eb06a63dc402d2403c328c38f7"
@@ -1318,6 +1330,10 @@ iconv-lite@^0.4.24, iconv-lite@^0.4.4:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
+idb-keyval@^3.1.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/idb-keyval/-/idb-keyval-3.2.0.tgz#cbbf354deb5684b6cdc84376294fc05932845bd6"
+
 ignore-by-default@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ignore-by-default/-/ignore-by-default-1.0.1.tgz#48ca6d72f6c6a3af00a9ad4ae6876be3889e2b09"
@@ -1532,6 +1548,14 @@ is-stream@^1.0.0, is-stream@^1.1.0:
 is-typedarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
+
+is-url@1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/is-url/-/is-url-1.2.2.tgz#498905a593bf47cc2d9e7f738372bbf7696c7f26"
+
+is-url@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/is-url/-/is-url-1.2.4.tgz#04a4df46d28c4cff3d73d01ff06abeb318a1aa52"
 
 is-windows@^1.0.2:
   version "1.0.2"
@@ -1862,6 +1886,10 @@ node-fetch@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.3.0.tgz#1a1d940bbfb916a1d3e0219f037e89e71f8c5fa5"
 
+node-fetch@^2.3.0, node-fetch@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
+
 node-pre-gyp@^0.10.0:
   version "0.10.3"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.10.3.tgz#3070040716afdc778747b61b6887bf78880b80fc"
@@ -1876,10 +1904,6 @@ node-pre-gyp@^0.10.0:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
-
-node-witai-speech@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/node-witai-speech/-/node-witai-speech-1.0.2.tgz#9a0628f734398adcd9ecdde6d885ccd6ab284a9f"
 
 nodemon@^1.18.10:
   version "1.18.10"
@@ -2007,6 +2031,10 @@ onetime@^2.0.0:
   resolved "https://registry.yarnpkg.com/onetime/-/onetime-2.0.1.tgz#067428230fd67443b2794b22bba528b6867962d4"
   dependencies:
     mimic-fn "^1.0.0"
+
+opencollective-postinstall@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
 
 optionator@^0.8.2:
   version "0.8.2"
@@ -2141,9 +2169,9 @@ pkg-dir@^2.0.0:
   dependencies:
     find-up "^2.1.0"
 
-pokefusion-api@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/pokefusion-api/-/pokefusion-api-1.0.4.tgz#0d06207fd0eff322b79e3467389f30cf90e9eeea"
+pokefusion-api@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/pokefusion-api/-/pokefusion-api-1.0.5.tgz#5447b18a913c188eb6c86edfaf95dc32128ab00f"
   dependencies:
     puppeteer "^1.17.0"
 
@@ -2367,7 +2395,7 @@ request@2.81.0:
     tunnel-agent "^0.6.0"
     uuid "^3.0.0"
 
-request@2.88.0, request@^2.58.0:
+request@2.88.0, request@^2.58.0, request@latest:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   dependencies:
@@ -2757,6 +2785,12 @@ telegraf-i18n@^6.5.0:
     debug "^4.0.1"
     js-yaml "^3.6.1"
 
+telegraf-ratelimit@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/telegraf-ratelimit/-/telegraf-ratelimit-2.0.0.tgz#64c72d77913901f92c690cd9078b1f724ef4268a"
+  dependencies:
+    debug "^3.1.0"
+
 telegraf@^3.1.0, telegraf@^3.27.1:
   version "3.27.1"
   resolved "https://registry.yarnpkg.com/telegraf/-/telegraf-3.27.1.tgz#67fbd87a6b4f414a204820f8cb30160e2078b39c"
@@ -2776,6 +2810,34 @@ term-size@^1.2.0:
   resolved "https://registry.yarnpkg.com/term-size/-/term-size-1.2.0.tgz#458b83887f288fc56d6fffbfad262e26638efa69"
   dependencies:
     execa "^0.7.0"
+
+tesseract.js-core@^2.0.0-beta.10:
+  version "2.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/tesseract.js-core/-/tesseract.js-core-2.0.0-beta.10.tgz#b8f0dd2be4686650c4350f648900adccfaf58d6b"
+
+tesseract.js-utils@^1.0.0-beta.8:
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/tesseract.js-utils/-/tesseract.js-utils-1.0.0-beta.8.tgz#d1ef25c12609a337c3e0ac12a33f9903f3145a68"
+  dependencies:
+    axios "^0.18.0"
+    bmp-js "^0.1.0"
+    file-type "^10.5.0"
+    idb-keyval "^3.1.0"
+    is-url "^1.2.4"
+    zlibjs "^0.3.1"
+
+tesseract.js@^2.0.0-alpha.13:
+  version "2.0.0-alpha.13"
+  resolved "https://registry.yarnpkg.com/tesseract.js/-/tesseract.js-2.0.0-alpha.13.tgz#87bb3d71fe646c0993b073552241d203d9dfef3a"
+  dependencies:
+    axios "^0.18.0"
+    check-types "^7.4.0"
+    is-url "1.2.2"
+    node-fetch "^2.3.0"
+    opencollective-postinstall "^2.0.2"
+    resolve-url "^0.2.1"
+    tesseract.js-core "^2.0.0-beta.10"
+    tesseract.js-utils "^1.0.0-beta.8"
 
 text-table@^0.2.0:
   version "0.2.0"
@@ -3071,3 +3133,7 @@ ytdl-core@0.28.3:
     m3u8stream "^0.6.2"
     miniget "^1.4.0"
     sax "^1.1.3"
+
+zlibjs@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/zlibjs/-/zlibjs-0.3.1.tgz#50197edb28a1c42ca659cc8b4e6a9ddd6d444554"

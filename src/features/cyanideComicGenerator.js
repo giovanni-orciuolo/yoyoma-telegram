@@ -10,11 +10,9 @@ const randomCyanideComic = () => {
         reject()
 
       const $ = cheerio.load(html)
-      const comic = $('#rcg-comic > img').attr('src')
       const permalink = $('#permalink').attr('value')
 
       resolve({
-        image: comic.substr(2, comic.length),
         permalink: permalink
       })
     })
@@ -23,8 +21,7 @@ const randomCyanideComic = () => {
 const sendRandomComic = async (ctx) => {
   try {
     const comic = await randomCyanideComic()
-    return ctx.replyWithPhoto(comic.image, {
-      caption: `Permalink: ${comic.permalink}`,
+    return ctx.reply(comic.permalink, {
       reply_to_message_id: ctx.message.message_id,
       disable_notification: true
     })

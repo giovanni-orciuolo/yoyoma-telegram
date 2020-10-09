@@ -18,9 +18,10 @@ WORKDIR /home/app
 
 # Copy package.json
 COPY package.json /home/app/package.json
+COPY yarn.lock /home/app/yarn.lock
 
 # Install dependencies
-RUN npm install
+RUN yarn --prod --ignore-engines
 
 # Copy project source files
 COPY . /home/app

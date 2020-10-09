@@ -34,6 +34,6 @@ node_modules
 now-secrets.json
 .env
 
-# Audio files, but keep directory
-!audio/.gitkeep
+# Files
 audio/*
+video/*

@@ -5,6 +5,7 @@ const telegrafI18N = require('telegraf-i18n')
 const commandParts = require('telegraf-command-parts')
 const session = require('telegraf/session')
 const Stage = require('telegraf/stage')
+const rateLimit = require('telegraf-ratelimit')
 const fs = require('fs')
 
 const { geniusSearch } = require('./features/geniusSearch')
@@ -13,9 +14,12 @@ const { searchScp } = require('./features/scpSearcher')
 const { sendRandomComic } = require('./features/cyanideComicGenerator')
 const { manageGroupRSS, sceneListenRss } = require('./features/rss/rssManager')
 const { coinFlip } = require('./features/coinFlip')
-const { sendYoutubeAudio } = require('./features/youtubeAudio')
-const { manageGroupConfig, setChatConfig } = require('./features/configManager')
+// const { sendYoutubeAudio } = require('./features/youtubeAudio')
+const { manageGroupConfig, setChatConfig, getChatConfig } = require('./features/configManager')
 const { sceneSticker, enterStickerIdScene } = require('./features/stickerId')
+const { sceneTesseract, enterTesseractScene } = require('./features/imageToText')
+const { sendRandomCAH } = require('./features/cahGenerator')
+const { sendCockRate } = require('./features/rateCock')
 
 const isAdmin = require('./utils/isAdmin')
 
@@ -26,49 +30,69 @@ const i18n = new telegrafI18N({
   allowMissing: true,
   useSession: true,
 })
-const stage = new Stage([ sceneListenRss, sceneSticker ], { ttl: 10 })
+const stage = new Stage([ sceneListenRss, sceneSticker, sceneTesseract ], { ttl: 10 })
 
 bot.use(session())
 bot.use(i18n.middleware())
 bot.use(stage.middleware())
 bot.use(commandParts())
+bot.use(rateLimit({
+  window: 1000,
+  limit: 10,
+  onLimitExceeded: ctx => ctx.reply(ctx.i18n.t('rl__exceeded'))
+}))
 
 bot.start((ctx) => ctx.reply(ctx.i18n.t('welcome')))
 bot.catch((err) => console.error('Ops! Questo è imbarazzante:', err))
 
+function replyWithSticker(ctx, stickerId) {
+  if (getChatConfig().react_to_text_enabled) {
+    ctx.replyWithSticker(stickerId)
+  }
+}
+function replyWithVoice(ctx, voicePath) {
+  if (getChatConfig().react_to_text_enabled) {
+    ctx.replyWithVoice({ source: fs.createReadStream(voicePath) })
+  }
+}
+
 // Meme hears lol
-bot.hears(/yo angelo/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXQADgYLEFulxnwk8dDafAg'))
-bot.hears(/nyo-ho ho/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADZQADgYLEFtlofF9toBD-Ag'))
-bot.hears(/drugs/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADLwADgYLEFimHsG12ODxiAg'))
-bot.hears(/heaven/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADXgADgYLEFnB82EiqvePzAg'))
-bot.hears(/ruru/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADggADgYLEFmcYqG7UNZ4KAg'))
-bot.hears(/kuyashi/gi, ({ replyWithSticker }) => replyWithSticker('CAADBAADmwADgYLEFpNmMrKg7JTJFgQ'))
-bot.hears(/za warudo/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
-bot.hears(/the world/gi, ({ replyWithAudio }) => replyWithAudio('https://instaud.io/_/3q1A.mp3'))
-bot.hears('merda', (ctx) => ctx.replyWithVoice({ source: fs.createReadStream('./assets/merda.ogg') }))
+bot.hears(/yo angelo/gi, ctx => replyWithSticker(ctx, 'CAADBAADXQADgYLEFulxnwk8dDafAg'))
+bot.hears(/nyo-ho ho/gi, ctx => replyWithSticker(ctx, 'CAADBAADZQADgYLEFtlofF9toBD-Ag'))
+bot.hears(/drugs/gi, ctx => replyWithSticker(ctx, 'CAADBAADLwADgYLEFimHsG12ODxiAg'))
+bot.hears(/heaven/gi, ctx => replyWithSticker(ctx, 'CAADBAADXgADgYLEFnB82EiqvePzAg'))
+bot.hears(/ruru/gi, ctx => replyWithSticker(ctx, 'CAADBAADggADgYLEFmcYqG7UNZ4KAg'))
+bot.hears(/kuyashi/gi, ctx => replyWithSticker(ctx, 'CAADBAADmwADgYLEFpNmMrKg7JTJFgQ'))
+bot.hears(/za warudo/gi, ctx => replyWithVoice(ctx, './assets/zawarudo.ogg'))
+bot.hears(/the world/gi, ctx => replyWithVoice(ctx, './assets/zawarudo.ogg'))
+bot.hears('merda', ctx => replyWithVoice(ctx, './assets/merda.ogg'))
 
 // Real commands
-bot.command('lyrics', (ctx) => geniusSearch(ctx))
-bot.command('scp', (ctx) => searchScp(ctx))
-//bot.command('cyanide', (ctx) => sendRandomComic(ctx))
-bot.command('rss', (ctx) => manageGroupRSS(ctx))
-bot.command('coin', (ctx) => coinFlip(ctx))
-bot.command('ytaudio', (ctx) => sendYoutubeAudio(ctx))
-bot.command('config', (ctx) => manageGroupConfig(ctx))
-bot.command('stickerid', (ctx) => enterStickerIdScene(ctx))
-// bot.command('pokefusion', sendRandomPokeFusion)
+bot.command('config', manageGroupConfig)
+bot.command('lyrics', geniusSearch)
+bot.command('scp', searchScp)
+bot.command('rcg', sendRandomComic)
+bot.command('coin', coinFlip)
+bot.command('stickerid', enterStickerIdScene)
+bot.command('tesseract', enterTesseractScene)
+bot.command('cah', sendRandomCAH)
+bot.command('ratecock', sendCockRate)
+bot.command('rss', manageGroupRSS) // STILL IN DEVELOPMENT
+// bot.command('ytaudio', sendYoutubeAudio) DISABLED because it causes too much CPU usage on my little VPS
+// bot.command('mcstatus', sendMinecraftServerStatus) NOT WORKING - The server is not active anymore
+// bot.command('pokefusion', sendRandomPokeFusion) NOT WORKING - Needs Puppeteer on Docker
 
 // Scene commands
-bot.command('back', (ctx) => ctx.scene.leave())
+bot.command('back', ctx => ctx.scene.leave())
 
 // Message listener
-bot.on('message', (ctx) => speechToText(ctx))
+bot.on('message', speechToText)
 
 // Actions
-bot.action('rss_new_feed', (ctx) => ctx.scene.enter('listenRSS'))
+bot.action('rss_new_feed', ctx => ctx.scene.enter('listenRSS'))
 
 // Config actions
-bot.action('config__enable_transcriber', async (ctx) => {
+bot.action('config__enable_transcriber', async ctx => {
   try {
     if (!await isAdmin(ctx)) return
     setChatConfig(ctx, { transcriber_enabled: true })
@@ -77,7 +101,7 @@ bot.action('config__enable_transcriber', async (ctx) => {
     console.error(err)
   }
 })
-bot.action('config__disable_transcriber', async (ctx) => {
+bot.action('config__disable_transcriber', async ctx => {
   try {
     if (!await isAdmin(ctx)) return
     setChatConfig(ctx, { transcriber_enabled: false })
@@ -86,7 +110,7 @@ bot.action('config__disable_transcriber', async (ctx) => {
     console.error(err)
   }
 })
-bot.action('config__switch_locale', async (ctx) => {
+bot.action('config__switch_locale', async ctx => {
   try {
     if (!await isAdmin(ctx)) return
     ctx.i18n.locale(ctx.i18n.locale() === 'it' ? 'en' : 'it')

@@ -1,13 +1,13 @@
-const witSpeech = require('node-witai-speech')
 const fs = require('fs')
 const https = require('https')
 const mime = require('mime-types')
 const ffmpeg = require('fluent-ffmpeg')
+const fetch = require('node-fetch')
 const { getAudioDurationInSeconds } = require('get-audio-duration')
 const { getChatConfig } = require('./configManager')
+const { TELEGRAM_FILE_URL } = require('../utils/constants')
 
 const WITAI_TOKEN = process.env.WITAI_TOKEN
-const TELEGRAM_FILE_URL = "https://api.telegram.org/file"
 const AUDIO_SIZE_LIMIT = 500000000 // 500 mb
 const AUDIO_DURATION_LIMIT = 120 // secs
 const SEGMENT_TIME = 15 // secs
@@ -58,10 +58,16 @@ const splitAudio = (audioPath, audioFileName, segmentTime = SEGMENT_TIME) => {
 
 const extractSpeech = (stream, contentType) => {
   return new Promise((resolve, reject) => {
-    witSpeech.extractSpeechIntent(WITAI_TOKEN, stream, contentType, {}, (err, res) => {
-      if (err) return reject(err)
-      resolve(res)
-    })
+    fetch("https://api.wit.ai/speech", {
+      method: "POST",
+      body: stream,
+      headers: {
+        "Authorization": `Bearer ${WITAI_TOKEN}`,
+        "Content-Type": contentType
+      }
+    }).then(res => res.json())
+      .then(resolve)
+      .catch(reject)
   })
 }
 
@@ -151,8 +157,8 @@ const speechToText = async (ctx) => {
     let extractedText = ''
     while (!success) {
       try {
-        const { _text } = await extractSpeech(voiceStreamConverted, 'audio/mpeg3')
-        extractedText = _text
+        const { text } = await extractSpeech(voiceStreamConverted, 'audio/mpeg3')
+        extractedText = text
         success = true
       } catch (err) {
         console.error('[S2T] Error while parsing speech to text!', err)
@@ -180,6 +186,7 @@ const speechToText = async (ctx) => {
         chatId = chat.id
         messageText = extractedText
       } catch (err) {
+        console.error("Error while adding text to speech message: ", err)
         continue
       }
     } else {
@@ -187,6 +194,7 @@ const speechToText = async (ctx) => {
       try {
         await ctx.telegram.editMessageText(chatId, messageId, null, messageText)
       } catch (err) {
+        console.error("Error while adding text to speech message: ", err)
         continue
       }
     }

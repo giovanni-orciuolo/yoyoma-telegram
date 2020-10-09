@@ -40,6 +40,7 @@ ytaudio__too_long: Questo video è troppo lungo, vuoi per caso uccidermi? Eh? Ho
 
 config__manage: Settings per la chat "${group_name}"
 config__transcriber_enabled: Transcriber ${enabled}
+config__react_enabled: Reazione a testo ${enabled}
 config__i18n_locale: "Lingua: ${locale}"
 config__error: Errore durante il recupero della configurazione per questa chat!
 
@@ -50,5 +51,11 @@ fusion__fail: Non sono riuscito a fondere i 2 Pokémon, sono riusciti a fuggire!
 sid__start: Mandami uno sticker e ti dirò il suo id
 sid__no_sticker: Per favore manda uno sticker così posso dirti il suo id!
 sid__sticker: Questo sticker ha come id ${sticker_id}
+
+tesseract__start: Mandami una foto e cercherò di trascrivere il testo che contiene, se è presente
+tesseract__not_photo: Ma questo messaggio non contiene una foto imbecille
+tesseract__progress: Sto cercando di trascrivere questa immagine... ${progress}%
+
+rl__exceeded: Ma che oooh la volete smettere di spammarmi
 
 scene_end: Comando concluso!

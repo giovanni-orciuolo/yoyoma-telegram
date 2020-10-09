@@ -20,10 +20,14 @@ The bot runs the following commands:
 config - Open config manager for this chat. Requires admin rights if issued in a group
 lyrics - Search songs on Genius by lyrics
 scp - Search a random SCP or pass a number to search exact SCP
-cyanide - Generate and send a random Cyanide and Happiness comic
+rcg - Generate and send a random Cyanide and Happiness comic (taken from http://explosm.net/rcg)
 coin - Just flips a coin
-ytaudio - Search a video on Youtube and download audio from it
-pokefusion - Generate a random Pokémon fusion and prints its Pokédex entry
+// ytaudio - Search a video on Youtube and download audio from it [Disabled due to high CPU usage]
+// pokefusion - Generate a random Pokémon fusion and prints its Pokédex entry [Disabled because it's not working yet in production mode]
+stickerid - Get a sticker id
+tesseract - Tries to transcribe text from an image (it isn't really good at it)
+cah - Sends a random Cards Against Humanity combination. It's fun sometimes... I swear!
+ratecock - Rates the cock of whoever you mention
 ```
 
 There are also some random hears just for the sake of it

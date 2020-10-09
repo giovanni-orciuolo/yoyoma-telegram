@@ -40,6 +40,7 @@ ytaudio__too_long: This video is too long man. Do you want to kill me? Host this
 
 config__manage: Settings for group "${group_name}"
 config__transcriber_enabled: Transcriber ${enabled}
+config__react_enabled: Reaction to text ${enabled}
 config__i18n_locale: "Language: ${locale}"
 config__error: Error during config retrieval for this chat!
 
@@ -50,5 +51,11 @@ fusion__fail: Couldn't fuse the 2 Pokémons, they managed to escape! Those basta
 sid__start: Send me a sticker and I will tell you its id
 sid__no_sticker: Please send a sticker so I can get its id!
 sid__sticker: Sticker id is ${sticker_id}
+
+tesseract__start: Send me a picture and I will try to transcribe the text on it, if present
+tesseract__not_photo: This message does not contain a picture. Are you dense? I told you to give me a fucking picture
+tesseract__progress: I'm transcribing this image... ${progress}%
+
+rl__exceeded: Can you guys fucking stop spamming? Thanks
 
 scene_end: Command concluded!
