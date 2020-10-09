@@ -27,7 +27,6 @@
     "mime-types": "^2.1.24",
     "moment": "^2.24.0",
     "node-fetch": "^2.6.0",
-    "node-witai-speech": "^1.0.2",
     "pokefusion-api": "^1.0.5",
     "request": "latest",
     "rss-feed-emitter": "^2.0.1",
