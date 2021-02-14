@@ -73,6 +73,7 @@ const extractSpeech = (stream, contentType) => {
 
 const speechToText = async (ctx) => {
   if (!ctx.message.voice) return
+  const STR_IS_TRANSCRIBING = " [...]";
 
   const cfg = getChatConfig(ctx)
   if (cfg && !cfg.transcriber_enabled) return
@@ -150,7 +151,8 @@ const speechToText = async (ctx) => {
   const splitFiles = fs.readdirSync('audio/').filter(file => file.startsWith(`split_${voiceFile.file_id}`))
   let firstTime = true, chatId = -1, messageId = -1, messageText = '', extractionAttempts = 0
 
-  for (const file of splitFiles) {
+  for (let i = 0; i < splitFiles.length; ++i) {
+    const file = splitFiles[i];
     const voiceStreamConverted = fs.createReadStream(`audio/${file}`)
     let success = false
 
@@ -178,6 +180,7 @@ const speechToText = async (ctx) => {
 
     if (firstTime) {
       try {
+        extractedText += (splitFiles.length === 1) ? "" : STR_IS_TRANSCRIBING
         const { message_id, chat } = await ctx.reply(extractedText, {
           reply_to_message_id: ctx.message.message_id,
           disable_notification: true
@@ -190,7 +193,9 @@ const speechToText = async (ctx) => {
         continue
       }
     } else {
-      messageText += ` ${extractedText}`
+      messageText = messageText.replace(STR_IS_TRANSCRIBING, "")
+      messageText += !!extractedText ? ` ${extractedText}` : ""
+      messageText += (i !== splitFiles.length - 1) ? STR_IS_TRANSCRIBING : ""
       try {
         await ctx.telegram.editMessageText(chatId, messageId, null, messageText)
       } catch (err) {

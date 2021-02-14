@@ -59,3 +59,6 @@ tesseract__progress: I'm transcribing this image... ${progress}%
 rl__exceeded: Can you guys fucking stop spamming? Thanks
 
 scene_end: Command concluded!
+
+fbvideo__download_failed: Failed to get Facebook video... Maybe the URL you gave me is incorrect? Is it a valid Facebook URL? Are you, perhaps, joking with me? Eh? Not nice man...
+fbvideo__download_success: Here's the video. Have fun!

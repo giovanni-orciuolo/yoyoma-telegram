@@ -1,5 +1,4 @@
 const fetch = require('node-fetch')
-const fs = require('fs')
 const { replyWithOptionalImage } = require('../utils/replyWithOptionalImage')
 
 const sendMinecraftServerStatus = async ctx => {

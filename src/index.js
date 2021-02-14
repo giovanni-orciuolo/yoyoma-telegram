@@ -20,6 +20,8 @@ const { sceneSticker, enterStickerIdScene } = require('./features/stickerId')
 const { sceneTesseract, enterTesseractScene } = require('./features/imageToText')
 const { sendRandomCAH } = require('./features/cahGenerator')
 const { sendCockRate } = require('./features/rateCock')
+const { sendMinecraftServerStatus } = require("./features/minecraftServerStatus")
+const { sendFacebookVideo } = require('./features/facebookVideo')
 
 const isAdmin = require('./utils/isAdmin')
 
@@ -77,9 +79,10 @@ bot.command('stickerid', enterStickerIdScene)
 bot.command('tesseract', enterTesseractScene)
 bot.command('cah', sendRandomCAH)
 bot.command('ratecock', sendCockRate)
+bot.command('mcstatus', sendMinecraftServerStatus)
 bot.command('rss', manageGroupRSS) // STILL IN DEVELOPMENT
+bot.command('fbvideo', sendFacebookVideo) // STILL IN DEVELOPMENT
 // bot.command('ytaudio', sendYoutubeAudio) DISABLED because it causes too much CPU usage on my little VPS
-// bot.command('mcstatus', sendMinecraftServerStatus) NOT WORKING - The server is not active anymore
 // bot.command('pokefusion', sendRandomPokeFusion) NOT WORKING - Needs Puppeteer on Docker
 
 // Scene commands
