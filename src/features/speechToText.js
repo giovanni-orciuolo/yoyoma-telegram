@@ -181,7 +181,7 @@ const speechToText = async (ctx) => {
     if (firstTime) {
       try {
         extractedText += (splitFiles.length === 1) ? "" : STR_IS_TRANSCRIBING
-        const { message_id, chat } = await ctx.reply(extractedText, {
+        const { message_id, chat } = await ctx.reply(extractedText || "Non ho capito", {
           reply_to_message_id: ctx.message.message_id,
           disable_notification: true
         })
