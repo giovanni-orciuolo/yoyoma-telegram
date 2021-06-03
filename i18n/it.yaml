@@ -62,3 +62,5 @@ scene_end: Comando concluso!
 
 fbvideo__download_failed: Non sono riuscito a prendere il video dall'URL che mi hai passato. Sei sicuro che sia un URL valido di Facebook? Mi stai a piglià pe culo? Eh? EH?
 fbvideo__download_success: Ecco il video, divertiti!
+
+tiktok__invalid_url: Passami un link video valido di TikTok per scaricare il video!
