@@ -64,3 +64,6 @@ fbvideo__download_failed: Failed to get Facebook video... Maybe the URL you gave
 fbvideo__download_success: Here's the video. Have fun!
 
 tiktok__invalid_url: Pass me a valid TikTok video URL to download it!
+
+dt__error: Couldn't generate DadoText...
+

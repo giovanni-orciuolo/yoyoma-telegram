@@ -23,6 +23,7 @@ const { sendCockRate } = require('./features/rateCock')
 const { sendMinecraftServerStatus } = require("./features/minecraftServerStatus")
 const { sendFacebookVideo } = require('./features/facebookVideo')
 const { sendTikTokVideo } = require('./features/tiktok')
+const { sendDadoText } = require('./features/dadotext')
 
 const isAdmin = require('./utils/isAdmin')
 
@@ -86,6 +87,7 @@ bot.command('fbvideo', sendFacebookVideo) // STILL IN DEVELOPMENT
 // bot.command('ytaudio', sendYoutubeAudio) DISABLED because it causes too much CPU usage on my little VPS
 // bot.command('pokefusion', sendRandomPokeFusion) NOT WORKING - Needs Puppeteer on Docker
 bot.command('tiktok', sendTikTokVideo)
+bot.command('dadotext', sendDadoText)
 
 // Scene commands
 bot.command('back', ctx => ctx.scene.leave())
