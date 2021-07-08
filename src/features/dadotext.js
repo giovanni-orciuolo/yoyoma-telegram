@@ -32,7 +32,7 @@ const sendDadoText = async (ctx) => {
       reply_to_message_id: ctx.message.message_id,
       disable_notification: true
     })
-    await deleteFile(outputPath)
+    outputPath && await deleteFile(outputPath)
   }
 }
 
