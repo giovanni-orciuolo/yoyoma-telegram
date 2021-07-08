@@ -20,9 +20,10 @@ const writeTextOnVideo = (videoPath, text) => {
 }
 
 const sendDadoText = async (ctx) => {
+  let outputPath;
   try {
     const text = ctx.state.command.args;
-    const outputPath = await writeTextOnVideo(`assets/dadobax.mp4`, text);
+    outputPath = await writeTextOnVideo(`assets/dadobax.mp4`, text);
     await ctx.telegram.sendAnimation(ctx.chat.id, { source: outputPath })
     await deleteFile(outputPath)
   } catch (err) {
