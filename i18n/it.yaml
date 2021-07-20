@@ -64,3 +64,5 @@ fbvideo__download_failed: Non sono riuscito a prendere il video dall'URL che mi 
 fbvideo__download_success: Ecco il video, divertiti!
 
 tiktok__invalid_url: Passami un link video valido di TikTok per scaricare il video!
+
+dt__error: Non sono riuscito a generare il video...
