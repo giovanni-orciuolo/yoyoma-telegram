@@ -72,13 +72,13 @@ const extractSpeech = (stream, contentType) => {
 }
 
 const speechToText = async (ctx) => {
-  if (!ctx.message.voice && !ctx.message.audio && !ctx.message.video && !ctx.message.video_note) return
+  if (!ctx.message.voice && !ctx.message.audio && !ctx.message.video_note) return
 
   // Extract variables from the present container
   const {
     file_id,
     mime_type,
-  } = ctx.message.voice || ctx.message.audio || ctx.message.video || ctx.message.video_note
+  } = ctx.message.voice || ctx.message.audio || ctx.message.video_note
 
   const STR_IS_TRANSCRIBING = " [...]";
 
