@@ -58,7 +58,7 @@ const splitAudio = (audioPath, audioFileName, segmentTime = SEGMENT_TIME) => {
 
 const extractSpeech = (stream, contentType) => {
   return new Promise((resolve, reject) => {
-    fetch("https://api.wit.ai/speech", {
+    fetch("https://api.wit.ai/speech?v=20210701", {
       method: "POST",
       body: stream,
       headers: {
@@ -172,7 +172,7 @@ const speechToText = async (ctx) => {
       } catch (err) {
         console.error('[S2T] Error while parsing speech to text!', err)
         if (extractionAttempts < 3) {
-          ++extractionAttempts
+          extractionAttempts++
         } else {
           console.error('[S2T] Max attempts reached, quitting extraction', err)
           deleteAudioFile(voicePath)
