@@ -58,7 +58,7 @@ const splitAudio = (audioPath, audioFileName, segmentTime = SEGMENT_TIME) => {
 
 const extractSpeech = (stream, contentType) => {
   return new Promise((resolve, reject) => {
-    fetch("https://api.wit.ai/speech", {
+    fetch("https://api.wit.ai/speech?v=20210701", {
       method: "POST",
       body: stream,
       headers: {
@@ -72,13 +72,20 @@ const extractSpeech = (stream, contentType) => {
 }
 
 const speechToText = async (ctx) => {
-  if (!ctx.message.voice) return
+  if (!ctx.message.voice && !ctx.message.audio && !ctx.message.video_note) return
+
+  // Extract variables from the present container
+  const {
+    file_id,
+    mime_type,
+  } = ctx.message.voice || ctx.message.audio || ctx.message.video_note
+
   const STR_IS_TRANSCRIBING = " [...]";
 
   const cfg = getChatConfig(ctx)
   if (cfg && !cfg.transcriber_enabled) return
 
-  const voiceFile = await ctx.telegram.getFile(ctx.message.voice.file_id)
+  const voiceFile = await ctx.telegram.getFile(file_id)
   if (voiceFile.file_size >= AUDIO_SIZE_LIMIT) {
     ctx.reply(ctx.i18n.t('s2t__too_big'), {
       reply_to_message_id: ctx.message.message_id,
@@ -88,7 +95,7 @@ const speechToText = async (ctx) => {
   }
 
   await ctx.telegram.sendChatAction(ctx.chat.id, 'typing')
-  const voicePath = `audio/download_${voiceFile.file_id}.${mime.extension(ctx.message.voice.mime_type)}`
+  const voicePath = `audio/download_${voiceFile.file_id}.${mime.extension(mime_type)}`
 
   try {
     await downloadTelegramAudio(voiceFile, voicePath)
@@ -114,7 +121,7 @@ const speechToText = async (ctx) => {
   }
 
   const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
-  const needsConversion = ctx.message.voice.mime_type !== 'audio/mpeg3'
+  const needsConversion = mime_type !== 'audio/mpeg3'
 
   if (needsConversion) {
     try {
@@ -165,7 +172,7 @@ const speechToText = async (ctx) => {
       } catch (err) {
         console.error('[S2T] Error while parsing speech to text!', err)
         if (extractionAttempts < 3) {
-          ++extractionAttempts
+          extractionAttempts++
         } else {
           console.error('[S2T] Max attempts reached, quitting extraction', err)
           deleteAudioFile(voicePath)

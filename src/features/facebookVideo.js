@@ -6,19 +6,17 @@ const extractVideoURL = async (url) => {
       return reject("URL is not from Facebook!")
     }
 
-    request(url, (err, res, html) => {
+    request(`https://www.fbvideodownloader.org/data.php?v=${url}`, (err, res, json) => {
       if (err || res.statusCode !== 200) {
         return reject(err)
       }
 
-      // Stranamente, qua l'HTML è diverso da quello che mi dava il CURL...
-      // Bruh??? Ma che cazz
-      const match = html.match(/hd_src:"(https:\/\/scontent[^"]*)/ig)
-      if (!match || !match[1]) {
-        return reject("Couldn't extract video from URL. Regex not found!")
+      const body = JSON.parse(json)
+      if (body?.status !== "1") {
+        return reject("Invalid status response from fbvideodownloader, body is: " + json)
       }
 
-      return resolve(match[1])
+      return resolve(body.download_url)
     })
   })
 }
@@ -28,7 +26,6 @@ const sendFacebookVideo = async (ctx) => {
   try {
     const videoURL = await extractVideoURL(url)
     return ctx.replyWithVideo(videoURL, {
-      caption: ctx.i18n.t('fbvideo__download_success'),
       reply_to_message_id: ctx.message.message_id
     })
   } catch (err) {

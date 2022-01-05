@@ -60,5 +60,9 @@ rl__exceeded: Can you guys fucking stop spamming? Thanks
 
 scene_end: Command concluded!
 
-fbvideo__download_failed: Failed to get Facebook video... Maybe the URL you gave me is incorrect? Is it a valid Facebook URL? Are you, perhaps, joking with me? Eh? Not nice man...
-fbvideo__download_success: Here's the video. Have fun!
+fbvideo__download_failed: Couldn't get Facebook video...
+
+tiktok__invalid_url: Pass me a valid TikTok video URL to download it!
+
+dt__error: Couldn't generate DadoText...
+
