@@ -12,7 +12,7 @@ const extractVideoURL = async (url) => {
       }
 
       const body = JSON.parse(json)
-      if (body?.status !== "1") {
+      if (body.status !== "1") {
         return reject("Invalid status response from fbvideodownloader, body is: " + json)
       }
 
