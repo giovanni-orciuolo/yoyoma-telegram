@@ -5,8 +5,15 @@ const isAdmin = require('../utils/isAdmin')
 // Global chat configs holder
 let ChatConfigs = {}
 
+// Default config
+const DEFAULT_CONFIG = {
+  current_config_message: 0,
+  transcriber_enabled: true,
+  react_to_text_enabled: true,
+}
+
 const getChatConfig = (ctx) => {
-  return ChatConfigs ? ChatConfigs[ctx.chat.id] : {}
+  return ChatConfigs[ctx.chat.id] || DEFAULT_CONFIG
 }
 
 const setChatConfig = (ctx, val) => {
@@ -31,13 +38,6 @@ const manageGroupConfig = async (ctx) => {
       ctx.i18n.t(i18n_text, { enabled: config_val ? '✅' : '❌'}),
       `config__${boolTriggerStr(config_val)}_${config_name}`
     )
-  }
-
-  // Default config
-  const DEFAULT_CONFIG = {
-    current_config_message: 0,
-    transcriber_enabled: true,
-    react_to_text_enabled: true,
   }
 
   try {
