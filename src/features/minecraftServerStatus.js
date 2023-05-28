@@ -9,7 +9,7 @@ const sendMinecraftServerStatus = async ctx => {
   replyWithOptionalImage(ctx, /*srv.icon ? Buffer.from(srv.icon.replace("data:image/png;base64,", ""), "base64") : */'',
     `Server status: <b>${srv.online ? "ONLINE" : "OFFLINE"}</b>${
       srv.online ?
-        `\nMOTD: ${srv.motd?.html ?? "Empty"}\n\nOnline: ${srv.players?.list?.toString().replace(/,/g, ', ') ?? 0} (${srv.players?.online ?? 0}/${srv.players?.max ?? 0})\n\n<i>Minecraft ${srv.version}</i>`
+        `\nMOTD: ${srv.motd?.html || "Empty"}\n\nOnline: ${srv.players?.list?.toString().replace(/,/g, ', ') ?? 0} (${srv.players?.online ?? 0}/${srv.players?.max || 0})\n\n<i>Minecraft ${srv.version}</i>`
         : ''
     }`, {
       reply_to_message_id: ctx.message.message_id,
