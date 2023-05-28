@@ -5,15 +5,16 @@ const sendMinecraftServerStatus = async ctx => {
   const serverAddress = ctx.state.command.args
   const res = await fetch(`https://api.mcsrvstat.us/2/${serverAddress}`)
   const srv = await res.json()
+  console.log(srv)
 
-  replyWithOptionalImage(ctx, /*srv.icon ? Buffer.from(srv.icon.replace("data:image/png;base64,", ""), "base64") : */'',
-    `Server status: <b>${srv.online ? "ONLINE" : "OFFLINE"}</b>${
-      srv.online ?
-        `\nMOTD: ${srv.motd?.html || "Empty"}\n\nOnline: ${srv.players?.list?.toString().replace(/,/g, ', ') || 0} (${srv.players?.online || 0}/${srv.players?.max || 0})\n\n<i>Minecraft ${srv.version}</i>`
-        : ''
-    }`, {
-      reply_to_message_id: ctx.message.message_id,
-    })
+  //replyWithOptionalImage(ctx, /*srv.icon ? Buffer.from(srv.icon.replace("data:image/png;base64,", ""), "base64") : */'',
+  //  `Server status: <b>${srv.online ? "ONLINE" : "OFFLINE"}</b>${
+  //    srv.online ?
+  //      `\nMOTD: ${srv.motd?.html || "Empty"}\n\nOnline: ${srv.players?.list?.toString().replace(/,/g, ', ') || 0} (${srv.players?.online || 0}/${srv.players?.max || 0})\n\n<i>Minecraft ${srv.version}</i>`
+  //      : ''
+  //  }`, {
+  //    reply_to_message_id: ctx.message.message_id,
+  //  })
 }
 module.exports = {
   sendMinecraftServerStatus
