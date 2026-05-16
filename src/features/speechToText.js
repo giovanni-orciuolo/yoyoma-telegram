@@ -51,11 +51,12 @@ const splitAudioByDuration = async (audioPath, audioFileName, segmentTime = SEGM
 
   for (let i = 0; i < segmentsCount; i++) {
     const startTime = i * segmentTime
+    const currentSegmentDuration = Math.min(segmentTime, audioDuration - startTime)
     const output = `audio/split_${audioFileName}_${String(i).padStart(3, '0')}.mp3`
     await new Promise((resolve, reject) => {
       ffmpeg(audioPath)
         .setStartTime(startTime)
-        .duration(segmentTime)
+        .duration(currentSegmentDuration)
         .output(output)
         .on('end', resolve)
         .on('error', reject)
