@@ -9,7 +9,7 @@ const { TELEGRAM_FILE_URL } = require('../utils/constants')
 
 const WITAI_TOKEN = process.env.WITAI_TOKEN
 const AUDIO_SIZE_LIMIT = 500000000 // 500 mb
-const AUDIO_DURATION_LIMIT = 120 // secs
+const AUDIO_DURATION_LIMIT = 1200 // secs
 const SEGMENT_TIME = 15 // secs
 
 const deleteAudioFile = (path) => {
