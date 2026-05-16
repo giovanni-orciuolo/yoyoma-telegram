@@ -1,5 +1,6 @@
 const fs = require('fs')
 const https = require('https')
+const path = require('path')
 const mime = require('mime-types')
 const ffmpeg = require('fluent-ffmpeg')
 const fetch = require('node-fetch')
@@ -63,6 +64,13 @@ const splitAudioByDuration = async (audioPath, audioFileName, segmentTime = SEGM
         .run()
     })
   }
+}
+
+const isMissingFfmpegError = (err) => {
+  const errorMessage = String((err && err.message) || err || '')
+  return errorMessage.includes('ffmpeg exited with code 127') ||
+    errorMessage.includes('spawn ffmpeg ENOENT') ||
+    errorMessage.includes('Cannot find ffmpeg')
 }
 
 const extractSpeech = (stream, contentType) => {
@@ -131,41 +139,51 @@ const speechToText = async (ctx) => {
 
   const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
   const needsConversion = mime_type !== 'audio/mpeg3'
+  let audioPathForTranscription = needsConversion ? convertedPath : voicePath
+  let splitContentType = needsConversion ? 'audio/mpeg3' : (mime_type || 'audio/mpeg3')
 
   if (needsConversion) {
     try {
       await convertAudio(voicePath, convertedPath)
     } catch (err) {
-      console.error('[S2T] Error while converting audio to mp3!', err)
-      ctx.reply(ctx.i18n.t('s2t__conversion_fail'), {
+      if (isMissingFfmpegError(err)) {
+        console.error('[S2T] ffmpeg not available, falling back to direct transcription!', err)
+        audioPathForTranscription = voicePath
+        splitContentType = mime_type || 'audio/mpeg3'
+      } else {
+        console.error('[S2T] Error while converting audio to mp3!', err)
+        ctx.reply(ctx.i18n.t('s2t__conversion_fail'), {
+          reply_to_message_id: ctx.message.message_id,
+          disable_notification: true
+        })
+        deleteAudioFile(voicePath)
+        return;
+      }
+    }
+  }
+
+  let splitFiles = []
+  try {
+    // Split audio into little chunks for transcription
+    await splitAudioByDuration(audioPathForTranscription, voiceFile.file_id)
+    splitFiles = fs.readdirSync('audio/').filter(file => file.startsWith(`split_${voiceFile.file_id}`))
+  } catch (err) {
+    if (isMissingFfmpegError(err)) {
+      console.error('[S2T] ffmpeg not available, transcribing audio without split!', err)
+      splitFiles = [path.basename(audioPathForTranscription)]
+    } else {
+      console.error('[S2T] Error while splitting audio file!', err)
+      ctx.reply(ctx.i18n.t('s2t__split_fail'), {
         reply_to_message_id: ctx.message.message_id,
         disable_notification: true
       })
       deleteAudioFile(voicePath)
-      return;
+      if (needsConversion) {
+        deleteAudioFile(convertedPath)
+      }
+      return
     }
   }
-
-  const audioPathForTranscription = needsConversion ? convertedPath : voicePath
-
-  try {
-    // Split audio into little chunks for transcription
-    await splitAudioByDuration(audioPathForTranscription, voiceFile.file_id)
-  } catch (err) {
-    console.error('[S2T] Error while splitting audio file!', err)
-    ctx.reply(ctx.i18n.t('s2t__split_fail'), {
-      reply_to_message_id: ctx.message.message_id,
-      disable_notification: true
-    })
-    deleteAudioFile(voicePath)
-    if (needsConversion) {
-      deleteAudioFile(convertedPath)
-    }
-    return
-  }
-
-  // Now that the audio has been split, for each audio file which names contains "split_${file_id}" call extractSpeech
-  const splitFiles = fs.readdirSync('audio/').filter(file => file.startsWith(`split_${voiceFile.file_id}`))
   let firstTime = true, chatId = -1, messageId = -1, messageText = '', extractionAttempts = 0
 
   for (let i = 0; i < splitFiles.length; ++i) {
@@ -176,7 +194,7 @@ const speechToText = async (ctx) => {
     let extractedText = ''
     while (!success) {
       try {
-        const { text } = await extractSpeech(voiceStreamConverted, 'audio/mpeg3')
+        const { text } = await extractSpeech(voiceStreamConverted, splitContentType)
         extractedText = text
         success = true
       } catch (err) {
