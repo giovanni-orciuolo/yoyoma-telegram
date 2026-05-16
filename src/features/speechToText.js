@@ -42,18 +42,23 @@ const convertAudio = (input, output) => {
   })
 }
 
-const splitAudio = (audioPath, audioFileName, segmentTime = SEGMENT_TIME) => {
-  return new Promise((resolve, reject) => {
-    ffmpeg(audioPath)
-      .addOptions([
-        `-f segment`,
-        `-segment_time ${segmentTime}`,
-      ])
-      .output(`audio/split_${audioFileName}_%03d.mp3`)
-      .on('end', resolve)
-      .on('error', reject)
-      .run()
-  });
+const splitAudioByDuration = async (audioPath, audioFileName, segmentTime = SEGMENT_TIME) => {
+  const audioDuration = await getAudioDurationInSeconds(audioPath)
+  const segmentsCount = Math.max(1, Math.ceil(audioDuration / segmentTime))
+
+  for (let i = 0; i < segmentsCount; ++i) {
+    const startTime = i * segmentTime
+    const output = `audio/split_${audioFileName}_${String(i).padStart(3, '0')}.mp3`
+    await new Promise((resolve, reject) => {
+      ffmpeg(audioPath)
+        .setStartTime(startTime)
+        .duration(segmentTime)
+        .output(output)
+        .on('end', resolve)
+        .on('error', reject)
+        .run()
+    })
+  }
 }
 
 const extractSpeech = (stream, contentType) => {
@@ -137,10 +142,11 @@ const speechToText = async (ctx) => {
     }
   }
 
-  // At this point convertedPath will be our mp3 file
+  const audioPathForTranscription = needsConversion ? convertedPath : voicePath
+
   try {
-    // Split audio into little chunks based on silence (won't split if audio is short)
-    await splitAudio(convertedPath, voiceFile.file_id);
+    // Split audio into little chunks for transcription
+    await splitAudioByDuration(audioPathForTranscription, voiceFile.file_id)
   } catch (err) {
     console.error('[S2T] Error while splitting audio file!', err)
     ctx.reply(ctx.i18n.t('s2t__split_fail'), {
