@@ -44,9 +44,12 @@ const convertAudio = (input, output) => {
 
 const splitAudioByDuration = async (audioPath, audioFileName, segmentTime = SEGMENT_TIME) => {
   const audioDuration = await getAudioDurationInSeconds(audioPath)
+  if (!Number.isFinite(audioDuration) || audioDuration <= 0) {
+    throw new Error('Invalid audio duration while splitting audio')
+  }
   const segmentsCount = Math.max(1, Math.ceil(audioDuration / segmentTime))
 
-  for (let i = 0; i < segmentsCount; ++i) {
+  for (let i = 0; i < segmentsCount; i++) {
     const startTime = i * segmentTime
     const output = `audio/split_${audioFileName}_${String(i).padStart(3, '0')}.mp3`
     await new Promise((resolve, reject) => {
