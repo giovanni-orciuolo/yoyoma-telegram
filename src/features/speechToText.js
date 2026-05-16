@@ -67,7 +67,7 @@ const splitAudioByDuration = async (audioPath, audioFileName, segmentTime = SEGM
 }
 
 const isMissingFfmpegError = (err) => {
-  const errorMessage = String((err && err.message) || err || '')
+  const errorMessage = String(err?.message ?? err ?? '')
   return errorMessage.includes('ffmpeg exited with code 127') ||
     errorMessage.includes('spawn ffmpeg ENOENT') ||
     errorMessage.includes('Cannot find ffmpeg')
@@ -139,8 +139,8 @@ const speechToText = async (ctx) => {
 
   const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
   const needsConversion = mime_type !== 'audio/mpeg3'
-  let audioPathForTranscription = voicePath
-  let splitContentType = mime_type || 'audio/mpeg3'
+  let audioPathForTranscription
+  let splitContentType
 
   if (needsConversion) {
     try {
@@ -162,6 +162,9 @@ const speechToText = async (ctx) => {
         return;
       }
     }
+  } else {
+    audioPathForTranscription = voicePath
+    splitContentType = mime_type || 'audio/mpeg3'
   }
 
   let splitFiles = []
