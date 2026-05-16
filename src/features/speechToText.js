@@ -139,12 +139,14 @@ const speechToText = async (ctx) => {
 
   const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
   const needsConversion = mime_type !== 'audio/mpeg3'
-  let audioPathForTranscription = needsConversion ? convertedPath : voicePath
-  let splitContentType = needsConversion ? 'audio/mpeg3' : (mime_type || 'audio/mpeg3')
+  let audioPathForTranscription = voicePath
+  let splitContentType = mime_type || 'audio/mpeg3'
 
   if (needsConversion) {
     try {
       await convertAudio(voicePath, convertedPath)
+      audioPathForTranscription = convertedPath
+      splitContentType = 'audio/mpeg3'
     } catch (err) {
       if (isMissingFfmpegError(err)) {
         console.error('[S2T] ffmpeg not available, falling back to direct transcription!', err)
