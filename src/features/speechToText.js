@@ -45,7 +45,7 @@ const convertAudio = (input, output) => {
 const splitAudioByDuration = async (audioPath, audioFileName, segmentTime = SEGMENT_TIME) => {
   const audioDuration = await getAudioDurationInSeconds(audioPath)
   if (!Number.isFinite(audioDuration) || audioDuration <= 0) {
-    throw new Error('Invalid audio duration while splitting audio')
+    throw new Error(`Invalid audio duration (${audioDuration}) for file ${audioPath}`)
   }
   const segmentsCount = Math.max(1, Math.ceil(audioDuration / segmentTime))
 
