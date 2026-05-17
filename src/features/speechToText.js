@@ -1,7 +1,7 @@
 const fs = require('fs')
 const https = require('https')
 const mime = require('mime-types')
-const ffmpeg = require('fluent-ffmpeg')
+const ffmpeg = require('fluent-ffmpeg-7')
 const fetch = require('node-fetch')
 const { getAudioDurationInSeconds } = require('get-audio-duration')
 const { getChatConfig } = require('./configManager')
