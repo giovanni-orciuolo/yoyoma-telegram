@@ -1,0 +1,40 @@
+name: deploy
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  deploy:
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy
+      cancel-in-progress: false
+    # OIDC: GitHub signs a short-lived token that Tailscale trusts for this repo's develop branch; no stored secret
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Join the tailnet as tag:ci
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ vars.TS_OIDC_CLIENT_ID }}
+          audience: ${{ vars.TS_OIDC_AUDIENCE }}
+          tags: tag:ci
+          ping: ${{ vars.DEPLOY_HOST }}
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          echo "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_ed25519
+      # The deploy key is a forced command on the host (~/bots/deploy-telegram.sh): it only accepts "deploy <sha>",
+      # then checks out that commit and rebuilds the yoyo-telegram compose service
+      - name: Roll out
+        env:
+          TARGET: ${{ vars.DEPLOY_USER }}@${{ vars.DEPLOY_HOST }}
+        run: ssh "$TARGET" "deploy $GITHUB_SHA"
