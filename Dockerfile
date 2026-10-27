@@ -1,5 +1,5 @@
-FROM node:18-alpine
-MAINTAINER Giovanni Orciuolo <giovanni@orciuolo.it>
+FROM keymetrics/pm2:24-alpine
+MAINTAINER Giovanni Orciuolo <giovanni.orciuolo1999@gmail.com>
 
 # Installs latest Chromium package and ffmpeg
 RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
@@ -27,4 +27,4 @@ RUN yarn --prod --ignore-engines
 COPY . /home/app
 
 # Start application inside PM2
-CMD [ "node", "src/index.js" ]
+CMD [ "pm2-runtime", "start", "pm2.json" ]

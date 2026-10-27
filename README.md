@@ -28,6 +28,7 @@ stickerid - Get a sticker id
 tesseract - Tries to transcribe text from an image (it isn't really good at it)
 cah - Sends a random Cards Against Humanity combination. It's fun sometimes... I swear!
 ratecock - Rates the cock of whoever you mention
+fbvideo - Download a Facebook video (usage: /fbvideo {url})
 ```
 
 There are also some random hears just for the sake of it

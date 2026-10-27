@@ -1,16 +1,16 @@
 const fs = require('fs')
 const https = require('https')
 const mime = require('mime-types')
-const ffmpeg = require('fluent-ffmpeg')
+const ffmpeg = require('fluent-ffmpeg-7')
 const fetch = require('node-fetch')
 const { getAudioDurationInSeconds } = require('get-audio-duration')
 const { getChatConfig } = require('./configManager')
 const { TELEGRAM_FILE_URL } = require('../utils/constants')
 
 const WITAI_TOKEN = process.env.WITAI_TOKEN
-const AUDIO_SIZE_LIMIT = 500 * 1000 * 1000 // in MB
-const AUDIO_DURATION_LIMIT = 5 * 60 // in secs
-const SEGMENT_TIME = 15 // in secs
+const AUDIO_SIZE_LIMIT = 500000000 // 500 mb
+const AUDIO_DURATION_LIMIT = 600 // secs
+const SEGMENT_TIME = 15 // secs
 
 const deleteAudioFile = (path) => {
   fs.unlink(path, () => {})

@@ -50,26 +50,27 @@ bot.start((ctx) => ctx.reply(ctx.i18n.t('welcome')))
 bot.catch((err) => console.error('Ops! Questo è imbarazzante:', err))
 
 function replyWithSticker(ctx, stickerId) {
-  if (getChatConfig().react_to_text_enabled) {
+  if (getChatConfig(ctx).react_to_text_enabled) {
     ctx.replyWithSticker(stickerId)
   }
 }
 function replyWithVoice(ctx, voicePath) {
-  if (getChatConfig().react_to_text_enabled) {
+  if (getChatConfig(ctx).react_to_text_enabled) {
     ctx.replyWithVoice({ source: fs.createReadStream(voicePath) })
   }
 }
 
 // Meme hears lol
-bot.hears(/yo angelo/gi, ctx => replyWithSticker(ctx, 'CAADBAADXQADgYLEFulxnwk8dDafAg'))
-bot.hears(/nyo-ho ho/gi, ctx => replyWithSticker(ctx, 'CAADBAADZQADgYLEFtlofF9toBD-Ag'))
-bot.hears(/drugs/gi, ctx => replyWithSticker(ctx, 'CAADBAADLwADgYLEFimHsG12ODxiAg'))
-bot.hears(/heaven/gi, ctx => replyWithSticker(ctx, 'CAADBAADXgADgYLEFnB82EiqvePzAg'))
-bot.hears(/ruru/gi, ctx => replyWithSticker(ctx, 'CAADBAADggADgYLEFmcYqG7UNZ4KAg'))
-bot.hears(/kuyashi/gi, ctx => replyWithSticker(ctx, 'CAADBAADmwADgYLEFpNmMrKg7JTJFgQ'))
-bot.hears(/za warudo/gi, ctx => replyWithVoice(ctx, './assets/zawarudo.ogg'))
-bot.hears(/the world/gi, ctx => replyWithVoice(ctx, './assets/zawarudo.ogg'))
-bot.hears('merda', ctx => replyWithVoice(ctx, './assets/merda.ogg'))
+bot.hears('yo angelo', ctx => replyWithSticker(ctx, 'CAADBAADXQADgYLEFulxnwk8dDafAg'))
+// bot.hears('nyo-ho ho', ctx => replyWithSticker(ctx, 'CAADBAADZQADgYLEFtlofF9toBD-Ag'))
+// bot.hears('drugs', ctx => replyWithSticker(ctx, 'CAADBAADLwADgYLEFimHsG12ODxiAg'))
+// bot.hears('heaven', ctx => replyWithSticker(ctx, 'CAADBAADXgADgYLEFnB82EiqvePzAg'))
+// bot.hears('ruru', ctx => replyWithSticker(ctx, 'CAADBAADggADgYLEFmcYqG7UNZ4KAg'))
+bot.hears('kuyashi', ctx => replyWithSticker(ctx, 'CAADBAADmwADgYLEFpNmMrKg7JTJFgQ'))
+// bot.hears('za warudo', ctx => replyWithVoice(ctx, './assets/zawarudo.ogg'))
+// bot.hears('the world', ctx => replyWithVoice(ctx, './assets/zawarudo.ogg'))
+// bot.hears('merda', ctx => replyWithVoice(ctx, './assets/merda.ogg'))
+bot.hears('mini pekka', ctx => replyWithVoice(ctx, './assets/minipekka.ogg'))
 
 // Real commands
 bot.command('config', manageGroupConfig)
