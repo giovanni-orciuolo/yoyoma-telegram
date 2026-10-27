@@ -1,4 +1,4 @@
-FROM keymetrics/pm2:latest-alpine
+FROM keymetrics/pm2:24-alpine
 MAINTAINER Giovanni Orciuolo <giovanni.orciuolo1999@gmail.com>
 
 # Installs latest Chromium package and ffmpeg
