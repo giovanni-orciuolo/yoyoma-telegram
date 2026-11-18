@@ -8,7 +8,7 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon src/index.js -w src",
+    "dev": "node --watch-path=src src/index.js",
     "start": "node src/index.js",
     "lint": "eslint .",
     "test": "node --test"
@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "eslint": "^10.15.0",
-    "neostandard": "^0.14.1",
-    "nodemon": "^3.1.14"
+    "neostandard": "^0.14.1"
   }
 }
