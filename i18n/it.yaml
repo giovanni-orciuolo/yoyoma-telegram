@@ -66,3 +66,7 @@ dt__no_text: Dimmi cosa scrivere, tipo /dadotext ciao
 
 mc__no_address: Dimmi l'indirizzo del server, tipo /mcstatus mc.hypixel.net
 mc__error: Non sono riuscito a recuperare lo stato del server
+
+say__usage: "Uso: /say <nome del gruppo o chat id> <messaggio>\nGruppi che conosco:\n${groups}"
+say__sent: Inviato a ${group}
+say__failed: "Non sono riuscito a inviare a ${group}: ${reason}"
