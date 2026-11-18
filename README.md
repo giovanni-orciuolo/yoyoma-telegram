@@ -22,8 +22,6 @@ lyrics - Search songs on Genius by lyrics
 scp - Search a random SCP or pass a number to search exact SCP
 rcg - Generate and send a random Cyanide and Happiness comic (taken from https://explosm.net/rcg)
 coin - Just flips a coin
-// ytaudio - Search a video on Youtube and download audio from it [Disabled due to high CPU usage]
-// pokefusion - Generate a random Pokémon fusion and prints its Pokédex entry [Disabled because it's not working yet in production mode]
 stickerid - Get a sticker id
 tesseract - Tries to transcribe text from an image (it isn't really good at it)
 cah - Sends a random Cards Against Humanity combination. It's fun sometimes... I swear!
@@ -100,7 +98,6 @@ If you want every feature of the bot to work you need to provide these variables
 $ process.env.BOT_TOKEN - Needed for the bot to work on Telegram
 $ process.env.GENIUS_TOKEN - Genius API token. It is needed for the /lyrics command to work
 $ process.env.WITAI_TOKEN - Wit.ai API app token. It is needed for the speech to text parser to work
-$ process.env.GOOGLE_API_TOKEN - Google API app token. It is needed for the Youtube Search to work
 ```
 
 ### Internazionalization (i18n)

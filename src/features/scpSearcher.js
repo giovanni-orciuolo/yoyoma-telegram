@@ -1,49 +1,43 @@
-const request = require('request')
+const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 const { replyWithOptionalImage } = require('../utils/replyWithOptionalImage')
 
+const CHAR_TRESHOLD = 300
+
 // Adapted from Marv discord.js bot
-const fetchScpEntry = (num) => {
-  return new Promise((resolve, reject) => {
-    num = num.padStart(3, '0')
-    const link = `http://www.scp-wiki.net/scp-${num}`
-    request(link, (err, res, html) => {
-      if (err || res.statusCode !== 200) {
-        reject(err)
-      }
+const fetchScpEntry = async (num) => {
+  num = num.padStart(3, '0')
+  const link = `https://scp-wiki.wikidot.com/scp-${num}`
+  const res = await fetch(link)
+  const html = await res.text()
+  if (!res.ok || html.includes("This page doesn't exist yet!")) {
+    throw new Error(`SCP-${num} not found (${res.status})`)
+  }
 
-      const CHAR_TRESHOLD = 300
-      let text = ''
-
-      if (html.includes("This page doesn't exist yet!")) {
-        reject(err)
-      }
-
-      const $ = cheerio.load(html)
-      $('p', '#page-content').each((i, element) => {
-        if (i === 4) {
-          return false // break
-        }
-        if ($(element).parent().hasClass('scp-image-caption') || $(element).text().includes('Item #:')) {
-          return true // continue
-        }
-        text = text + $(element).text() + '\n\n'
-      })
-
-      let image = $('img', '.scp-image-block').first().attr('src')
-
-      if (text.length >= CHAR_TRESHOLD) {
-        text = `${text.substr(0, CHAR_TRESHOLD - 3)}...`
-      }
-
-      resolve({
-        title: 'SCP-' + num,
-        image: image,
-        description: text,
-        url: link
-      })
-    })
+  let text = ''
+  const $ = cheerio.load(html)
+  $('p', '#page-content').each((i, element) => {
+    if (i === 4) {
+      return false // break
+    }
+    if ($(element).parent().hasClass('scp-image-caption') || $(element).text().includes('Item #:')) {
+      return true // continue
+    }
+    text = text + $(element).text() + '\n\n'
   })
+
+  const image = $('img', '.scp-image-block').first().attr('src')
+
+  if (text.length >= CHAR_TRESHOLD) {
+    text = `${text.substr(0, CHAR_TRESHOLD - 3)}...`
+  }
+
+  return {
+    title: 'SCP-' + num,
+    image,
+    description: text,
+    url: link
+  }
 }
 
 const randomScpEntry = async () => {

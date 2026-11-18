@@ -1,5 +1,14 @@
-const GeniusApi = require('genius-api')
-const genius = new GeniusApi(process.env.GENIUS_TOKEN)
+const fetch = require('node-fetch')
+
+const GENIUS_SEARCH_URL = 'https://api.genius.com/search'
+
+const searchGenius = async (text) => {
+  const res = await fetch(`${GENIUS_SEARCH_URL}?q=${encodeURIComponent(text)}`, {
+    headers: { Authorization: `Bearer ${process.env.GENIUS_TOKEN}` }
+  })
+  if (!res.ok) throw new Error(`Genius search failed with status ${res.status}`)
+  return (await res.json()).response
+}
 
 const geniusSearch = async (ctx) => {
   const text = ctx.state.command.args
@@ -11,7 +20,7 @@ const geniusSearch = async (ctx) => {
     return
   }
 
-  const res = await genius.search(text)
+  const res = await searchGenius(text)
 
   const hits = res.hits
   if (hits.length === 0) {

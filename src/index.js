@@ -13,7 +13,6 @@ const { searchScp } = require('./features/scpSearcher')
 const { sendRandomComic } = require('./features/cyanideComicGenerator')
 const { manageGroupRSS, sceneListenRss } = require('./features/rss/rssManager')
 const { coinFlip } = require('./features/coinFlip')
-// const { sendYoutubeAudio } = require('./features/youtubeAudio')
 const { manageGroupConfig, setChatConfig, getChatConfig } = require('./features/configManager')
 const { sceneSticker, enterStickerIdScene } = require('./features/stickerId')
 const { sceneTesseract, enterTesseractScene } = require('./features/imageToText')
@@ -33,7 +32,7 @@ const i18n = new TelegrafI18n({
   allowMissing: true,
   useSession: true
 })
-const stage = new Stage([ sceneListenRss, sceneSticker, sceneTesseract ], { ttl: 10 })
+const stage = new Stage([sceneListenRss, sceneSticker, sceneTesseract], { ttl: 10 })
 
 bot.use(session())
 bot.use(i18n.middleware())
@@ -84,8 +83,6 @@ bot.command('ratecock', sendCockRate)
 bot.command('mcstatus', sendMinecraftServerStatus)
 bot.command('rss', manageGroupRSS) // STILL IN DEVELOPMENT
 bot.command('fbvideo', sendFacebookVideo)
-// bot.command('ytaudio', sendYoutubeAudio) DISABLED because it causes too much CPU usage on my little VPS
-// bot.command('pokefusion', sendRandomPokeFusion) NOT WORKING - Needs Puppeteer on Docker
 bot.command('tiktok', sendTikTokVideo)
 bot.command('dadotext', sendDadoText)
 

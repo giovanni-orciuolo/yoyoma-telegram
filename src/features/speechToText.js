@@ -3,7 +3,6 @@ const https = require('https')
 const mime = require('mime-types')
 const ffmpeg = require('fluent-ffmpeg-7')
 const fetch = require('node-fetch')
-const { getAudioDurationInSeconds } = require('get-audio-duration')
 const { getChatConfig } = require('./configManager')
 const { TELEGRAM_FILE_URL } = require('../utils/constants')
 
@@ -42,6 +41,12 @@ const convertAudio = (input, output) => {
   })
 }
 
+const getDurationInSeconds = (input) => {
+  return new Promise((resolve, reject) => {
+    ffmpeg.ffprobe(input, (err, metadata) => err ? reject(err) : resolve(metadata.format.duration))
+  })
+}
+
 const splitAudio = (audioPath, audioFileName, segmentTime = SEGMENT_TIME) => {
   return new Promise((resolve, reject) => {
     ffmpeg(audioPath)
@@ -62,7 +67,7 @@ const extractSpeech = (stream, contentType) => {
       method: "POST",
       body: stream,
       headers: {
-        "Authorization": `Bearer ${WITAI_TOKEN}`,
+        Authorization: `Bearer ${WITAI_TOKEN}`,
         "Content-Type": contentType
       }
     }).then(res => res.json())
@@ -101,7 +106,7 @@ const speechToText = async (ctx) => {
     await downloadTelegramAudio(voiceFile, voicePath)
 
     // Check if audio file isn't too long
-    const voiceDuration = await getAudioDurationInSeconds(voicePath)
+    const voiceDuration = await getDurationInSeconds(voicePath)
     if (voiceDuration >= AUDIO_DURATION_LIMIT) {
       ctx.reply(ctx.i18n.t('s2t__too_big'), {
         reply_to_message_id: ctx.message.message_id,

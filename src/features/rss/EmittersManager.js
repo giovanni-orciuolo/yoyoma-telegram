@@ -28,7 +28,7 @@ class EmittersManager {
     const feeder = new RssFeedEmitter({ userAgent: 'YoYo-Ma (for Telegram)' })
     this.emitters.push({
       group: group_id,
-      feeder: feeder
+      feeder
     })
     return feeder
   }
@@ -68,7 +68,7 @@ class EmittersManager {
     }
 
     emitter.feeder.add({
-      url: url, refresh: refresh
+      url, refresh
     })
     return emitter.feeder
   }
@@ -88,5 +88,5 @@ class EmittersManager {
   }
 }
 module.exports = {
-  EmittersManager: EmittersManager
+  EmittersManager
 }

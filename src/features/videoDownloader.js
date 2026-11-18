@@ -1,7 +1,7 @@
 const { execFile } = require('child_process')
 const os = require('os')
 const path = require('path')
-const { generate } = require('shortid')
+const { randomUUID } = require('crypto')
 
 // Telegram refuses bot uploads above 50 MB
 const MAX_SIZE = '50M'
@@ -9,7 +9,7 @@ const TIMEOUT_MS = 120000
 
 // Downloads with yt-dlp, which keeps up with TikTok and Facebook page changes. Resolves to the file path.
 const downloadVideo = (url) => new Promise((resolve, reject) => {
-  const outputTemplate = path.join(os.tmpdir(), `video_${generate()}.%(ext)s`)
+  const outputTemplate = path.join(os.tmpdir(), `video_${randomUUID()}.%(ext)s`)
   const args = [
     '--format', `b[filesize<${MAX_SIZE}]/b[filesize_approx<${MAX_SIZE}]/b`,
     '--max-filesize', MAX_SIZE,

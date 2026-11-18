@@ -2,7 +2,7 @@ const ffmpeg = require('fluent-ffmpeg-7')
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
-const { generate } = require('shortid')
+const { randomUUID } = require('crypto')
 
 const DADO_VIDEO = path.join(__dirname, '../../assets/dadobax.mp4')
 
@@ -30,7 +30,7 @@ const sendDadoText = async (ctx) => {
 
 // The text goes through a file so that quotes, colons and % in it need no ffmpeg escaping
 const writeTextOnVideo = async (videoPath, text) => {
-  const id = generate()
+  const id = randomUUID()
   const textPath = path.join(os.tmpdir(), `dadotext_${id}.txt`)
   const outputPath = path.join(os.tmpdir(), `dadotext_${id}.mp4`)
   fs.writeFileSync(textPath, text)
