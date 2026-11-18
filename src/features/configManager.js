@@ -1,95 +1,94 @@
-const Extra = require('telegraf/extra')
-const Markup = require('telegraf/markup')
 const isAdmin = require('../utils/isAdmin')
 
-// Global chat configs holder
-let ChatConfigs = {}
-
-// Default config
-const DEFAULT_CONFIG = {
-  current_config_message: 0,
+const DEFAULT_CONFIG = Object.freeze({
   transcriber_enabled: true,
-  react_to_text_enabled: true
-}
+  react_to_text_enabled: true,
+  locale: undefined
+})
 
-const getChatConfig = (ctx) => {
-  return ChatConfigs[ctx.chat.id] || DEFAULT_CONFIG
-}
+const TOGGLES = [
+  { setting: 'transcriber_enabled', label: 'config__transcriber_enabled' },
+  { setting: 'react_to_text_enabled', label: 'config__react_enabled' }
+]
+const TOGGLE_PREFIX = 'config__toggle_'
+const SWITCH_LOCALE = 'config__switch_locale'
 
-const setChatConfig = (ctx, val) => {
-  const chatConfig = getChatConfig(ctx)
-  if (!ChatConfigs || !chatConfig) return
-  ChatConfigs[ctx.chat.id] = { ...ChatConfigs[ctx.chat.id], ...val }
-}
+// Settings live in memory, one entry per chat, and reset when the bot restarts
+const createChatConfig = () => {
+  const configs = new Map()
+  const menus = new Map()
 
-const pushNewChatConfig = (ctx, config) => {
-  if (ChatConfigs) {
-    ChatConfigs[ctx.chat.id] = config
-  }
-}
+  const getChatConfig = (ctx) => ({ ...DEFAULT_CONFIG, ...configs.get(ctx.chat.id) })
 
-const manageGroupConfig = async (ctx) => {
-  function boolTriggerStr (value) {
-    // Used for boolean togglers
-    return value ? 'disable' : 'enable'
-  }
-  function buildBooleanTrigger (i18n_text, config_name, config_val) {
-    return Markup.callbackButton(
-      ctx.i18n.t(i18n_text, { enabled: config_val ? '✅' : '❌' }),
-      `config__${boolTriggerStr(config_val)}_${config_name}`
-    )
+  const setChatConfig = (ctx, change) => {
+    configs.set(ctx.chat.id, { ...configs.get(ctx.chat.id), ...change })
   }
 
-  try {
-    if (ctx.chat.type !== 'private' && !(await isAdmin(ctx))) {
-      await ctx.deleteMessage(ctx.message.message_id)
-      return
-    }
+  // The chat language wins over the language of each user's Telegram app
+  const applyChatLocale = (ctx, next) => {
+    const locale = ctx.chat && configs.has(ctx.chat.id) && configs.get(ctx.chat.id).locale
+    if (locale) ctx.i18n.locale(locale)
+    return next()
+  }
 
-    if (!ChatConfigs) {
-      ChatConfigs = {}
+  const manageGroupConfig = async (ctx) => {
+    if (!await canConfigure(ctx)) {
+      // Needs the bot to be an admin; without that the command just stays
+      return ctx.deleteMessage().catch(() => {})
     }
+    const previousMenu = menus.get(ctx.chat.id)
+    if (previousMenu) await ctx.deleteMessage(previousMenu).catch(() => {})
 
-    let chatConfig = getChatConfig(ctx)
-    if (!chatConfig) {
-      // First time setting up config for this chat
-      pushNewChatConfig(ctx, DEFAULT_CONFIG)
-      chatConfig = DEFAULT_CONFIG
-    }
-
-    if (chatConfig && chatConfig.current_config_message !== 0) {
-      await ctx.deleteMessage(chatConfig.current_config_message)
-    }
-
-    const config_keyboard = await ctx.reply(ctx.i18n.t('config__manage',
-      { group_name: ctx.chat.type !== 'private' ? ctx.chat.title : `@${ctx.chat.username}` }
-    ), {
-      reply_to_message_id: ctx.message ? ctx.message.message_id : null,
+    const menu = await ctx.reply(ctx.i18n.t('config__manage', { group_name: chatName(ctx.chat) }), {
+      reply_to_message_id: ctx.message.message_id,
       disable_notification: true,
-      ...Extra.markup(m =>
-        m.inlineKeyboard([
-          buildBooleanTrigger('config__transcriber_enabled', 'transcriber', chatConfig.transcriber_enabled),
-          m.callbackButton(ctx.i18n.t('config__i18n_locale', { locale: ctx.i18n.locale().toUpperCase() }), 'config__switch_locale'),
-          buildBooleanTrigger('config__react_enabled', 'react_to_text', chatConfig.react_to_text_enabled)
-        ])
-      )
+      reply_markup: menuKeyboard(ctx, getChatConfig(ctx))
     })
-
-    chatConfig.current_config_message = config_keyboard.message_id
-  } catch (err) {
-    if (err.description && err.description.includes("message can't be deleted")) {
-      // don't need to log this, bot is not admin
-      return
-    }
-    console.error(err)
-    return ctx.reply(ctx.i18n.t('config__error'), {
-      reply_to_message_id: ctx.message ? ctx.message.message_id : null,
-      disable_notification: true
-    })
+    menus.set(ctx.chat.id, menu.message_id)
   }
+
+  const handleConfigButton = async (ctx) => {
+    if (!await canConfigure(ctx)) {
+      return ctx.answerCbQuery(ctx.i18n.t('config__admins_only'))
+    }
+    applyButton(ctx, ctx.callbackQuery.data)
+    await ctx.answerCbQuery()
+    return ctx.editMessageReplyMarkup(menuKeyboard(ctx, getChatConfig(ctx))).catch(() => {})
+  }
+
+  const applyButton = (ctx, data) => {
+    if (data === SWITCH_LOCALE) {
+      const locale = ctx.i18n.locale() === 'it' ? 'en' : 'it'
+      ctx.i18n.locale(locale)
+      return setChatConfig(ctx, { locale })
+    }
+    const toggle = TOGGLES.find(({ setting }) => data === TOGGLE_PREFIX + setting)
+    if (toggle) setChatConfig(ctx, { [toggle.setting]: !getChatConfig(ctx)[toggle.setting] })
+  }
+
+  return { getChatConfig, setChatConfig, applyChatLocale, manageGroupConfig, handleConfigButton }
 }
+
+const canConfigure = async (ctx) => ctx.chat.type === 'private' || await isAdmin(ctx)
+
+const menuKeyboard = (ctx, config) => ({
+  inline_keyboard: [
+    ...TOGGLES.map(({ setting, label }) => [{
+      text: ctx.i18n.t(label, { enabled: config[setting] ? '✅' : '❌' }),
+      callback_data: TOGGLE_PREFIX + setting
+    }]),
+    [{ text: ctx.i18n.t('config__i18n_locale', { locale: ctx.i18n.locale().toUpperCase() }), callback_data: SWITCH_LOCALE }]
+  ]
+})
+
+const chatName = (chat) => chat.title || (chat.username ? `@${chat.username}` : chat.first_name)
+
+const chatConfig = createChatConfig()
+
 module.exports = {
-  getChatConfig,
-  setChatConfig,
-  manageGroupConfig
+  createChatConfig,
+  getChatConfig: chatConfig.getChatConfig,
+  applyChatLocale: chatConfig.applyChatLocale,
+  manageGroupConfig: chatConfig.manageGroupConfig,
+  handleConfigButton: chatConfig.handleConfigButton
 }

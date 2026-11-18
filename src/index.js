@@ -13,7 +13,7 @@ const { searchScp } = require('./features/scpSearcher')
 const { sendRandomComic } = require('./features/cyanideComicGenerator')
 const { manageGroupRSS, sceneListenRss } = require('./features/rss/rssManager')
 const { coinFlip } = require('./features/coinFlip')
-const { manageGroupConfig, setChatConfig, getChatConfig } = require('./features/configManager')
+const { manageGroupConfig, handleConfigButton, applyChatLocale, getChatConfig } = require('./features/configManager')
 const { sceneSticker, enterStickerIdScene } = require('./features/stickerId')
 const { sceneTesseract, enterTesseractScene } = require('./features/imageToText')
 const { sendRandomCAH } = require('./features/cahGenerator')
@@ -24,7 +24,6 @@ const { createRateLimit } = require('./features/rateLimit')
 const { createSay } = require('./features/say')
 const { sendDadoText } = require('./features/dadotext')
 
-const isAdmin = require('./utils/isAdmin')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 const i18n = new TelegrafI18n({
@@ -40,6 +39,7 @@ const say = createSay({ ownerId: Number(process.env.OWNER_ID) || undefined })
 bot.use(session())
 bot.use(say.rememberGroups)
 bot.use(i18n.middleware())
+bot.use(applyChatLocale)
 bot.use(stage.middleware())
 bot.use(commandParts())
 bot.use(createRateLimit({
@@ -100,34 +100,7 @@ bot.on('message', speechToText)
 // Actions
 bot.action('rss_new_feed', ctx => ctx.scene.enter('listenRSS'))
 
-// Config actions
-bot.action('config__enable_transcriber', async ctx => {
-  try {
-    if (!await isAdmin(ctx)) return
-    setChatConfig(ctx, { transcriber_enabled: true })
-    manageGroupConfig(ctx)
-  } catch (err) {
-    console.error(err)
-  }
-})
-bot.action('config__disable_transcriber', async ctx => {
-  try {
-    if (!await isAdmin(ctx)) return
-    setChatConfig(ctx, { transcriber_enabled: false })
-    manageGroupConfig(ctx)
-  } catch (err) {
-    console.error(err)
-  }
-})
-bot.action('config__switch_locale', async ctx => {
-  try {
-    if (!await isAdmin(ctx)) return
-    ctx.i18n.locale(ctx.i18n.locale() === 'it' ? 'en' : 'it')
-    manageGroupConfig(ctx)
-  } catch (err) {
-    console.error(err)
-  }
-})
+bot.action(/^config__/, handleConfigButton)
 
 console.log("Starting YoYo-Ma...")
 bot.launch()

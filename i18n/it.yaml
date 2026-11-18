@@ -39,7 +39,7 @@ config__manage: Settings per la chat "${group_name}"
 config__transcriber_enabled: Transcriber ${enabled}
 config__react_enabled: Reazione a testo ${enabled}
 config__i18n_locale: "Lingua: ${locale}"
-config__error: Errore durante il recupero della configurazione per questa chat!
+config__admins_only: Solo gli admin del gruppo possono cambiare le impostazioni
 
 
 sid__start: Mandami uno sticker e ti dirò il suo id

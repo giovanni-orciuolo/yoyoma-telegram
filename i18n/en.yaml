@@ -35,11 +35,11 @@ ct__heads: Heads!
 ct__tails: Tails!
 
 
-config__manage: Settings for group "${group_name}"
+config__manage: Settings for "${group_name}"
 config__transcriber_enabled: Transcriber ${enabled}
 config__react_enabled: Reaction to text ${enabled}
 config__i18n_locale: "Language: ${locale}"
-config__error: Error during config retrieval for this chat!
+config__admins_only: Only the group admins can change the settings
 
 
 sid__start: Send me a sticker and I will tell you its id
