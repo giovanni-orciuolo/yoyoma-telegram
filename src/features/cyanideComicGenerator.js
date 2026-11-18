@@ -1,25 +1,33 @@
 const fetch = require('node-fetch')
+const ffmpeg = require('fluent-ffmpeg-7')
+const fs = require('fs')
+const os = require('os')
+const path = require('path')
+const { randomUUID } = require('crypto')
 
 const RANDOM_PANELS_URL = 'https://explosm.net/api/get-random-panels'
 const PERMALINK_URL = 'https://explosm.net/rcg'
 const PANEL_CDN_URL = 'https://rcg-cdn.explosm.net/panels'
+const PANEL_HEIGHT = 398
 
+// Telegram chooses the layout of an album itself, so the panels are joined into one image to keep them in one row
 const sendRandomComic = async (ctx) => {
   const replyOptions = {
     reply_to_message_id: ctx.message.message_id,
     disable_notification: true
   }
+  const files = []
   try {
     const comic = comicFromPanels(await fetchRandomPanels())
-    const album = comic.panelUrls.map((url, i) => ({
-      type: 'photo',
-      media: url,
-      caption: i === 0 ? comic.permalink : undefined
-    }))
-    return await ctx.replyWithMediaGroup(album, replyOptions)
+    for (const url of comic.panelUrls) files.push(await downloadPanel(url))
+    const comicFile = await joinPanels(files)
+    files.push(comicFile)
+    return await ctx.replyWithPhoto({ source: comicFile }, { caption: comic.permalink, ...replyOptions })
   } catch (err) {
     console.error('[RCG] Failed to generate a random comic', err)
     return ctx.reply(ctx.i18n.t('rcg__error'), replyOptions)
+  } finally {
+    files.forEach(file => fs.unlink(file, () => {}))
   }
 }
 
@@ -40,7 +48,32 @@ const comicFromPanels = (panels) => {
   }
 }
 
+// The panel CDN refuses ffmpeg's own HTTP client, so the panels are downloaded first
+const downloadPanel = async (url) => {
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Panel download failed with status ${res.status}: ${url}`)
+  const file = path.join(os.tmpdir(), `rcg_panel_${randomUUID()}.png`)
+  fs.writeFileSync(file, await res.buffer())
+  return file
+}
+
+const joinPanels = (panelFiles) => new Promise((resolve, reject) => {
+  const output = path.join(os.tmpdir(), `rcg_${randomUUID()}.png`)
+  const scaled = panelFiles.map((_, i) => `[${i}:v]scale=-1:${PANEL_HEIGHT}[p${i}]`)
+  const stack = `${panelFiles.map((_, i) => `[p${i}]`).join('')}hstack=inputs=${panelFiles.length}`
+  const command = ffmpeg()
+  panelFiles.forEach(file => command.input(file))
+  command
+    .complexFilter([...scaled, stack].join(';'))
+    .frames(1)
+    .output(output)
+    .on('end', () => resolve(output))
+    .on('error', reject)
+    .run()
+})
+
 module.exports = {
   sendRandomComic,
-  comicFromPanels
+  comicFromPanels,
+  joinPanels
 }
