@@ -9,7 +9,7 @@ const emittersManager = new EmittersManager()
 // Fired on each new RSS item
 const onNewItem = async (item, ctx) => {
   // pubDate must be within an hour of current date
-  if (moment().diff(moment(item.pubDate), "hour") <= 1)
+  if (moment().diff(moment(item.pubDate), "hour") <= 1) {
     await replyWithOptionalImage(
       ctx, item.image.url,
       ctx.i18n.t('rss__new_item', {
@@ -17,20 +17,21 @@ const onNewItem = async (item, ctx) => {
         link: item.link,
         item_title: item.title
       })
-    )
+    ) 
+  }
 }
 
 const sceneListenRss = new Scene('listenRSS')
 sceneListenRss.enter(ctx => ctx.reply(ctx.i18n.t('rss__new_enter')))
 sceneListenRss.on('text', async ctx => {
   try {
-    const groupId = (await ctx.getChat()).id, rssUrl = ctx.message.text
+    const groupId = (await ctx.getChat()).id; const rssUrl = ctx.message.text
     emittersManager.addFeed(groupId, rssUrl).on('new-item', async item => onNewItem(item, ctx))
 
     await ctx.reply(ctx.i18n.t('rss__new_listening', { url: rssUrl }))
   } catch (err) {
     console.error('[RSS] Error: ' + err)
-    let what = 'rss__error';
+    let what = 'rss__error'
     switch (err.status) {
       case 404: what = 'rss__no_emitter'; break
       case 409: what = 'rss__conflict'; break
@@ -79,7 +80,7 @@ const manageGroupRSS = async (ctx) => {
       )
     })
     // Build callback buttons
-    /*const buttons = []
+    /* const buttons = []
     feeds.forEach(feed => buttons.push(Markup.callbackButton(feed.url)))
 
     return ctx.reply(ctx.i18n.t('rss__manage_msg'), {
@@ -88,7 +89,7 @@ const manageGroupRSS = async (ctx) => {
       ...Extra.markup(m =>
         m.inlineKeyboard(buttons)
       )
-    })*/
+    }) */
   } catch (err) {
     console.error('[RSS] Error during manageGroupRSS: ' + err)
     return ctx.reply(ctx.i18n.t('rss__error'), {

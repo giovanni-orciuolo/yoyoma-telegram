@@ -34,9 +34,6 @@ rss__new_item: Novità da "${title}":\n<a href="${link}">${item_title}</a>
 ct__heads: Testa!
 ct__tails: Croce!
 
-ytaudio__not_found: Non ho trovato proprio un cazzo su Youtube per questa ricerca...
-ytaudio__error: Non sono riuscito a recuperare l'audio dal video di Youtube. Controlla la console per dettagli
-ytaudio__too_long: Questo video è troppo lungo, vuoi per caso uccidermi? Eh? Hostati da solo coglione
 
 config__manage: Settings per la chat "${group_name}"
 config__transcriber_enabled: Transcriber ${enabled}
@@ -44,9 +41,6 @@ config__react_enabled: Reazione a testo ${enabled}
 config__i18n_locale: "Lingua: ${locale}"
 config__error: Errore durante il recupero della configurazione per questa chat!
 
-fusion__generating: Sto generando un nuovo Pokémon fuso solo per te...
-fusion__generated: Ecco il tuo Pokémon fuso! Un esemplare di ${fusion_name} davvero interessante...
-fusion__fail: Non sono riuscito a fondere i 2 Pokémon, sono riusciti a fuggire! Bastardi...
 
 sid__start: Mandami uno sticker e ti dirò il suo id
 sid__no_sticker: Per favore manda uno sticker così posso dirti il suo id!
@@ -54,14 +48,21 @@ sid__sticker: Questo sticker ha come id ${sticker_id}
 
 tesseract__start: Mandami una foto e cercherò di trascrivere il testo che contiene, se è presente
 tesseract__not_photo: Ma questo messaggio non contiene una foto imbecille
-tesseract__progress: Sto cercando di trascrivere questa immagine... ${progress}%
+tesseract__no_text: Non ho trovato nessun testo in questa foto
+tesseract__error: Non sono riuscito a leggere questa foto, riprova più tardi
 
 rl__exceeded: Ma che oooh la volete smettere di spammarmi
 
 scene_end: Comando concluso!
 
-fbvideo__download_failed: Non sono riuscito a recuperare il video...
+fbvideo__invalid_url: Passami un link video valido di Facebook per scaricare il video!
+
+video__download_failed: Non sono riuscito a scaricare il video. Forse è privato, è stato eliminato o supera i 50 MB
 
 tiktok__invalid_url: Passami un link video valido di TikTok per scaricare il video!
 
 dt__error: Non sono riuscito a generare il video...
+dt__no_text: Dimmi cosa scrivere, tipo /dadotext ciao
+
+mc__no_address: Dimmi l'indirizzo del server, tipo /mcstatus mc.hypixel.net
+mc__error: Non sono riuscito a recuperare lo stato del server

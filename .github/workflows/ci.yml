@@ -1,0 +1,31 @@
+name: ci
+
+on:
+  pull_request:
+  # develop runs this through deploy.yml, so that a red build never deploys
+  push:
+    branches-ignore: [develop]
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: yarn
+      - run: yarn install --frozen-lockfile --ignore-engines
+      - run: yarn lint
+
+  # The tests run inside the production image, against the same Alpine, ffmpeg, fonts and yt-dlp the bot uses
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: docker build -t yoyo-telegram .
+      - run: docker run --rm --entrypoint node yoyo-telegram --test

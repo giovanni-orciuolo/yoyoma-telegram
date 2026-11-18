@@ -1,11 +1,10 @@
 require('dotenv').config()
 
-const telegraf = require('telegraf')
-const telegrafI18N = require('telegraf-i18n')
+const Telegraf = require('telegraf')
+const TelegrafI18n = require('telegraf-i18n')
 const commandParts = require('telegraf-command-parts')
 const session = require('telegraf/session')
 const Stage = require('telegraf/stage')
-const rateLimit = require('telegraf-ratelimit')
 const fs = require('fs')
 
 const { geniusSearch } = require('./features/geniusSearch')
@@ -14,33 +13,32 @@ const { searchScp } = require('./features/scpSearcher')
 const { sendRandomComic } = require('./features/cyanideComicGenerator')
 const { manageGroupRSS, sceneListenRss } = require('./features/rss/rssManager')
 const { coinFlip } = require('./features/coinFlip')
-// const { sendYoutubeAudio } = require('./features/youtubeAudio')
 const { manageGroupConfig, setChatConfig, getChatConfig } = require('./features/configManager')
 const { sceneSticker, enterStickerIdScene } = require('./features/stickerId')
 const { sceneTesseract, enterTesseractScene } = require('./features/imageToText')
 const { sendRandomCAH } = require('./features/cahGenerator')
 const { sendCockRate } = require('./features/rateCock')
 const { sendMinecraftServerStatus } = require("./features/minecraftServerStatus")
-const { sendFacebookVideo } = require('./features/facebookVideo')
-const { sendTikTokVideo } = require('./features/tiktok')
+const { sendTikTokVideo, sendFacebookVideo } = require('./features/videoLink')
+const { createRateLimit } = require('./features/rateLimit')
 const { sendDadoText } = require('./features/dadotext')
 
 const isAdmin = require('./utils/isAdmin')
 
-const bot = new telegraf(process.env.BOT_TOKEN)
-const i18n = new telegrafI18N({
+const bot = new Telegraf(process.env.BOT_TOKEN)
+const i18n = new TelegrafI18n({
   defaultLanguage: 'en',
   directory: 'i18n',
   allowMissing: true,
-  useSession: true,
+  useSession: true
 })
-const stage = new Stage([ sceneListenRss, sceneSticker, sceneTesseract ], { ttl: 10 })
+const stage = new Stage([sceneListenRss, sceneSticker, sceneTesseract], { ttl: 10 })
 
 bot.use(session())
 bot.use(i18n.middleware())
 bot.use(stage.middleware())
 bot.use(commandParts())
-bot.use(rateLimit({
+bot.use(createRateLimit({
   window: 1000,
   limit: 10,
   onLimitExceeded: ctx => ctx.reply(ctx.i18n.t('rl__exceeded'))
@@ -49,12 +47,12 @@ bot.use(rateLimit({
 bot.start((ctx) => ctx.reply(ctx.i18n.t('welcome')))
 bot.catch((err) => console.error('Ops! Questo è imbarazzante:', err))
 
-function replyWithSticker(ctx, stickerId) {
+function replyWithSticker (ctx, stickerId) {
   if (getChatConfig(ctx).react_to_text_enabled) {
     ctx.replyWithSticker(stickerId)
   }
 }
-function replyWithVoice(ctx, voicePath) {
+function replyWithVoice (ctx, voicePath) {
   if (getChatConfig(ctx).react_to_text_enabled) {
     ctx.replyWithVoice({ source: fs.createReadStream(voicePath) })
   }
@@ -84,9 +82,7 @@ bot.command('cah', sendRandomCAH)
 bot.command('ratecock', sendCockRate)
 bot.command('mcstatus', sendMinecraftServerStatus)
 bot.command('rss', manageGroupRSS) // STILL IN DEVELOPMENT
-bot.command('fbvideo', sendFacebookVideo) // STILL IN DEVELOPMENT
-// bot.command('ytaudio', sendYoutubeAudio) DISABLED because it causes too much CPU usage on my little VPS
-// bot.command('pokefusion', sendRandomPokeFusion) NOT WORKING - Needs Puppeteer on Docker
+bot.command('fbvideo', sendFacebookVideo)
 bot.command('tiktok', sendTikTokVideo)
 bot.command('dadotext', sendDadoText)
 

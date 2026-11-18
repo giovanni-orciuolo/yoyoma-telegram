@@ -37,3 +37,6 @@ now-secrets.json
 # Files
 audio/*
 video/*
+
+# Language model that tesseract.js downloads on first use
+eng.traineddata

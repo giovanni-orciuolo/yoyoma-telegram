@@ -1,38 +1,46 @@
-const request = require('request')
-const cheerio = require('cheerio')
+const fetch = require('node-fetch')
 
-const RCG_URL = "http://explosm.net/rcg"
+const RANDOM_PANELS_URL = 'https://explosm.net/api/get-random-panels'
+const PERMALINK_URL = 'https://explosm.net/rcg'
+const PANEL_CDN_URL = 'https://rcg-cdn.explosm.net/panels'
 
-const randomCyanideComic = () => {
-  return new Promise((resolve, reject) => {
-    request(RCG_URL, (err, res, html) => {
-      if (err || res.statusCode !== 200)
-        reject()
-
-      const $ = cheerio.load(html)
-      const permalink = $('#permalink').attr('value')
-
-      resolve({
-        permalink: permalink
-      })
-    })
-  })
-}
 const sendRandomComic = async (ctx) => {
+  const replyOptions = {
+    reply_to_message_id: ctx.message.message_id,
+    disable_notification: true
+  }
   try {
-    const comic = await randomCyanideComic()
-    return ctx.reply(comic.permalink, {
-      reply_to_message_id: ctx.message.message_id,
-      disable_notification: true
-    })
+    const comic = comicFromPanels(await fetchRandomPanels())
+    const album = comic.panelUrls.map((url, i) => ({
+      type: 'photo',
+      media: url,
+      caption: i === 0 ? comic.permalink : undefined
+    }))
+    return await ctx.replyWithMediaGroup(album, replyOptions)
   } catch (err) {
-    return ctx.reply(ctx.i18n.t('rcg__error'), {
-      reply_to_message_id: ctx.message.message_id,
-      disable_notification: true
-    })
+    console.error('[RCG] Failed to generate a random comic', err)
+    return ctx.reply(ctx.i18n.t('rcg__error'), replyOptions)
+  }
+}
+
+const fetchRandomPanels = async () => {
+  const res = await fetch(RANDOM_PANELS_URL)
+  const body = await res.json()
+  if (!res.ok || body.success !== true) {
+    throw new Error(`Unexpected response from explosm.net: ${res.status}`)
+  }
+  return body.panels
+}
+
+const comicFromPanels = (panels) => {
+  const ordered = [...panels].sort((a, b) => a.column - b.column)
+  return {
+    permalink: `${PERMALINK_URL}/${ordered.map(panel => panel.slug).join('')}`,
+    panelUrls: ordered.map(panel => `${PANEL_CDN_URL}/${panel.filename}`)
   }
 }
 
 module.exports = {
-  sendRandomComic
+  sendRandomComic,
+  comicFromPanels
 }

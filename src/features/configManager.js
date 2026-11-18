@@ -9,7 +9,7 @@ let ChatConfigs = {}
 const DEFAULT_CONFIG = {
   current_config_message: 0,
   transcriber_enabled: true,
-  react_to_text_enabled: true,
+  react_to_text_enabled: true
 }
 
 const getChatConfig = (ctx) => {
@@ -29,13 +29,13 @@ const pushNewChatConfig = (ctx, config) => {
 }
 
 const manageGroupConfig = async (ctx) => {
-  function boolTriggerStr(value) {
+  function boolTriggerStr (value) {
     // Used for boolean togglers
     return value ? 'disable' : 'enable'
   }
-  function buildBooleanTrigger(i18n_text, config_name, config_val) {
+  function buildBooleanTrigger (i18n_text, config_name, config_val) {
     return Markup.callbackButton(
-      ctx.i18n.t(i18n_text, { enabled: config_val ? '✅' : '❌'}),
+      ctx.i18n.t(i18n_text, { enabled: config_val ? '✅' : '❌' }),
       `config__${boolTriggerStr(config_val)}_${config_name}`
     )
   }
@@ -70,7 +70,7 @@ const manageGroupConfig = async (ctx) => {
         m.inlineKeyboard([
           buildBooleanTrigger('config__transcriber_enabled', 'transcriber', chatConfig.transcriber_enabled),
           m.callbackButton(ctx.i18n.t('config__i18n_locale', { locale: ctx.i18n.locale().toUpperCase() }), 'config__switch_locale'),
-          buildBooleanTrigger('config__react_enabled', 'react_to_text', chatConfig.react_to_text_enabled),
+          buildBooleanTrigger('config__react_enabled', 'react_to_text', chatConfig.react_to_text_enabled)
         ])
       )
     })

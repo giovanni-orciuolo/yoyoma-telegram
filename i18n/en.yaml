@@ -34,9 +34,6 @@ rss__new_item: New feed from "${title}":\n<a href="${link}">${item_title}</a>
 ct__heads: Heads!
 ct__tails: Tails!
 
-ytaudio__not_found: Video not found on Youtube...
-ytaudio__error: Couldn't get audio from Youtube video. Check the console for details
-ytaudio__too_long: This video is too long man. Do you want to kill me? Host this shit yourself, dumbass
 
 config__manage: Settings for group "${group_name}"
 config__transcriber_enabled: Transcriber ${enabled}
@@ -44,9 +41,6 @@ config__react_enabled: Reaction to text ${enabled}
 config__i18n_locale: "Language: ${locale}"
 config__error: Error during config retrieval for this chat!
 
-fusion__generating: Generating a new Pokémon fusion just for you...
-fusion__generated: Here it is, its name is ${fusion_name}. Pretty interesting, indeed...
-fusion__fail: Couldn't fuse the 2 Pokémons, they managed to escape! Those bastards...
 
 sid__start: Send me a sticker and I will tell you its id
 sid__no_sticker: Please send a sticker so I can get its id!
@@ -54,15 +48,22 @@ sid__sticker: Sticker id is ${sticker_id}
 
 tesseract__start: Send me a picture and I will try to transcribe the text on it, if present
 tesseract__not_photo: This message does not contain a picture. Are you dense? I told you to give me a fucking picture
-tesseract__progress: I'm transcribing this image... ${progress}%
+tesseract__no_text: I couldn't find any text in this picture
+tesseract__error: Couldn't read this picture, try again later
 
 rl__exceeded: Can you guys fucking stop spamming? Thanks
 
 scene_end: Command concluded!
 
-fbvideo__download_failed: Couldn't get Facebook video...
+fbvideo__invalid_url: Pass me a valid Facebook video URL to download it!
+
+video__download_failed: Couldn't download this video. It may be private, deleted, or bigger than 50 MB
 
 tiktok__invalid_url: Pass me a valid TikTok video URL to download it!
 
 dt__error: Couldn't generate DadoText...
+dt__no_text: Tell me what to write, like /dadotext hello
+
+mc__no_address: Tell me the server address, like /mcstatus mc.hypixel.net
+mc__error: Couldn't get the status of this server
 
