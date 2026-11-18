@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YoYo-Ma Telegram bot</title>
+  <meta name="description" content="YoYo-Ma is a Telegram bot for group chats: voice transcription, lyrics search, video downloads and random comics.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav class="site-nav"><a href="/">All bots</a></nav>
+  <main>
+    <h1>YoYo-Ma</h1>
+    <p class="lede">A Telegram bot for group chats. Add it to a group and it transcribes voice messages, finds songs from half-remembered lyrics and answers a handful of silly commands.</p>
+    <p>
+      <a class="button" href="https://t.me/yoyoma_bot">Open in Telegram</a>
+      <a class="button secondary" href="/yoyoma/privacy/">Privacy policy</a>
+    </p>
+    <p>The name comes from Yo-Yo Ma, the eager, drooling Stand from JoJo's Bizarre Adventure: Stone Ocean that follows its target around and helps with anything.</p>
+
+    <h2>Commands</h2>
+    <dl class="commands">
+      <div><dt><span class="cmd">/lyrics</span></dt><dd>Finds a song on Genius from a piece of its lyrics. Send it alone and the bot asks you for the lyrics.</dd></div>
+      <div><dt><span class="cmd">/tiktok</span> <span class="cmd">/fbvideo</span></dt><dd>Downloads a TikTok or Facebook video from its link and posts it in the chat, up to 50 MB.</dd></div>
+      <div><dt><span class="cmd">/rcg</span></dt><dd>Makes a random Cyanide and Happiness comic from three random panels.</dd></div>
+      <div><dt><span class="cmd">/scp</span></dt><dd>Links an SCP Foundation entry. Give it a number, or leave it empty for a random one.</dd></div>
+      <div><dt><span class="cmd">/tesseract</span></dt><dd>Reads the text in the next photo you send.</dd></div>
+      <div><dt><span class="cmd">/mcstatus</span></dt><dd>Shows whether a Minecraft server is online and who is playing, for example <code>/mcstatus mc.hypixel.net</code>.</dd></div>
+      <div><dt><span class="cmd">/dadotext</span></dt><dd>Writes your text on the dado video.</dd></div>
+      <div><dt><span class="cmd">/cah</span></dt><dd>Draws a random Cards Against Humanity combination.</dd></div>
+      <div><dt><span class="cmd">/coin</span></dt><dd>Flips a coin.</dd></div>
+      <div><dt><span class="cmd">/ratecock</span></dt><dd>Rates whoever you mention. Not for children.</dd></div>
+      <div><dt><span class="cmd">/stickerid</span></dt><dd>Tells you the ID of the next sticker you send.</dd></div>
+      <div><dt><span class="cmd">/config</span></dt><dd>Turns voice transcription and the sticker replies on or off, and switches between English and Italian. In a group, only admins can use it.</dd></div>
+    </dl>
+
+    <h2>Voice messages</h2>
+    <p>When someone sends a voice message, an audio file or a video message, the bot writes out what was said and replies with the text. A group admin can turn this off with <span class="cmd">/config</span>.</p>
+
+    <h2>Source code</h2>
+    <p>The bot is open source on <a href="https://github.com/giovanni-orciuolo/yoyoma-telegram">GitHub</a>.</p>
+  </main>
+  <footer>
+    YoYo-Ma is made and run by Giovanni Orciuolo. Questions go to <a href="https://t.me/GiovanniOR2">@GiovanniOR2</a> on Telegram.
+  </footer>
+</body>
+</html>
