@@ -5,7 +5,7 @@ no: No! No! No!
 locale_set: Ora parlo italiano!
 no_locale: Non supporto questa lingua mi dispiace
 
-genius__empty_lyrics: Il testo della canzone non può essere vuoto dai
+genius__ask_lyrics: Mandami il testo che ti ricordi e ti trovo la canzone
 genius__no_song: Nessuna canzone trovata con questo testo...
 genius__other_songs_found: Ci sarebbero altre ${amount} potenziali canzoni:\n
 

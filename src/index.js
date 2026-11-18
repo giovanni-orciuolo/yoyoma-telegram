@@ -7,7 +7,7 @@ const session = require('telegraf/session')
 const Stage = require('telegraf/stage')
 const fs = require('fs')
 
-const { geniusSearch } = require('./features/geniusSearch')
+const { geniusSearch, sceneLyrics } = require('./features/geniusSearch')
 const { speechToText } = require('./features/speechToText')
 const { searchScp } = require('./features/scpSearcher')
 const { sendRandomComic } = require('./features/cyanideComicGenerator')
@@ -32,7 +32,7 @@ const i18n = new TelegrafI18n({
   allowMissing: true,
   useSession: true
 })
-const stage = new Stage([sceneListenRss, sceneSticker, sceneTesseract], { ttl: 10 })
+const stage = new Stage([sceneListenRss, sceneSticker, sceneTesseract, sceneLyrics], { ttl: 10 })
 
 bot.use(session())
 bot.use(i18n.middleware())
