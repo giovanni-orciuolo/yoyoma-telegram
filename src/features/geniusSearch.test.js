@@ -64,6 +64,15 @@ test('/lyrics with lyrics searches right away', async () => {
   assert.deepEqual(searches, ['never gonna give you up'])
 })
 
+test('while searching, the chat shows that the bot is sending a photo', async () => {
+  const bot = createBot()
+
+  await send(bot, '/lyrics never gonna give you up')
+
+  const actions = apiCalls.filter(call => call.method === 'sendChatAction').map(call => call.payload.action)
+  assert.deepEqual(actions, ['upload_photo'])
+})
+
 test('/lyrics alone asks for the lyrics, with a reply the bot can see in groups', async () => {
   const bot = createBot()
 

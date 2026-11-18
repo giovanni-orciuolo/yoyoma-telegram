@@ -1,5 +1,6 @@
 const Scene = require('telegraf/scenes/base')
 const genius = require('./geniusApi')
+const { whileShowing } = require('./chatAction')
 
 // Long enough to type a line of lyrics; the stage default of 10 seconds is not
 const LYRICS_SCENE_TTL = 120
@@ -7,7 +8,7 @@ const LYRICS_SCENE_TTL = 120
 const geniusSearch = async (ctx) => {
   const text = ctx.state.command.args.trim()
   if (!text) return ctx.scene.enter('lyrics')
-  return searchLyrics(ctx, text)
+  return whileShowing(ctx, 'upload_photo', () => searchLyrics(ctx, text))
 }
 
 const sceneLyrics = new Scene('lyrics', { ttl: LYRICS_SCENE_TTL })
@@ -19,7 +20,7 @@ sceneLyrics.enter((ctx) => ctx.reply(ctx.i18n.t('genius__ask_lyrics'), {
 sceneLyrics.on('text', async (ctx, next) => {
   await ctx.scene.leave()
   if (ctx.message.text.startsWith('/')) return next()
-  return searchLyrics(ctx, ctx.message.text)
+  return whileShowing(ctx, 'upload_photo', () => searchLyrics(ctx, ctx.message.text))
 })
 
 const searchLyrics = async (ctx, text) => {

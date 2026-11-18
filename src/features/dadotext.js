@@ -3,6 +3,7 @@ const fs = require('fs')
 const os = require('os')
 const path = require('path')
 const { randomUUID } = require('crypto')
+const { whileShowing } = require('./chatAction')
 
 const DADO_VIDEO = path.join(__dirname, '../../assets/dadobax.mp4')
 
@@ -18,8 +19,10 @@ const sendDadoText = async (ctx) => {
 
   let outputPath
   try {
-    outputPath = await writeTextOnVideo(DADO_VIDEO, text)
-    await ctx.replyWithAnimation({ source: outputPath }, replyOptions)
+    await whileShowing(ctx, 'upload_video', async () => {
+      outputPath = await writeTextOnVideo(DADO_VIDEO, text)
+      await ctx.replyWithAnimation({ source: outputPath }, replyOptions)
+    })
   } catch (err) {
     console.error('[DT] Failed to generate DadoText!', err)
     await ctx.reply(ctx.i18n.t('dt__error'), replyOptions)
