@@ -47,13 +47,13 @@ const splitAudio = (audioPath, audioFileName, segmentTime = SEGMENT_TIME) => {
     ffmpeg(audioPath)
       .addOptions([
         `-f segment`,
-        `-segment_time ${segmentTime}`,
+        `-segment_time ${segmentTime}`
       ])
       .output(`audio/split_${audioFileName}_%03d.mp3`)
       .on('end', resolve)
       .on('error', reject)
       .run()
-  });
+  })
 }
 
 const extractSpeech = (stream, contentType) => {
@@ -77,10 +77,10 @@ const speechToText = async (ctx) => {
   // Extract variables from the present container
   const {
     file_id,
-    mime_type,
+    mime_type
   } = ctx.message.voice || ctx.message.audio || ctx.message.video_note
 
-  const STR_IS_TRANSCRIBING = " [...]";
+  const STR_IS_TRANSCRIBING = " [...]"
 
   const cfg = getChatConfig(ctx)
   if (cfg && !cfg.transcriber_enabled) return
@@ -108,7 +108,7 @@ const speechToText = async (ctx) => {
         disable_notification: true
       })
       deleteAudioFile(voicePath)
-      return;
+      return
     }
   } catch (err) {
     console.error('[S2T] Failed to download audio file!', err)
@@ -117,7 +117,7 @@ const speechToText = async (ctx) => {
       disable_notification: true
     })
     deleteAudioFile(voicePath)
-    return;
+    return
   }
 
   const convertedPath = `audio/converted_${voiceFile.file_id}.mp3`
@@ -133,14 +133,14 @@ const speechToText = async (ctx) => {
         disable_notification: true
       })
       deleteAudioFile(voicePath)
-      return;
+      return
     }
   }
 
   // At this point convertedPath will be our mp3 file
   try {
     // Split audio into little chunks based on silence (won't split if audio is short)
-    await splitAudio(convertedPath, voiceFile.file_id);
+    await splitAudio(convertedPath, voiceFile.file_id)
   } catch (err) {
     console.error('[S2T] Error while splitting audio file!', err)
     ctx.reply(ctx.i18n.t('s2t__split_fail'), {
@@ -156,10 +156,10 @@ const speechToText = async (ctx) => {
 
   // Now that the audio has been split, for each audio file which names contains "split_${file_id}" call extractSpeech
   const splitFiles = fs.readdirSync('audio/').filter(file => file.startsWith(`split_${voiceFile.file_id}`))
-  let firstTime = true, chatId = -1, messageId = -1, messageText = '', extractionAttempts = 0
+  let firstTime = true; let chatId = -1; let messageId = -1; let messageText = ''; let extractionAttempts = 0
 
   for (let i = 0; i < splitFiles.length; ++i) {
-    const file = splitFiles[i];
+    const file = splitFiles[i]
     const voiceStreamConverted = fs.createReadStream(`audio/${file}`)
     let success = false
 
@@ -201,7 +201,7 @@ const speechToText = async (ctx) => {
       }
     } else {
       messageText = messageText.replace(STR_IS_TRANSCRIBING, "")
-      messageText += !!extractedText ? ` ${extractedText}` : ""
+      messageText += extractedText ? ` ${extractedText}` : ""
       messageText += (i !== splitFiles.length - 1) ? STR_IS_TRANSCRIBING : ""
       try {
         await ctx.telegram.editMessageText(chatId, messageId, null, messageText)

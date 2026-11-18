@@ -9,7 +9,7 @@ const MAX_VIDEO_LENGTH = 3600 // seconds
 const youtubeInfo = (id) => {
   return new Promise((resolve, reject) => {
     if (!id) {
-      reject({ status: 400, message: "ID must have a value" })
+      reject(Object.assign(new Error("ID must have a value"), { status: 400 }))
     }
     info(id)
       .then((videoInfo) => resolve(videoInfo))
@@ -20,7 +20,7 @@ const youtubeInfo = (id) => {
 const youtubeSearch = (terms) => {
   return new Promise((resolve, reject) => {
     if (!terms) {
-      reject({ status: 404, message: "Empty search..." })
+      reject(Object.assign(new Error("Empty search..."), { status: 404 }))
     }
     search(terms, {
       maxResults: 1,
@@ -37,12 +37,11 @@ const downloadYoutubeAudio = (searchTerms) => {
     youtubeSearch(searchTerms)
       .then(async (results) => {
         const result = results[0]
-        if (!result)
-          reject({ status: 404, message: "No video found on Youtube!" })
+        if (!result) { reject(Object.assign(new Error("No video found on Youtube!"), { status: 404 })) }
 
         const videoInfo = await youtubeInfo(result.id)
         if (videoInfo.duration > MAX_VIDEO_LENGTH) {
-          reject({ status: 413, message: "Video is too long!" })
+          reject(Object.assign(new Error("Video is too long!"), { status: 413 }))
         }
 
         const dest = `./audio/yt_${result.id}_${generate()}.mp3`

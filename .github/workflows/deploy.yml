@@ -5,7 +5,11 @@ on:
     branches: [develop]
 
 jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
   deploy:
+    needs: ci
     if: vars.DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
     concurrency:

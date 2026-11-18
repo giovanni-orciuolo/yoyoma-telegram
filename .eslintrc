@@ -3,6 +3,8 @@
   "rules": {
     "quotes": "off",
     "no-trailing-spaces": "off",
-    "no-multiple-empty-lines": "off"
+    "no-multiple-empty-lines": "off",
+    // The Telegram Bot API names every field in snake_case (message_id, file_id, ...)
+    "camelcase": "off"
   }
 }

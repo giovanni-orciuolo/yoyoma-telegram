@@ -60,9 +60,15 @@ rl__exceeded: Can you guys fucking stop spamming? Thanks
 
 scene_end: Command concluded!
 
-fbvideo__download_failed: Couldn't get Facebook video...
+fbvideo__invalid_url: Pass me a valid Facebook video URL to download it!
+
+video__download_failed: Couldn't download this video. It may be private, deleted, or bigger than 50 MB
 
 tiktok__invalid_url: Pass me a valid TikTok video URL to download it!
 
 dt__error: Couldn't generate DadoText...
+dt__no_text: Tell me what to write, like /dadotext hello
+
+mc__no_address: Tell me the server address, like /mcstatus mc.hypixel.net
+mc__error: Couldn't get the status of this server
 

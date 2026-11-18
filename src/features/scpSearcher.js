@@ -19,7 +19,7 @@ const fetchScpEntry = (num) => {
         reject(err)
       }
 
-      const $ = cheerio.load(html);
+      const $ = cheerio.load(html)
       $('p', '#page-content').each((i, element) => {
         if (i === 4) {
           return false // break

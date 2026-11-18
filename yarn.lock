@@ -170,6 +170,11 @@ async@>=0.2.9:
   dependencies:
     lodash "^4.17.11"
 
+async@^0.2.9:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/async/-/async-0.2.10.tgz#b6bbe0b0674b9d719708ca38de8c237cb526c3d1"
+  integrity sha512-eAkdoKxU6/LkKDBzLpT+t6Ff5EtfSF4wx1WfJiPEEV7WNLnDaRXk0oVysiEPm262roaachGexwUv94WhSgN5TQ==
+
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
@@ -1032,7 +1037,15 @@ flatted@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-2.0.0.tgz#55122b6536ea496b4b44893ee2608141d10d9916"
 
-fluent-ffmpeg@2.1.2, fluent-ffmpeg@^2.1.2:
+fluent-ffmpeg-7@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/fluent-ffmpeg-7/-/fluent-ffmpeg-7-2.1.5.tgz#805458c17229f1f2e576091aefa1fb2935ac2d96"
+  integrity sha512-t0/dJ0sjEuBBAA4utijn5t7ccZvez0ruKt4NDZjZvw+QEFQWjqfbEg8VWuycClB3NMXK2Qr5h7/SJAYvDVraqw==
+  dependencies:
+    async "^0.2.9"
+    which "^1.1.1"
+
+fluent-ffmpeg@2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/fluent-ffmpeg/-/fluent-ffmpeg-2.1.2.tgz#c952de2240f812ebda0aa8006d7776ee2acf7d74"
   dependencies:
@@ -2784,12 +2797,6 @@ telegraf-i18n@^6.5.0:
     compile-template "^0.3.1"
     debug "^4.0.1"
     js-yaml "^3.6.1"
-
-telegraf-ratelimit@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/telegraf-ratelimit/-/telegraf-ratelimit-2.0.0.tgz#64c72d77913901f92c690cd9078b1f724ef4268a"
-  dependencies:
-    debug "^3.1.0"
 
 telegraf@^3.1.0, telegraf@^3.27.1:
   version "3.27.1"

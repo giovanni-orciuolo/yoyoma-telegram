@@ -20,7 +20,7 @@ The bot runs the following commands:
 config - Open config manager for this chat. Requires admin rights if issued in a group
 lyrics - Search songs on Genius by lyrics
 scp - Search a random SCP or pass a number to search exact SCP
-rcg - Generate and send a random Cyanide and Happiness comic (taken from http://explosm.net/rcg)
+rcg - Generate and send a random Cyanide and Happiness comic (taken from https://explosm.net/rcg)
 coin - Just flips a coin
 // ytaudio - Search a video on Youtube and download audio from it [Disabled due to high CPU usage]
 // pokefusion - Generate a random Pokémon fusion and prints its Pokédex entry [Disabled because it's not working yet in production mode]
@@ -28,7 +28,10 @@ stickerid - Get a sticker id
 tesseract - Tries to transcribe text from an image (it isn't really good at it)
 cah - Sends a random Cards Against Humanity combination. It's fun sometimes... I swear!
 ratecock - Rates the cock of whoever you mention
+mcstatus - Show the status of a Minecraft server (usage: /mcstatus {address})
 fbvideo - Download a Facebook video (usage: /fbvideo {url})
+tiktok - Download a TikTok video (usage: /tiktok {url})
+dadotext - Write your text on the dado video (usage: /dadotext {text})
 ```
 
 There are also some random hears just for the sake of it
@@ -46,6 +49,17 @@ $ yarn dev
 ```
 
 Create a .env file with all the variables needed during development! (see below for more)
+
+/dadotext and the tests need ffmpeg on your PATH. /tiktok and /fbvideo need [yt-dlp](https://github.com/yt-dlp/yt-dlp) on your PATH.
+
+## Tests
+
+```sh
+$ yarn lint
+$ yarn test
+```
+
+GitHub Actions runs the linter, then runs the tests inside the Docker image. A push to develop deploys only after both pass.
 
 ## Deploying with Docker like a boss
 

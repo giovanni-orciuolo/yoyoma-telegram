@@ -17,7 +17,7 @@ const sendTextFromImage = async (ctx) => {
   }
 
   const file_link = await ctx.telegram.getFileLink(ctx.message.photo.sort((a, b) => b.file_size - a.file_size)[0])
-  let progressMessageId = -1, chatId = ctx.chat.id
+  let progressMessageId = -1; let chatId = ctx.chat.id
 
   const worker = new TesseractWorker()
   worker
@@ -38,7 +38,7 @@ const sendTextFromImage = async (ctx) => {
     .then(({ text }) => {
       ctx.reply(text, {
         reply_to_message_id: ctx.message.message_id
-      });
+      })
     })
 }
 

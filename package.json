@@ -11,10 +11,10 @@
     "dev": "nodemon src/index.js -w src",
     "start": "node src/index.js",
     "lint": "eslint .",
-    "test": "npm run lint"
+    "test": "node --test"
   },
   "engines": {
-    "node": ">=8.5.0"
+    "node": ">=20"
   },
   "author": "Giovanni Orciuolo <giovanni.orciuolo1999@gmail.com>",
   "license": "MIT",
@@ -34,7 +34,6 @@
     "telegraf": "^3.27.1",
     "telegraf-command-parts": "^1.0.3",
     "telegraf-i18n": "^6.5.0",
-    "telegraf-ratelimit": "^2.0.0",
     "tesseract.js": "^2.0.0-alpha.13",
     "underscore": "^1.9.1",
     "youtube-audio-stream": "^0.3.0",
