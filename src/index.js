@@ -21,6 +21,7 @@ const { sendCockRate } = require('./features/rateCock')
 const { sendMinecraftServerStatus } = require("./features/minecraftServerStatus")
 const { sendTikTokVideo, sendFacebookVideo } = require('./features/videoLink')
 const { createRateLimit } = require('./features/rateLimit')
+const { createSay } = require('./features/say')
 const { sendDadoText } = require('./features/dadotext')
 
 const isAdmin = require('./utils/isAdmin')
@@ -34,7 +35,10 @@ const i18n = new TelegrafI18n({
 })
 const stage = new Stage([sceneListenRss, sceneSticker, sceneTesseract, sceneLyrics], { ttl: 10 })
 
+const say = createSay({ ownerId: Number(process.env.OWNER_ID) || undefined })
+
 bot.use(session())
+bot.use(say.rememberGroups)
 bot.use(i18n.middleware())
 bot.use(stage.middleware())
 bot.use(commandParts())
@@ -85,6 +89,7 @@ bot.command('rss', manageGroupRSS) // STILL IN DEVELOPMENT
 bot.command('fbvideo', sendFacebookVideo)
 bot.command('tiktok', sendTikTokVideo)
 bot.command('dadotext', sendDadoText)
+bot.command('say', say.command)
 
 // Scene commands
 bot.command('back', ctx => ctx.scene.leave())

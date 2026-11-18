@@ -67,3 +67,7 @@ dt__no_text: Tell me what to write, like /dadotext hello
 mc__no_address: Tell me the server address, like /mcstatus mc.hypixel.net
 mc__error: Couldn't get the status of this server
 
+
+say__usage: "Usage: /say <group name or chat id> <message>\nGroups I know:\n${groups}"
+say__sent: Sent to ${group}
+say__failed: "Couldn't send to ${group}: ${reason}"
