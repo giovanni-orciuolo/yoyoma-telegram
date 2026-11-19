@@ -4,6 +4,7 @@ const fs = require('fs')
 const os = require('os')
 const path = require('path')
 const { randomUUID } = require('crypto')
+const { whileShowing } = require('./chatAction')
 
 const RANDOM_PANELS_URL = 'https://explosm.net/api/get-random-panels'
 const PERMALINK_URL = 'https://explosm.net/rcg'
@@ -18,11 +19,13 @@ const sendRandomComic = async (ctx) => {
   }
   const files = []
   try {
-    const comic = comicFromPanels(await fetchRandomPanels())
-    for (const url of comic.panelUrls) files.push(await downloadPanel(url))
-    const comicFile = await joinPanels(files)
-    files.push(comicFile)
-    return await ctx.replyWithPhoto({ source: comicFile }, { caption: comic.permalink, ...replyOptions })
+    return await whileShowing(ctx, 'upload_photo', async () => {
+      const comic = comicFromPanels(await fetchRandomPanels())
+      files.push(...await downloadPanels(comic.panelUrls))
+      const comicFile = await joinPanels(files)
+      files.push(comicFile)
+      return ctx.replyWithPhoto({ source: comicFile }, { caption: comic.permalink, ...replyOptions })
+    })
   } catch (err) {
     console.error('[RCG] Failed to generate a random comic', err)
     return ctx.reply(ctx.i18n.t('rcg__error'), replyOptions)
@@ -46,6 +49,15 @@ const comicFromPanels = (panels) => {
     permalink: `${PERMALINK_URL}/${ordered.map(panel => panel.slug).join('')}`,
     panelUrls: ordered.map(panel => `${PANEL_CDN_URL}/${panel.filename}`)
   }
+}
+
+// Downloads in parallel. If one panel fails, the panels that did arrive are deleted before the error goes on.
+const downloadPanels = async (urls) => {
+  const results = await Promise.allSettled(urls.map(downloadPanel))
+  const failure = results.find(result => result.status === 'rejected')
+  if (!failure) return results.map(result => result.value)
+  results.filter(result => result.status === 'fulfilled').forEach(result => fs.unlink(result.value, () => {}))
+  throw failure.reason
 }
 
 // The panel CDN refuses ffmpeg's own HTTP client, so the panels are downloaded first

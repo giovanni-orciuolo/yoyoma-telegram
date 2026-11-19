@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YoYo-Ma privacy policy</title>
+  <meta name="description" content="What the YoYo-Ma Telegram bot receives, what it keeps, who else sees it, and your rights.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav class="site-nav"><a href="/yoyoma/">YoYo-Ma</a></nav>
+  <main>
+    <h1>Privacy policy</h1>
+    <p class="lede">This policy explains what the YoYo-Ma Telegram bot (<a href="https://t.me/yoyoma_bot">@yoyoma_bot</a>) receives, what it keeps, who else sees it, and what you can do about it.</p>
+    <p class="updated">Last updated on 19 November 2026.</p>
+
+    <h2>In short</h2>
+    <ul>
+      <li>The bot keeps no database. On disk, it saves only the settings of each chat. Everything else it remembers lives in memory and disappears when the bot restarts.</li>
+      <li>In a group, the bot receives every message, but it only acts on commands, voice messages and a few trigger phrases. It does not save the other messages.</li>
+      <li>Voice messages go to Wit.ai, a speech recognition service from Meta, to turn them into text. A group admin can turn this off.</li>
+      <li>Some commands send what you type to an outside service, for example the lyrics you search go to Genius.</li>
+      <li>The bot never sells data, shows ads or builds profiles.</li>
+    </ul>
+
+    <h2>Who is responsible</h2>
+    <p>Giovanni Orciuolo, a private individual in Italy, makes and runs the bot and this website. Under the EU General Data Protection Regulation (GDPR), he is the data controller, the person who decides how your data is used. You can reach him on Telegram at <a href="https://t.me/GiovanniOR2">@GiovanniOR2</a>.</p>
+    <p>This policy covers the bot and the website at bots.orciuolo.it. Telegram itself is covered by the <a href="https://telegram.org/privacy">Telegram privacy policy</a>.</p>
+
+    <h2>What the bot receives</h2>
+    <p>Telegram delivers messages to the bot together with information about the sender and the chat. That is how every Telegram bot works.</p>
+    <ul>
+      <li>In a private chat, the bot receives every message you send it.</li>
+      <li>In a group, the bot receives every message that anyone sends, because its Telegram privacy mode is off. It needs this to see voice messages and the trigger phrases it answers.</li>
+      <li>With each message, Telegram sends the sender's numeric user ID, first name, last name and username if set, and language. It also sends the chat ID, the group name and the message content, including photos, stickers, voice messages and files.</li>
+    </ul>
+    <p>The bot ignores any message that is not a command, a voice message or a trigger phrase. It does not read, store or forward those messages.</p>
+
+    <h2>What the bot does with it</h2>
+
+    <h3>Voice messages</h3>
+    <p>When someone sends a voice message, an audio file or a video message, the bot downloads the audio from Telegram, converts it, cuts it into short pieces and sends the pieces to Wit.ai. Wit.ai returns the text, and the bot posts it as a reply. The bot does not send your name or user ID to Wit.ai. The audio files on the server are deleted after the transcription. A group admin can turn off transcription for the group with <code>/config</code>.</p>
+
+    <h3>Commands</h3>
+    <ul>
+      <li><code>/lyrics</code> sends the lyrics you type to Genius to find the song.</li>
+      <li><code>/tiktok</code> and <code>/fbvideo</code> download the video at the link you send, from TikTok or Facebook, to the server. The bot posts the video and then deletes the file. TikTok and Facebook see a request from the server, not from you.</li>
+      <li><code>/mcstatus</code> sends the server address you type to mcsrvstat.us.</li>
+      <li><code>/rcg</code> fetches random comic panels from explosm.net, and <code>/scp</code> fetches a page from the SCP Foundation wiki. Neither sends anything about you.</li>
+      <li><code>/tesseract</code> reads the text in your photo on the bot's own server. The photo is not sent anywhere else and is not kept.</li>
+      <li><code>/dadotext</code> writes your text on a video on the bot's own server, then deletes the files.</li>
+      <li><code>/ratecock</code>, <code>/cah</code>, <code>/coin</code> and <code>/stickerid</code> only use the message itself.</li>
+    </ul>
+
+    <h3>Messages from the owner</h3>
+    <p>The owner of the bot can use it to post a message in a group the bot belongs to. Those messages come from the owner, not from the bot.</p>
+
+    <h2>What the bot keeps, and for how long</h2>
+    <p>The bot has no database. It saves one thing on the server's disk: the settings that someone changes with <code>/config</code>. For each chat, the file holds the chat ID and the settings: transcription on or off, sticker replies on or off, and the language. It holds no names, no users and no messages. The settings stay until someone changes them again or asks for them to be deleted.</p>
+    <p>The bot holds the following in memory, and loses all of it when it restarts. It restarts at least every time it is updated.</p>
+    <ul>
+      <li>The state of a command that waits for your next message, such as <code>/lyrics</code> or <code>/tesseract</code>. This expires after a few seconds to two minutes.</li>
+      <li>The ID and name of each group the bot sees a message in, so the owner can choose where to post.</li>
+      <li>A count of how many commands each user sent in the last second, to stop spam. The count resets every second.</li>
+      <li>Links to RSS feeds that a group asked to follow.</li>
+    </ul>
+    <p>Files the bot creates while it works, such as audio, photos and videos, are deleted as soon as the reply is sent.</p>
+
+    <h3>Error logs</h3>
+    <p>When something goes wrong, the bot writes an error message to its log on the server. An error message can contain a chat ID, a link you sent or the error text from an outside service. The log is deleted every time the bot is updated. Only the owner can read it.</p>
+
+    <h2>Who else sees your data</h2>
+    <ul>
+      <li>Telegram, which delivers all messages. See the <a href="https://telegram.org/privacy">Telegram privacy policy</a>.</li>
+      <li>OVHcloud, which rents the server that runs the bot. It does not access the data on the server.</li>
+      <li>Wit.ai, owned by Meta Platforms, for voice messages. See the <a href="https://wit.ai/terms">Wit.ai terms</a>.</li>
+      <li>Genius, for the lyrics you search. See the <a href="https://genius.com/static/privacy_policy">Genius privacy policy</a>.</li>
+      <li>mcsrvstat.us, TikTok, Facebook, explosm.net and the SCP Foundation wiki, only for the request described above.</li>
+    </ul>
+    <p>Wit.ai and Genius are based in the United States, so voice messages and lyrics searches leave the European Union. Nobody else receives your data, and the bot never sells it.</p>
+
+    <h2>Legal basis</h2>
+    <p>The bot uses your data because you, or someone in your group, asked it to do something. Under the GDPR, this is a legitimate interest, Article 6(1)(f): the bot needs the data to answer the request, it keeps nothing longer than it needs, and you can stop it at any time.</p>
+
+    <h2>Your choices</h2>
+    <ul>
+      <li>Do not use a command if you do not want its service to see what you type.</li>
+      <li>A group admin can turn off voice transcription and sticker replies with <code>/config</code>.</li>
+      <li>A group admin can remove the bot from the group. The bot then receives nothing more from that group.</li>
+      <li>In a private chat, you can stop or block the bot in Telegram.</li>
+    </ul>
+
+    <h2>Your rights</h2>
+    <p>Under the GDPR, you can ask to see the data the bot holds about you, to correct it, to delete it, to restrict its use, or object to its use. Send your request to <a href="https://t.me/GiovanniOR2">@GiovanniOR2</a> on Telegram, and you will get an answer within one month. Because the bot keeps almost nothing, the answer is usually that it holds no data about you. A group admin can ask for the settings of a group to be deleted.</p>
+    <p>If you think your data is misused, you can complain to the Italian data protection authority, the <a href="https://www.garanteprivacy.it/">Garante per la protezione dei dati personali</a>, or to the authority in your own EU country.</p>
+
+    <h2>Children</h2>
+    <p>The bot has adult humor and is not meant for anyone under 16. It does not knowingly collect data from children.</p>
+
+    <h2>This website</h2>
+    <p>bots.orciuolo.it uses no cookies, no analytics and no trackers, and loads nothing from other websites. The web server does not keep access logs.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>If the bot starts to use data in a new way, this page changes first, and the date at the top changes with it.</p>
+  </main>
+  <footer>
+    <a href="/yoyoma/">YoYo-Ma</a> is made and run by Giovanni Orciuolo.
+  </footer>
+</body>
+</html>

@@ -1,5 +1,6 @@
 const fs = require('fs')
 const { downloadVideo } = require('./videoDownloader')
+const { whileShowing } = require('./chatAction')
 
 const isTikTokUrl = (text) => hasHost(text, ['tiktok.com'])
 const isFacebookUrl = (text) => hasHost(text, ['facebook.com', 'fb.watch'])
@@ -16,9 +17,10 @@ const sendVideoFromLink = (isSupportedUrl, invalidUrlMessageKey) => async (ctx) 
 
   let videoPath
   try {
-    await ctx.replyWithChatAction('upload_video')
-    videoPath = await downloadVideo(url)
-    await ctx.replyWithVideo({ source: videoPath }, replyOptions)
+    await whileShowing(ctx, 'upload_video', async () => {
+      videoPath = await downloadVideo(url)
+      await ctx.replyWithVideo({ source: videoPath }, replyOptions)
+    })
   } catch (err) {
     console.error('[VIDEO] Failed to download', url, err)
     await ctx.reply(ctx.i18n.t('video__download_failed'), replyOptions)

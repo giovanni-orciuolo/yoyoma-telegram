@@ -40,3 +40,6 @@ video/*
 
 # Language model that tesseract.js downloads on first use
 eng.traineddata
+
+# Chat settings saved by /config
+data/
