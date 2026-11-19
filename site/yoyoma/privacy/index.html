@@ -12,11 +12,11 @@
   <main>
     <h1>Privacy policy</h1>
     <p class="lede">This policy explains what the YoYo-Ma Telegram bot (<a href="https://t.me/yoyoma_bot">@yoyoma_bot</a>) receives, what it keeps, who else sees it, and what you can do about it.</p>
-    <p class="updated">Last updated on 18 November 2026.</p>
+    <p class="updated">Last updated on 19 November 2026.</p>
 
     <h2>In short</h2>
     <ul>
-      <li>The bot keeps no database. Everything it remembers lives in memory and disappears when the bot restarts.</li>
+      <li>The bot keeps no database. On disk, it saves only the settings of each chat. Everything else it remembers lives in memory and disappears when the bot restarts.</li>
       <li>In a group, the bot receives every message, but it only acts on commands, voice messages and a few trigger phrases. It does not save the other messages.</li>
       <li>Voice messages go to Wit.ai, a speech recognition service from Meta, to turn them into text. A group admin can turn this off.</li>
       <li>Some commands send what you type to an outside service, for example the lyrics you search go to Genius.</li>
@@ -56,9 +56,9 @@
     <p>The owner of the bot can use it to post a message in a group the bot belongs to. Those messages come from the owner, not from the bot.</p>
 
     <h2>What the bot keeps, and for how long</h2>
-    <p>The bot has no database and writes nothing permanent to disk. It holds the following in memory, and loses all of it when it restarts. It restarts at least every time it is updated.</p>
+    <p>The bot has no database. It saves one thing on the server's disk: the settings that someone changes with <code>/config</code>. For each chat, the file holds the chat ID and the settings: transcription on or off, sticker replies on or off, and the language. It holds no names, no users and no messages. The settings stay until someone changes them again or asks for them to be deleted.</p>
+    <p>The bot holds the following in memory, and loses all of it when it restarts. It restarts at least every time it is updated.</p>
     <ul>
-      <li>Chat settings that an admin changes with <code>/config</code>: transcription on or off, sticker replies on or off, and the language.</li>
       <li>The state of a command that waits for your next message, such as <code>/lyrics</code> or <code>/tesseract</code>. This expires after a few seconds to two minutes.</li>
       <li>The ID and name of each group the bot sees a message in, so the owner can choose where to post.</li>
       <li>A count of how many commands each user sent in the last second, to stop spam. The count resets every second.</li>
@@ -91,7 +91,7 @@
     </ul>
 
     <h2>Your rights</h2>
-    <p>Under the GDPR, you can ask to see the data the bot holds about you, to correct it, to delete it, to restrict its use, or object to its use. Send your request to <a href="https://t.me/GiovanniOR2">@GiovanniOR2</a> on Telegram, and you will get an answer within one month. Because the bot keeps almost nothing, the answer is usually that it holds no data about you, or that a restart deletes it.</p>
+    <p>Under the GDPR, you can ask to see the data the bot holds about you, to correct it, to delete it, to restrict its use, or object to its use. Send your request to <a href="https://t.me/GiovanniOR2">@GiovanniOR2</a> on Telegram, and you will get an answer within one month. Because the bot keeps almost nothing, the answer is usually that it holds no data about you. A group admin can ask for the settings of a group to be deleted.</p>
     <p>If you think your data is misused, you can complain to the Italian data protection authority, the <a href="https://www.garanteprivacy.it/">Garante per la protezione dei dati personali</a>, or to the authority in your own EU country.</p>
 
     <h2>Children</h2>

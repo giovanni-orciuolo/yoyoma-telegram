@@ -99,7 +99,10 @@ $ process.env.BOT_TOKEN - Needed for the bot to work on Telegram
 $ process.env.GENIUS_TOKEN - Genius API token. It is needed for the /lyrics command to work
 $ process.env.WITAI_TOKEN - Wit.ai API app token. It is needed for the speech to text parser to work
 $ process.env.OWNER_ID - Telegram user id of the bot owner. Only this user can use /say, in a private chat with the bot
+$ process.env.CHAT_SETTINGS_FILE - Optional. Where /config saves the chat settings. Defaults to data/chat-settings.json
 ```
+
+In Docker, mount a volume on `/home/app/data`, or the chat settings are lost every time the container is rebuilt.
 
 ### Internazionalization (i18n)
     

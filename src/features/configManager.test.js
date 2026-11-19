@@ -1,5 +1,7 @@
 const { test, beforeEach, afterEach } = require('node:test')
 const assert = require('node:assert/strict')
+const fs = require('fs')
+const os = require('os')
 const path = require('path')
 const Telegraf = require('telegraf')
 const Telegram = require('telegraf/telegram')
@@ -161,6 +163,56 @@ test('the menu of one group is never deleted from another group', async () => {
   await send(bot, { from: ADMIN, chat: OTHER_GROUP, text: '/config' })
 
   assert.equal(calls('deleteMessage').length, 0)
+})
+
+const tempSettingsFile = () => path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'yoyo-config-')), 'chat-settings.json')
+
+test('settings survive a restart of the bot', async () => {
+  const file = tempSettingsFile()
+  const before = createChatConfig({ file })
+  before.setChatConfig({ chat: GROUP }, { transcriber_enabled: false, locale: 'it' })
+
+  const after = createChatConfig({ file })
+
+  assert.deepEqual(after.getChatConfig({ chat: GROUP }), { transcriber_enabled: false, react_to_text_enabled: true, locale: 'it' })
+})
+
+test('a button press is saved too', async () => {
+  const file = tempSettingsFile()
+  const bot = new Telegraf('TOKEN')
+  const config = createChatConfig({ file })
+  bot.use(session())
+  bot.use(new TelegrafI18n({ defaultLanguage: 'en', directory: path.join(__dirname, '../../i18n'), useSession: true }).middleware())
+  bot.command('config', config.manageGroupConfig)
+  bot.action(/^config__/, config.handleConfigButton)
+  await send(bot, { from: ADMIN, chat: GROUP, text: '/config' })
+
+  await press(bot, { from: ADMIN, chat: GROUP, data: buttonFor('Reaction').callback_data })
+
+  assert.equal(createChatConfig({ file }).getChatConfig({ chat: GROUP }).react_to_text_enabled, false)
+})
+
+test('with no saved settings yet, every chat starts from the defaults', () => {
+  const config = createChatConfig({ file: tempSettingsFile() })
+
+  assert.equal(config.getChatConfig({ chat: GROUP }).transcriber_enabled, true)
+})
+
+test('a damaged settings file does not stop the bot, the chats start from the defaults', () => {
+  const file = tempSettingsFile()
+  fs.writeFileSync(file, '{ not json')
+
+  const config = createChatConfig({ file, onLoadError: () => {} })
+
+  assert.equal(config.getChatConfig({ chat: GROUP }).transcriber_enabled, true)
+})
+
+test('the settings file is created along with its folder', () => {
+  const file = path.join(path.dirname(tempSettingsFile()), 'missing', 'chat-settings.json')
+
+  createChatConfig({ file }).setChatConfig({ chat: GROUP }, { transcriber_enabled: false })
+
+  assert.equal(fs.existsSync(file), true)
 })
 
 test('a previous menu that was already deleted does not stop the new one', async () => {

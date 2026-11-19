@@ -1,3 +1,5 @@
+const fs = require('fs')
+const path = require('path')
 const isAdmin = require('../utils/isAdmin')
 
 const DEFAULT_CONFIG = Object.freeze({
@@ -13,15 +15,16 @@ const TOGGLES = [
 const TOGGLE_PREFIX = 'config__toggle_'
 const SWITCH_LOCALE = 'config__switch_locale'
 
-// Settings live in memory, one entry per chat, and reset when the bot restarts
-const createChatConfig = () => {
-  const configs = new Map()
+// One entry per chat. With a file, the settings are saved on every change and survive restarts.
+const createChatConfig = ({ file, onLoadError = logLoadError } = {}) => {
+  const configs = file ? loadSettings(file, onLoadError) : new Map()
   const menus = new Map()
 
   const getChatConfig = (ctx) => ({ ...DEFAULT_CONFIG, ...configs.get(ctx.chat.id) })
 
   const setChatConfig = (ctx, change) => {
     configs.set(ctx.chat.id, { ...configs.get(ctx.chat.id), ...change })
+    if (file) saveSettings(file, configs)
   }
 
   // The chat language wins over the language of each user's Telegram app
@@ -83,7 +86,26 @@ const menuKeyboard = (ctx, config) => ({
 
 const chatName = (chat) => chat.title || (chat.username ? `@${chat.username}` : chat.first_name)
 
-const chatConfig = createChatConfig()
+const loadSettings = (file, onLoadError) => {
+  try {
+    return new Map(Object.entries(JSON.parse(fs.readFileSync(file, 'utf8'))).map(([chatId, config]) => [Number(chatId), config]))
+  } catch (err) {
+    if (err.code !== 'ENOENT') onLoadError(err)
+    return new Map()
+  }
+}
+
+// Writes a temporary file and renames it, so a crash mid-write never leaves half a file
+const saveSettings = (file, configs) => {
+  fs.mkdirSync(path.dirname(file), { recursive: true })
+  const temporary = `${file}.tmp`
+  fs.writeFileSync(temporary, JSON.stringify(Object.fromEntries(configs), null, 2))
+  fs.renameSync(temporary, file)
+}
+
+const logLoadError = (err) => console.error('[CONFIG] Could not read the chat settings, starting from the defaults', err)
+
+const chatConfig = createChatConfig({ file: process.env.CHAT_SETTINGS_FILE || path.join(__dirname, '../../data/chat-settings.json') })
 
 module.exports = {
   createChatConfig,
