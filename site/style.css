@@ -1,24 +1,41 @@
+@font-face {
+  font-family: "Anton";
+  src: url("/fonts/anton-latin-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
-  --paper: #f3f5f8;
-  --ink: #172033;
-  --muted: #566176;
-  --rule: #d5dae3;
-  --accent: #5b3cc4;
-  --highlight: #ffd84d;
-  --on-highlight: #172033;
-  --display: ui-rounded, "SF Pro Rounded", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
-  --text: "Iowan Old Style", Charter, "Sitka Text", Cambria, Georgia, serif;
+  --paper: #ece6ff;
+  --panel: #fbf9ff;
+  --ink: #1d1236;
+  --muted: #564a75;
+  --teal: #00806d;
+  --magenta: #e0207f;
+  --chip: #ffe14d;
+  --on-chip: #1d1236;
+  --bubble-in: #ffffff;
+  --bubble-out: #d9f7ef;
+  --display: "Anton", "Arial Narrow", Impact, sans-serif;
+  --text: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --code: ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace;
-  color-scheme: light dark;
+  --sfx: "Yu Gothic", "Hiragino Sans", "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
+  --border: 3px solid var(--ink);
+  --shadow: 6px 6px 0 var(--ink);
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #121826;
-    --ink: #e8ecf4;
-    --muted: #a0aabd;
-    --rule: #2a3346;
-    --accent: #b3a1ff;
+  :root:not([data-theme="light"]) {
+    --paper: #150d2b;
+    --panel: #21173d;
+    --ink: #f1ecff;
+    --muted: #b8acd9;
+    --teal: #3de0c3;
+    --magenta: #ff6fb5;
+    --bubble-in: #2c2150;
+    --bubble-out: #12483f;
+    color-scheme: dark;
   }
 }
 
@@ -28,128 +45,315 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font: 1.125rem/1.65 var(--text);
+  font: 1.0625rem/1.6 var(--text);
+  overflow-x: hidden;
 }
 
-main, .site-nav {
-  max-width: 42rem;
+.wrap {
+  max-width: 60rem;
   margin: 0 auto;
   padding: 0 16px;
 }
 
+a { color: var(--teal); text-underline-offset: 0.15em; text-decoration-thickness: 2px; }
+a:focus-visible, .button:focus-visible, .bot:focus-visible {
+  outline: 3px solid var(--magenta);
+  outline-offset: 3px;
+}
+
+code { font: 0.9em var(--code); }
+
 .site-nav {
-  padding-top: 1.5rem;
-  font: 600 0.95rem/1.4 var(--display);
+  padding-top: 1.25rem;
+  font-weight: 700;
 }
 
-.site-nav a { color: var(--muted); }
+.site-nav a { color: var(--ink); text-decoration: none; }
+.site-nav a:hover { color: var(--teal); }
 
-h1, h2, h3 {
+/* Headings */
+
+h1, h2 {
   font-family: var(--display);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
-
-h1 {
-  font-size: clamp(2.6rem, 9vw, 4.5rem);
-  font-weight: 800;
-  margin: 2.5rem 0 0.75rem;
+  font-weight: 400;
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 
 h2 {
-  font-size: 1.5rem;
-  font-weight: 750;
-  margin: 2.75rem 0 0.5rem;
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  margin: 4rem 0 1.25rem;
 }
 
 h3 {
   font-size: 1.15rem;
-  font-weight: 700;
   margin: 1.75rem 0 0.25rem;
 }
 
-.lede {
+/* The hero: a giant name with the manga "menacing" sound effect around it */
+
+.hero {
+  position: relative;
+  padding: 3rem 0 1rem;
+}
+
+.hero h1 {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(4.5rem, 21vw, 12rem);
+  margin: 0;
+  color: var(--ink);
+  text-shadow: 5px 5px 0 var(--magenta);
+}
+
+.hero .lede {
+  position: relative;
+  z-index: 1;
+  max-width: 34rem;
   font-size: 1.3rem;
-  color: var(--muted);
-  margin-top: 0;
+  line-height: 1.45;
+  margin: 1.25rem 0 1.75rem;
 }
 
-a { color: var(--accent); text-underline-offset: 0.15em; }
-a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
-
-code {
-  font: 0.9em var(--code);
+.menacing {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font: 900 clamp(2.5rem, 8vw, 4.5rem)/1 var(--sfx);
+  color: var(--magenta);
 }
 
-.cmd {
-  font: 600 0.95rem/1 var(--code);
-  background: var(--highlight);
-  color: var(--on-highlight);
-  padding: 0.2em 0.45em;
-  border-radius: 0.35em;
-  white-space: nowrap;
+.menacing span {
+  position: absolute;
+  transform: rotate(var(--tilt));
+  animation: menace 2.4s ease-in-out infinite alternate;
 }
 
-.commands {
-  margin: 1rem 0 0;
-  padding: 0;
+.menacing span:nth-child(1) { --tilt: -12deg; top: 0.5rem; right: 4%; }
+.menacing span:nth-child(2) { --tilt: 10deg; top: 4.5rem; right: 16%; animation-delay: 0.35s; }
+.menacing span:nth-child(3) { --tilt: -6deg; top: 9rem; right: 3%; animation-delay: 0.7s; }
+.menacing span:nth-child(4) { --tilt: 6deg; top: 13rem; right: 13%; animation-delay: 1.05s; }
+
+@keyframes menace {
+  to { transform: rotate(var(--tilt)) translateY(-10px) scale(1.06); }
 }
 
-.commands div {
-  padding: 0.85rem 0;
-  border-top: 1px solid var(--rule);
+@media (prefers-reduced-motion: reduce) {
+  .menacing span { animation: none; }
 }
 
-.commands dt { margin-bottom: 0.2rem; }
-.commands dd { margin: 0; }
-
-.bot {
-  display: block;
-  margin: 1.5rem 0;
-  padding: 1.25rem 0;
-  border-top: 3px solid var(--ink);
-  color: inherit;
-  text-decoration: none;
-}
-
-.bot strong {
-  display: block;
-  font: 800 2rem/1.1 var(--display);
-  letter-spacing: -0.02em;
-}
-
-.bot span { color: var(--muted); }
-.bot:hover strong, .bot:focus-visible strong { color: var(--accent); }
+/* Buttons */
 
 .button {
   display: inline-block;
-  margin: 0.5rem 1rem 0.5rem 0;
-  padding: 0.7rem 1.2rem;
-  border-radius: 999px;
+  margin: 0 0.75rem 0.75rem 0;
+  padding: 0.8rem 1.4rem;
+  border: var(--border);
   background: var(--ink);
   color: var(--paper);
-  font: 700 1rem/1 var(--display);
+  box-shadow: 4px 4px 0 var(--magenta);
+  font: 700 1rem/1 var(--text);
   text-decoration: none;
+  transition: transform 0.1s, box-shadow 0.1s;
 }
+
+.button:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--magenta); }
+.button:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--magenta); }
 
 .button.secondary {
-  background: transparent;
+  background: var(--panel);
   color: var(--ink);
-  box-shadow: inset 0 0 0 2px var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
 }
 
-.updated { color: var(--muted); font-size: 1rem; }
+.button.secondary:hover { box-shadow: 6px 6px 0 var(--ink); }
 
-ul { padding-left: 1.25rem; }
-li { margin: 0.35rem 0; }
+/* Panels: thick ink borders and a hard shadow, like a comic panel */
+
+.panel {
+  background: var(--panel);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+/* A sample chat that shows the bot at work */
+
+.chat {
+  display: grid;
+  gap: 0.75rem;
+  background: var(--paper);
+  background-image: radial-gradient(var(--muted) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.bubble {
+  max-width: 85%;
+  padding: 0.6rem 0.85rem;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: var(--bubble-in);
+  line-height: 1.4;
+}
+
+.bubble.from-bot {
+  justify-self: start;
+  border-bottom-left-radius: 2px;
+}
+
+.bubble.from-user {
+  justify-self: end;
+  background: var(--bubble-out);
+  border-bottom-right-radius: 2px;
+}
+
+.bubble .who {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+.voice {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.voice .play {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--teal);
+  flex: none;
+}
+
+.voice .wave {
+  height: 1.4rem;
+  width: 9rem;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 3px, transparent 3px 6px);
+  clip-path: polygon(0 40%, 8% 10%, 16% 55%, 24% 0, 32% 45%, 40% 20%, 48% 60%, 56% 5%, 64% 50%, 72% 25%, 80% 55%, 88% 15%, 100% 45%, 100% 100%, 0 100%);
+  opacity: 0.7;
+}
+
+/* A feature next to its sample chat */
+
+.feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+  margin-top: 4rem;
+}
+
+.feature h2 { margin-top: 0; }
+.feature .prose p { font-size: 1.2rem; }
+
+/* Commands */
+
+.commands {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.commands li {
+  margin: 0;
+  padding: 1.1rem 1.2rem;
+  background: var(--panel);
+  border: var(--border);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.commands p { margin: 0.6rem 0 0; }
+
+.cmd {
+  display: inline-block;
+  font: 700 1rem/1 var(--code);
+  background: var(--chip);
+  color: var(--on-chip);
+  border: 2px solid var(--ink);
+  padding: 0.3em 0.5em;
+  margin-right: 0.3rem;
+}
+
+.prose {
+  max-width: 40rem;
+}
+
+.prose li { margin: 0.4rem 0; }
+
+/* Home page */
+
+.bot {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 36rem;
+  margin: 1rem 0 0;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.bot:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--magenta); }
+
+.bot strong {
+  font: 400 clamp(2.5rem, 9vw, 3.75rem)/1 var(--display);
+  text-transform: uppercase;
+}
+
+.bot .platform {
+  justify-self: start;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--panel);
+  background: var(--teal);
+  padding: 0.15rem 0.6rem;
+}
+
+.bot .go { font-weight: 700; color: var(--teal); }
+
+/* Privacy policy */
+
+.policy h1 {
+  font-size: clamp(3.5rem, 13vw, 7rem);
+  margin: 2.5rem 0 0.5rem;
+  text-shadow: 4px 4px 0 var(--magenta);
+}
+
+.policy .updated { color: var(--muted); margin-top: 0; }
+
+.policy .summary {
+  margin: 2rem 0;
+  max-width: 40rem;
+}
+
+.policy .summary h2 { margin-top: 0; }
+.policy .summary ul { margin-bottom: 0; }
 
 footer {
-  max-width: 42rem;
-  margin: 4rem auto 0;
-  padding: 1.5rem 16px 3rem;
-  border-top: 1px solid var(--rule);
+  margin-top: 5rem;
+  padding: 2rem 0 3rem;
+  border-top: var(--border);
   color: var(--muted);
-  font: 0.95rem/1.5 var(--display);
+  font-size: 0.95rem;
 }
 
 footer a { color: inherit; }
+
+@media (max-width: 48rem) {
+  .feature { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+}
+
+@media (max-width: 40rem) {
+  .hero { padding-top: 4rem; }
+  .menacing { font-size: 2.25rem; }
+  .menacing span:nth-child(1) { top: 0.25rem; right: 4%; }
+  .menacing span:nth-child(2) { top: 1rem; right: 24%; }
+  .menacing span:nth-child(n+3) { display: none; }
+  .panel { padding: 1.1rem; }
+}

@@ -5,43 +5,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YoYo-Ma Telegram bot</title>
   <meta name="description" content="YoYo-Ma is a Telegram bot for group chats: voice transcription, lyrics search, video downloads and random comics.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/anton-latin-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <nav class="site-nav"><a href="/">All bots</a></nav>
-  <main>
-    <h1>YoYo-Ma</h1>
-    <p class="lede">A Telegram bot for group chats. Add it to a group and it transcribes voice messages, finds songs from half-remembered lyrics and answers a handful of silly commands.</p>
-    <p>
+  <div class="wrap">
+    <nav class="site-nav"><a href="/">All bots</a></nav>
+  </div>
+  <main class="wrap">
+    <header class="hero">
+      <div class="menacing" aria-hidden="true">
+        <span>ゴ</span>
+        <span>ゴ</span>
+        <span>ゴ</span>
+        <span>ゴ</span>
+      </div>
+      <h1>YoYo-Ma</h1>
+      <p class="lede">A Telegram bot for group chats. It transcribes voice messages, finds songs from half-remembered lyrics and answers a handful of silly commands.</p>
       <a class="button" href="https://t.me/yoyoma_bot">Open in Telegram</a>
       <a class="button secondary" href="/yoyoma/privacy/">Privacy policy</a>
-    </p>
-    <p>The name comes from Yo-Yo Ma, the eager, drooling Stand from JoJo's Bizarre Adventure: Stone Ocean that follows its target around and helps with anything.</p>
+
+    </header>
+
+    <section class="feature">
+      <div class="prose">
+        <h2>Voice messages</h2>
+        <p>When someone sends a voice message, an audio file or a video message, the bot writes out what was said and replies with the text. Nobody has to listen to a three-minute voice message on the bus again. A group admin can turn this off with <span class="cmd">/config</span>.</p>
+      </div>
+      <div class="chat panel" aria-label="Example chat">
+        <div class="bubble from-user">
+          <span class="who">Marco</span>
+          <span class="voice"><span class="play"></span><span class="wave"></span> 0:07</span>
+        </div>
+        <div class="bubble from-bot">
+          <span class="who">YoYo-Ma</span>
+          "Guys I am outside, who has the keys?"
+        </div>
+        <div class="bubble from-user">
+          <span class="who">Giulia</span>
+          /lyrics never gonna give you up
+        </div>
+        <div class="bubble from-bot">
+          <span class="who">YoYo-Ma</span>
+          <a href="https://genius.com/Rick-astley-never-gonna-give-you-up-lyrics">Rick Astley - Never Gonna Give You Up</a>
+        </div>
+      </div>
+    </section>
 
     <h2>Commands</h2>
-    <dl class="commands">
-      <div><dt><span class="cmd">/lyrics</span></dt><dd>Finds a song on Genius from a piece of its lyrics. Send it alone and the bot asks you for the lyrics.</dd></div>
-      <div><dt><span class="cmd">/tiktok</span> <span class="cmd">/fbvideo</span></dt><dd>Downloads a TikTok or Facebook video from its link and posts it in the chat, up to 50 MB.</dd></div>
-      <div><dt><span class="cmd">/rcg</span></dt><dd>Makes a random Cyanide and Happiness comic from three random panels.</dd></div>
-      <div><dt><span class="cmd">/scp</span></dt><dd>Links an SCP Foundation entry. Give it a number, or leave it empty for a random one.</dd></div>
-      <div><dt><span class="cmd">/tesseract</span></dt><dd>Reads the text in the next photo you send.</dd></div>
-      <div><dt><span class="cmd">/mcstatus</span></dt><dd>Shows whether a Minecraft server is online and who is playing, for example <code>/mcstatus mc.hypixel.net</code>.</dd></div>
-      <div><dt><span class="cmd">/dadotext</span></dt><dd>Writes your text on the dado video.</dd></div>
-      <div><dt><span class="cmd">/cah</span></dt><dd>Draws a random Cards Against Humanity combination.</dd></div>
-      <div><dt><span class="cmd">/coin</span></dt><dd>Flips a coin.</dd></div>
-      <div><dt><span class="cmd">/ratecock</span></dt><dd>Rates whoever you mention. Not for children.</dd></div>
-      <div><dt><span class="cmd">/stickerid</span></dt><dd>Tells you the ID of the next sticker you send.</dd></div>
-      <div><dt><span class="cmd">/config</span></dt><dd>Turns voice transcription and the sticker replies on or off, and switches between English and Italian. In a group, only admins can use it.</dd></div>
-    </dl>
+    <ul class="commands">
+      <li><span class="cmd">/lyrics</span><p>Finds a song on Genius from a piece of its lyrics. Send it alone and the bot asks you for the lyrics.</p></li>
+      <li><span class="cmd">/tiktok</span><span class="cmd">/fbvideo</span><p>Downloads a TikTok or Facebook video from its link and posts it in the chat, up to 50 MB.</p></li>
+      <li><span class="cmd">/rcg</span><p>Makes a random Cyanide and Happiness comic from three random panels.</p></li>
+      <li><span class="cmd">/scp</span><p>Links an SCP Foundation entry. Give it a number, or leave it empty for a random one.</p></li>
+      <li><span class="cmd">/tesseract</span><p>Reads the text in the next photo you send.</p></li>
+      <li><span class="cmd">/mcstatus</span><p>Shows whether a Minecraft server is online and who is playing, for example <code>/mcstatus mc.hypixel.net</code>.</p></li>
+      <li><span class="cmd">/dadotext</span><p>Writes your text on the dado video.</p></li>
+      <li><span class="cmd">/cah</span><p>Draws a random Cards Against Humanity combination.</p></li>
+      <li><span class="cmd">/coin</span><p>Flips a coin.</p></li>
+      <li><span class="cmd">/ratecock</span><p>Rates whoever you mention. Not for children.</p></li>
+      <li><span class="cmd">/stickerid</span><p>Tells you the ID of the next sticker you send.</p></li>
+      <li><span class="cmd">/config</span><p>Turns voice transcription and the sticker replies on or off, and switches between English and Italian. In a group, only admins can use it.</p></li>
+    </ul>
 
-    <h2>Voice messages</h2>
-    <p>When someone sends a voice message, an audio file or a video message, the bot writes out what was said and replies with the text. A group admin can turn this off with <span class="cmd">/config</span>.</p>
+    <h2>The name</h2>
+    <div class="prose">
+      <p>Yo-Yo Ma is the eager, drooling Stand from JoJo's Bizarre Adventure: Stone Ocean that follows its target around and helps with anything. This bot does the same, minus the drool. It is open source on <a href="https://github.com/giovanni-orciuolo/yoyoma-telegram">GitHub</a>.</p>
+    </div>
 
-    <h2>Source code</h2>
-    <p>The bot is open source on <a href="https://github.com/giovanni-orciuolo/yoyoma-telegram">GitHub</a>.</p>
+    <footer>
+      YoYo-Ma is made and run by Giovanni Orciuolo. Questions go to <a href="https://t.me/GiovanniOR2">@GiovanniOR2</a> on Telegram.
+    </footer>
   </main>
-  <footer>
-    YoYo-Ma is made and run by Giovanni Orciuolo. Questions go to <a href="https://t.me/GiovanniOR2">@GiovanniOR2</a> on Telegram.
-  </footer>
 </body>
 </html>
